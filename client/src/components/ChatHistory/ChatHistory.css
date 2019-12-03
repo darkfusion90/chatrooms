@@ -1,0 +1,45 @@
+.chat-history {
+    position: relative;
+    height: 80vh;
+}
+
+.chat-list-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.chat-list {
+    font-size: 1.2em;
+    overflow: scroll;
+}
+
+.message-container {
+    width: 100%;
+    padding: 8px;
+    background-color: blue;
+}
+
+.message {
+    display: inline-block;
+    max-width: 45%;
+    word-wrap: break-word;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.right-aligned>.message {
+    background-color: #57EB57;
+}
+
+.left-aligned>.message {
+    background-color: #EB9A3B
+}
+
+.message-container.right-aligned {
+    text-align: right;
+}
+
+.message-container.left-aligned {
+    text-align: left;
+}
