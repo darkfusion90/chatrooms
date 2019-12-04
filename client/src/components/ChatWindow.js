@@ -6,7 +6,7 @@ import MessageBox from './MessageBox';
 class ChatWindow extends React.Component {
     render() {
         return (
-            <div className="ui container">
+            <div>
                 <ChatHistory />
                 <MessageBox />
             </div>
