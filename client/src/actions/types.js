@@ -1,3 +1,6 @@
 export const NEW_SERVER_CONNECTION = "NEW_SERVER_CONNECTION";
 export const MESSAGE_RECIEVED = "MESSAGE_RECIEVED";
+export const CREATE_ROOM = "CREATE_ROOM";
+export const JOIN_ROOM = "JOIN_ROOM";
 export const UPDATE_ROOM = "UPDATE_ROOM";
+export const UPDATE_USER_ID = "UPDATE_USER_ID";
