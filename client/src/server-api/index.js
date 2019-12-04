@@ -1,24 +1,32 @@
 import openSocket from 'socket.io-client';
 
-import { NEW_MESSAGE_RECIEVED, SEND_MESSAGE, ROOM_JOINED } from './eventTypes';
+import { NEW_MESSAGE_RECIEVED, SEND_MESSAGE, ROOM_JOINED, CREATE_ROOM, USER_ID_RECIEVE } from './eventTypes';
 
 class ServerApi {
-    webSocket = null;
+    socket = null;
 
     connectToServer = (url) => {
-        this.webSocket = openSocket(url);
+        this.socket = openSocket(url);
     }
 
     sendMessage = (message) => {
-        this.webSocket.emit(SEND_MESSAGE, message);
+        this.socket.emit(SEND_MESSAGE, message);
     }
 
     onMessageRecieved = (callback) => {
-        this.webSocket.on(NEW_MESSAGE_RECIEVED, callback);
+        this.socket.on(NEW_MESSAGE_RECIEVED, callback);
     }
 
     onRoomJoined = (callback) => {
-        this.webSocket.on(ROOM_JOINED, callback)
+        this.socket.on(ROOM_JOINED, callback)
+    }
+
+    onUserIdRecieved = (callback) => {
+        this.socket.on(USER_ID_RECIEVE, callback);
+    }
+
+    createRoom = (roomName, roomType, roomOwner, callback) => {
+        return this.socket.emit(CREATE_ROOM, roomName, roomType, roomOwner, callback);
     }
 }
 
