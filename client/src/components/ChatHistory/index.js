@@ -10,8 +10,8 @@ class ChatHistory extends React.Component {
     state = { callbacksRegistered: false }
 
     componentDidUpdate() {
-        if (!this.state.callbacskRegistered && this.props.serverConnection.connected) {
-            registerCallbacks();
+        if (!this.state.callbacksRegistered && this.props.serverConnection.connected) {
+            this.registerCallbacks();
         }
     }
 
