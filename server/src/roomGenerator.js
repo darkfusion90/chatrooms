@@ -4,8 +4,8 @@ function createRoomId() {
     return randomWordsGenerator({ exactly: 4, join: '-' })
 }
 
-function generateRoom() {
+function generateRoomId() {
     return createRoomId();
 }
 
-module.exports = generateRoom;
+module.exports = generateRoomId;
