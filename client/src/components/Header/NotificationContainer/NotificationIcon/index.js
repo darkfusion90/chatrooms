@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,8 +23,8 @@ export default (props) => {
 
     const visibility = props.shouldShowBadge ? "visible" : "hidden";
     return (
-        <Dropdown.Toggle as={CustomToggle}>
+        <DropdownToggle as={CustomToggle}>
             <i className={`tiny red circle icon notification-badge ${visibility}`} />
-        </Dropdown.Toggle>
+        </DropdownToggle>
     )
 }
