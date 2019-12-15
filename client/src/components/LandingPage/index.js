@@ -1,86 +1,151 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
-import createRoom from '../../actions/createRoom';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 import CreateRoomModal from '../modals/CreateRoomModal';
 import JoinRoomModal from '../modals/JoinRoomModal';
-import SuccessSnackbar from '../SuccessSnackbar';
+import SnackbarContainer from '../SnackbarContainer';
 
 import './LandingPage.css';
-
+import serverApi from '../../server-api';
 
 class LandingPage extends React.Component {
     state = {
-        showSnackbar: false,
-        showModal: false,
+        shouldShowSnackbar: false,
+        snackbarMessage: "",
+        snackbarVariant: "info",
+        shouldShowModal: false,
         modalName: null
     }
 
-    roomHasChanged(prevProps) {
-        if (prevProps.room === null) {
-            return this.props.room !== null;
-        }
-
-        if (this.props.room === null) {
-            return prevProps.room !== null;
-        }
-
-        return prevProps.room.room.id !== this.props.room.room.id;
+    capitalizeFirstWord = (sentence) => {
+        //"sentence &&" handles undefined or an empty sentence
+        return sentence && sentence.charAt(0).toUpperCase() + sentence.slice(1);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        const currentRoom = this.props.room;
-        if (currentRoom && currentRoom.status === 200 && this.roomHasChanged(prevProps)) {
-            this.showSnackbar()
+    getSuccessMessage = (actionType) => {
+        switch (actionType) {
+            case "create-room":
+                return "Room created Successfully!";
+            case "join-room":
+                return "Room joined Successfully!";
+            default:
+                return "Operation Successful!";
         }
     }
 
-    activateModal = (modalName) => {
+    getFailureMessage = (actionType, failureReason) => {
+        failureReason = this.capitalizeFirstWord(failureReason);
+        switch (actionType) {
+            case "create-room":
+                return `Failed to create Room! Reason: ${failureReason}`;
+            case "join-room":
+                return `Failed to join Room! Reason: ${failureReason}`;
+            default:
+                return "Operation Failed!";
+        }
+    }
+
+    onSuccess = (actionType) => {
+        console.log("landing page on success callback")
+        this.hideModal();
+        const successMessage = this.getSuccessMessage(actionType);
+        this.showSnackbar("success", successMessage);
+    }
+
+    onFailure = (actionType, reason) => {
+        console.log("landing page on failure callback")
+        this.hideModal();
+        const failureMessage = this.getFailureMessage(actionType, reason);
+        this.showSnackbar("error", failureMessage);
+    }
+
+    onJoinRoomPermissionPending = () => {
+        console.log('mewo')
+        this.showSnackbar("info", "Private Room. Waiting for permission from Room owner");
+    }
+
+    onJoinRoomPermissionRecieved = (permissionStatus) => {
+        if (permissionStatus === "ok") {
+            this.hideModal();
+            this.showSnackbar("success", "Room access permission granted!");
+        } else {
+            this.hideModal();
+            this.showSnackbar("error", "Room access permission rejected!");
+        }
+    }
+
+    showModal = (modalName) => {
         this.setState({
-            showModal: true,
+            shouldShowModal: true,
             modalName: modalName
         })
     }
 
     renderModals() {
-        if (this.state.showModal) {
-            return (
-                this.state.modalName === 'create' ?
-                    <CreateRoomModal toggleModalVisibility={this.toggleModalVisibility} visible={true} /> :
-                    <JoinRoomModal toggleModalVisibility={this.toggleModalVisibility} visible={true} />
-            );
-        }
+        const createRoomModalInstance =
+            <CreateRoomModal
+                hideModal={this.hideModal}
+                visible={this.state.shouldShowModal}
+                onSuccess={() => this.onSuccess("create-room")}
+                onFailure={reason => this.onFailure("create-room", reason)}
+            />;
 
-        return null;
+        const joinRoomModalInstance =
+            <JoinRoomModal
+                hideModal={this.hideModal}
+                visible={this.state.shouldShowModal}
+                onSuccess={() => this.onSuccess("join-room")}
+                onFailure={reason => this.onFailure("join-room", reason)}
+                onPermissionPending={this.onJoinRoomPermissionPending}
+            />
+
+        return this.state.modalName === 'create' ? createRoomModalInstance : joinRoomModalInstance;
     }
 
     renderButtons() {
         return (
             <div className="ui large orange buttons">
-                <button className="ui button" onClick={() => this.activateModal('create')}>
+                <button className="ui button" onClick={() => this.showModal('create')}>
                     Create Room
                             </button>
                 <div className="or"></div>
-                <button className="ui button" onClick={() => this.showSnackbar()}>
+                <button className="ui button" onClick={() => this.showModal('join')}>
                     Join Room
                 </button>
             </div>
         );
     }
 
-    toggleModalVisibility = () => {
+    hideModal = () => {
         this.setState({
-            showModal: !this.state.showModal
+            shouldShowModal: false
         })
     }
 
-    showSnackbar() {
-        this.setState({ showSnackbar: true })
+    showSnackbar = (variant, message) => {
+        this.setState({
+            shouldShowSnackbar: true,
+            snackbarVariant: variant,
+            snackbarMessage: message
+        })
     }
 
-    onSnackbarCloseCallback = () => {
-        this.setState({ showSnackbar: false })
+    onSnackbarClose = () => {
+        console.log('mew')
+        this.setState({
+            shouldShowSnackbar: false,
+            snackbarVariant: "info",
+            snackbarMessage: ""
+        })
+    }
+
+    getSnackbarActions() {
+        return (
+            <IconButton key="close" color="inherit" onClick={this.onSnackbarClose}>
+                <CloseIcon style={{ fontSize: "20" }} />
+            </IconButton>
+        );
     }
 
     render() {
@@ -94,14 +159,17 @@ class LandingPage extends React.Component {
                     </div>
                 </div>
                 {this.renderModals()}
-                <SuccessSnackbar message="Room successfully created!" open={this.state.showSnackbar} onClose={this.onSnackbarCloseCallback} />
+                <SnackbarContainer
+                    header="hehehe"
+                    message={this.state.snackbarMessage}
+                    show={this.state.shouldShowSnackbar}
+                    onClose={this.onSnackbarClose}
+                    variant={this.state.snackbarVariant}
+                    actions={this.getSnackbarActions()}
+                    autoHideDuration={3000} />
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return { room: state.room };
-}
-
-export default connect(mapStateToProps, { createRoom })(LandingPage);
+export default LandingPage;
