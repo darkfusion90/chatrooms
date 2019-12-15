@@ -1,4 +1,4 @@
-import { UPDATE_USER_ID } from "./types";
+import { UPDATE_USER_ID } from "../constants/action_constants";
 
 export default (userId) => {
     console.log('update user id: ' + userId);
