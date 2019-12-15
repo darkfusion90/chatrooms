@@ -1,20 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Modal from './Modal';
-import createRoom from '../../actions/createRoom';
+import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
+
+
+import GenericModal from './GenericModal';
+import tryCreatingRoom from '../../actions/tryCreatingRoom';
 
 class CreateRoomModal extends React.Component {
-    state = { inputValue: "", radioSelectedValue: null, formInLoadingState: false }
-
-    componentDidUpdate() {
-        if (this.state.formInLoadingState && this.props.room) {
-            this.setState({
-                formInLoadingState: this.props.room.status !== 200
-            })
-            this.props.toggleModalVisibility();
-        }
-    }
+    state = { inputValue: "", radioSelectedValue: null, isFormLoading: false }
 
     updateCheckedRadioInput = (e) => {
         this.setState({ radioSelectedValue: e.target.value });
@@ -24,11 +19,33 @@ class CreateRoomModal extends React.Component {
         event.preventDefault();
         const roomName = this.state.inputValue;
         const roomType = this.state.radioSelectedValue;
-        this.props.createRoom(roomName, roomType);
+        this.props.tryCreatingRoom(roomName, roomType, this.onSuccess, this.onFailure);
+        this.setState({ isFormLoading: true });
+    }
 
+    restoreInitialState = () => {
+        this.setState({ inputValue: "", radioSelectedValue: null, isFormLoading: false });
+    }
+
+    onSuccess = () => {
+        this.restoreInitialState();
+        this.props.onSuccess();
+    }
+
+    onFailure = (reason) => {
+        this.restoreInitialState();
+        this.props.onFailure(reason);
+    }
+
+    onTextInputChange = (event) => {
         this.setState({
-            formInLoadingState: true
+            inputValue: event.target.value
         })
+    }
+
+    onCancelButtonClick = () => {
+        this.restoreInitialState();
+        this.props.hideModal();
     }
 
     renderRadioInputs() {
@@ -64,55 +81,68 @@ class CreateRoomModal extends React.Component {
     }
 
     getModalContent() {
-        const loading = this.state.formInLoadingState ? "loading" : "";
         return (
-            <form className={`ui form ${loading}`} id="create-room-form" onSubmit={this.onFormSubmit}>
-                <div className="required field">
-                    <label>Enter Room Name:</label>
-                    <input
-                        type="text"
-                        placeholder="Room Name"
-                        value={this.state.inputValue}
-                        onChange={e => { this.setState({ inputValue: e.target.value }); }}
-                        autoFocus={true}
-                        required={true}
-                    />
-                </div>
+            <Form onSubmit={this.onFormSubmit} id="create-room-form">
+                <Form.Label><strong>Enter Room Name:</strong></Form.Label>
+                <Form.Control
+                    type="text"
+                    value={this.state.inputValue}
+                    onChange={this.onTextInputChange}
+                    required={true}
+                />
                 {this.renderRadioInputs()}
-            </form>
+            </Form>
+        );
+    }
+
+    renderCreateRoomButton() {
+        const spinner = <Spinner
+            style={{ marginRight: "10px" }}
+            as="span"
+            animation="border"
+            role="status"
+            size="sm"
+        />;
+
+        const disabled = this.state.isFormLoading ? "disabled" : "";
+        return (
+            <button
+                type="submit"
+                className={`ui button orange ${disabled}`}
+                form="create-room-form"
+            >
+                {this.state.isFormLoading ? spinner : null}
+                Create
+            </button>
         );
     }
 
     getModalActions() {
         return (
             <React.Fragment>
-                <button className="ui button" >
+                <button className="ui button" onClick={this.onCancelButtonClick}>
                     Cancel
                 </button>
 
-                <button type="submit" className="ui button orange" form="create-room-form">
-                    Create
-                </button>
+                {this.renderCreateRoomButton()}
             </React.Fragment>
         );
     }
 
     render() {
         return (
-            <Modal
+            <GenericModal
                 header="Create Room"
                 actions={this.getModalActions()}
                 content={this.getModalContent()}
-                toggleModalVisibility={this.props.toggleModalVisibility}
-                visible={this.props.visible}
+                {...this.props}
             />
         );
     }
 }
 
-const mapStateToProps = (state) => {
-    return { room: state.room };
-}
-
-export default connect(mapStateToProps, { createRoom })(CreateRoomModal);
+export default connect(
+    null,
+    { tryCreatingRoom }
+)(CreateRoomModal);
 
