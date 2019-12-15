@@ -1,0 +1,24 @@
+header{
+    width: 100%;
+    background-color: #f2721c;
+    padding-left: 2vw;
+    padding-right: 2vw;
+}
+
+.navbar-logo-container{
+    background-color: red;
+}
+
+.navbar-logo-container>img{
+    padding: 0;
+    width: 50%;
+}
+
+.navbar-logo-text{
+    font-size: 2.5em;
+    font-family: 'Playball', cursive;
+    text-transform: capitalize;
+    color: #222;
+    margin-left: 1.4vw;
+}
+
