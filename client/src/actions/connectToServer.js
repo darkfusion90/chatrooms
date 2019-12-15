@@ -1,8 +1,8 @@
 import serverApi from '../server-api';
 
-import { NEW_SERVER_CONNECTION } from './types';
+import { CONNECT_TO_SERVER } from '../constants/action_constants'
 
-export default (url) => async (dispatch) => {
-    await serverApi.connectToServer(url);
-    dispatch({ type: NEW_SERVER_CONNECTION, payload: serverApi.webSocket })
+export default (url, onConnectionFailed) => async (dispatch) => {
+    await serverApi.connectToServer(url, onConnectionFailed);
+    dispatch({ type: CONNECT_TO_SERVER, payload: { connected: true } })
 }
