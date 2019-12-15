@@ -1,0 +1,23 @@
+.notification-bell-icon{
+    position: relative;
+}
+
+.notification-badge{
+    position: absolute;
+    right: -0.5rem;
+    top: -0.5rem;
+}
+
+.notification-badge.hidden{
+    visibility: hidden;
+}
+
+.notification-badge.visible{
+    visibility: visible;
+}
+
+.notification-list{
+    background-color: #f2721c;
+    box-shadow: -1px -1px 5px #333;
+    color: white;
+}
