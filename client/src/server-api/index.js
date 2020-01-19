@@ -9,15 +9,15 @@ import {
     JOIN_ROOM,
     ROOM_JOIN_REQUEST,
     ROOM_JOIN_PERMISSION_RECIEVE
-} from '../constants/server_event_constants'
+} from '../constants/serverEventConstants'
 
 class ServerApi {
-    socket = openSocket("http://localhost:8000", {reconnection: false, autoConnect: false});
+    socket = openSocket("http://localhost:8000", { reconnection: false, autoConnect: false });
 
-    connectToServer = (url, onConnectionFailed) => {
+    connectToServer = (onConnectionFailed) => {
         this.socket.connect();
         this.socket.on('connect_error', onConnectionFailed);
-        this.socket.on('connect', ()=>console.log("connected"))
+        this.socket.on('connect', () => console.log("connected"))
     }
 
     sendMessage = (message) => {
