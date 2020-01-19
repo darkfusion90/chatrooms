@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import Spinner from 'react-bootstrap/Spinner';
 
-
 import GenericModal from './GenericModal';
 import tryCreatingRoom from '../../actions/tryCreatingRoom';
 
