@@ -1,64 +1,37 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-
+import Layout from '../Layout';
 import LandingPage from '../LandingPage';
-import ServerConnectionFailed from '../ServerConnectionFailed'
-import serverApi from '../../server-api';
-import connectToServer from '../../actions/connectToServer';
-import updateUserId from '../../actions/updateUserId';
+import ServerConnectionFailed from '../errors/ServerConnectionFailed';
+import PageNotFound from '../errors/PageNotFound';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Header from '../Header';
+import './App.scss';
+import RoomListContainer from '../../containers/RoomListContainer';
 
-class App extends React.Component {
-    state = {
-        serverConnectionFailed: false
-    }
+const App = (props) => {
 
-    componentDidMount() {
-        this.props.connectToServer(this.onServerConnectionFailed);
-        serverApi.onUserIdRecieved((userId) => this.props.updateUserId(userId));
-        serverApi.onRoomJoinRequestRecieved(whoSent => {
-            console.log(whoSent + " wants to join your room")
-            this.props.createNotification(
-                "Room join request",
-                whoSent + " wants to join your room",
-                null,
-                "")
-        })
-    }
-
-    onServerConnectionFailed = () => {
-        this.setState({ serverConnectionFailed: true })
-    }
-
-    renderAppBody() {
-        if(this.state.serverConnectionFailed){
+    const renderBody = () => {
+        if (props.serverConnectionFailed) {
             return <ServerConnectionFailed />;
         }
-
         return (
-            <BrowserRouter>
+            <Switch>
                 <Route exact path="/" component={LandingPage} />
-            </BrowserRouter>
+                <Route exact path="/rooms" component={RoomListContainer} />
+                <Route exact path="*" component={PageNotFound} />
+            </Switch>
         );
     }
 
-    render() {
-        console.log(this.props)
-        return (
-            <div className="app">
-                <Header {...this.props} />
-                {this.renderAppBody()}
-            </div>
-        );
-    }
+    return (
+        <BrowserRouter>
+            <Layout>
+                {renderBody()}
+            </Layout>
+        </BrowserRouter>
+    );
 }
 
-export default connect(
-    null,
-    { connectToServer, updateUserId }
-)(App);
+
+export default App;
