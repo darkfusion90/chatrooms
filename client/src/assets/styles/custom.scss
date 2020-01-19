@@ -1,0 +1,9 @@
+@import '~bootstrap/scss/bootstrap';
+
+%centered-content-flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
