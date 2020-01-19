@@ -1,15 +1,9 @@
 import React from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 
-import CreateRoomModal from '../modals/CreateRoomModal';
-import JoinRoomModal from '../modals/JoinRoomModal';
-import SnackbarContainer from '../SnackbarContainer';
+import './LandingPage.scss';
+import LandingPage from './LandingPage';
 
-import './LandingPage.css';
-import serverApi from '../../server-api';
-
-class LandingPage extends React.Component {
+class LandingPageContainer extends React.Component {
     state = {
         shouldShowSnackbar: false,
         snackbarMessage: "",
@@ -82,41 +76,6 @@ class LandingPage extends React.Component {
         })
     }
 
-    renderModals() {
-        const createRoomModalInstance =
-            <CreateRoomModal
-                hideModal={this.hideModal}
-                visible={this.state.shouldShowModal}
-                onSuccess={() => this.onSuccess("create-room")}
-                onFailure={reason => this.onFailure("create-room", reason)}
-            />;
-
-        const joinRoomModalInstance =
-            <JoinRoomModal
-                hideModal={this.hideModal}
-                visible={this.state.shouldShowModal}
-                onSuccess={() => this.onSuccess("join-room")}
-                onFailure={reason => this.onFailure("join-room", reason)}
-                onPermissionPending={this.onJoinRoomPermissionPending}
-            />
-
-        return this.state.modalName === 'create' ? createRoomModalInstance : joinRoomModalInstance;
-    }
-
-    renderButtons() {
-        return (
-            <div className="ui large orange buttons">
-                <button className="ui button" onClick={() => this.showModal('create')}>
-                    Create Room
-                            </button>
-                <div className="or"></div>
-                <button className="ui button" onClick={() => this.showModal('join')}>
-                    Join Room
-                </button>
-            </div>
-        );
-    }
-
     hideModal = () => {
         this.setState({
             shouldShowModal: false
@@ -132,7 +91,6 @@ class LandingPage extends React.Component {
     }
 
     onSnackbarClose = () => {
-        console.log('mew')
         this.setState({
             shouldShowSnackbar: false,
             snackbarVariant: "info",
@@ -140,36 +98,33 @@ class LandingPage extends React.Component {
         })
     }
 
-    getSnackbarActions() {
-        return (
-            <IconButton key="close" color="inherit" onClick={this.onSnackbarClose}>
-                <CloseIcon style={{ fontSize: "20" }} />
-            </IconButton>
-        );
+    getModalProps() {
+        return {
+            name: this.state.modalName,
+            hideModal: this.hideModal,
+            visible: this.state.shouldShowModal,
+            onSuccess: this.onSuccess,
+            onFailure: this.onFailure,
+            onPermissionPending: this.onJoinRoomPermissionPending
+        }
+    }
+
+    getSnackbarProps(){
+        return {
+            onClose: this.onSnackbarClose,
+
+        }
     }
 
     render() {
         return (
-            <div className="landing-page">
-                <div className="inner-wrapper">
-                    <p>Welcome to Chatrooms!</p>
-
-                    <div className="buttons-container">
-                        {this.renderButtons()}
-                    </div>
-                </div>
-                {this.renderModals()}
-                <SnackbarContainer
-                    header="hehehe"
-                    message={this.state.snackbarMessage}
-                    show={this.state.shouldShowSnackbar}
-                    onClose={this.onSnackbarClose}
-                    variant={this.state.snackbarVariant}
-                    actions={this.getSnackbarActions()}
-                    autoHideDuration={3000} />
-            </div>
+            <LandingPage
+                modalProps={this.getModalProps()}
+                onCreateRoomButtonClick={() => this.showModal('create')}
+                onJoinRoomButtonClick={() => this.showModal('join')} 
+            />
         );
     }
 }
 
-export default LandingPage;
+export default LandingPageContainer;
