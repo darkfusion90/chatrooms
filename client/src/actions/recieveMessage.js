@@ -1,4 +1,4 @@
-import { MESSAGE_RECIEVED } from './types';
+import { MESSAGE_RECIEVED } from '../constants/actionConstants';
 
 export default (messageMeta) => {
     return {
