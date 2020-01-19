@@ -3,7 +3,7 @@ import {
     JOIN_ROOM
 
 }
-    from "../constants/action_constants";
+    from '../constants/actionConstants';
 
 export default (state = {}, action) => {
     const room = action.payload;

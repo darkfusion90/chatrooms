@@ -1,4 +1,4 @@
-import { UPDATE_USER_ID } from "../constants/action_constants";
+import { UPDATE_USER_ID } from '../constants/actionConstants';
 
 export default (state = {}, action) => {
     if (action.type === UPDATE_USER_ID) {

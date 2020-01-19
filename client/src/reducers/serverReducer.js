@@ -1,4 +1,4 @@
-import { CONNECT_TO_SERVER } from '../constants/action_constants';
+import { CONNECT_TO_SERVER } from '../constants/actionConstants';
 
 const INITIAL_STATE = {
     connected: false
