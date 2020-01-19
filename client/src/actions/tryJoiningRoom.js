@@ -1,4 +1,4 @@
-import { JOIN_ROOM } from '../constants/action_constants';
+import { JOIN_ROOM } from '../constants/actionConstants';
 
 import serverApi from '../server-api';
 

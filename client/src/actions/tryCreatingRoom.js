@@ -1,4 +1,4 @@
-import { CREATE_ROOM } from '../constants/action_constants';
+import { CREATE_ROOM } from '../constants/actionConstants';
 
 import serverApi from '../server-api';
 
