@@ -4,9 +4,8 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 
-import App from './components/App';
 import reducers from './reducers/'
-import NotificationProvider from './providers/NotificationProvider';
+import AppContainer from './containers/AppContainer';
 
 const composeEnhanchers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhanchers(
@@ -16,9 +15,7 @@ const store = createStore(reducers, composeEnhanchers(
 
 ReactDOM.render(
     <Provider store={store}>
-        <NotificationProvider>
-            <App />
-        </NotificationProvider>
+        <AppContainer />
     </Provider>,
     document.querySelector("#root")
 );
