@@ -11,8 +11,10 @@ import {
     ROOM_JOIN_PERMISSION_RECIEVE
 } from '../constants/serverEventConstants'
 
+const SOCKET_IO_URL = process.env.NODE_ENV === 'production' ? "https://websockets-chatrooms.herokuapp.com" : "http://localhost:8000"
+console.log("node env: "+process.env.NODE_ENV)
 class ServerApi {
-    socket = openSocket("http://localhost:8000", { reconnection: false, autoConnect: false });
+    socket = openSocket(SOCKET_IO_URL, { reconnection: false, autoConnect: false });
 
     connectToServer = (onConnectionFailed) => {
         this.socket.connect();
