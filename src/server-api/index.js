@@ -3,11 +3,9 @@ import openSocket from 'socket.io-client';
 import {
     NEW_MESSAGE_RECIEVED,
     SEND_MESSAGE,
-    ROOM_JOINED,
     CREATE_ROOM,
     USER_ID_RECIEVE,
     JOIN_ROOM,
-    ROOM_JOIN_REQUEST,
     ROOM_JOIN_PERMISSION_RECIEVE
 } from '../constants/serverEventConstants'
 
@@ -31,11 +29,11 @@ class ServerApi {
     }
 
     onRoomJoined = (callback) => {
-        this.socket.on(ROOM_JOINED, callback)
+        //this.socket.on(ROOM_JOINED, callback)
     }
 
     onRoomJoinRequestRecieved = (callback) => {
-        this.socket.on(ROOM_JOIN_REQUEST, callback);
+        //this.socket.on(ROOM_JOIN_REQUEST, callback);
     }
 
     onRoomJoinPermissionRecieved = (callback) => {
