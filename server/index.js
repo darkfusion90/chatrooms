@@ -1,4 +1,4 @@
-require('dotenv').config()
+/*require('dotenv').config()
 const path = require('path')
 const express = require('express')
 const app = express()
@@ -25,3 +25,16 @@ httpServer.listen(serverPort, serverHost, () => {
     console.log(`Server up on ${serverHost} listening on port ${serverPort}`)
 })
 
+*/
+
+const express = require('express')
+const app = express()
+const httpServer = require('http').createServer(app)
+
+httpServer.listen(process.env.PORT || 3000, '0.0.0.0', () => {
+    console.log("Listening on port " + process.env.PORT || 3000)
+})
+
+app.get('/', (req, res)=>{
+    res.send("<h2>Yay</h2>")
+})
