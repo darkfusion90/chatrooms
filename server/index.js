@@ -20,7 +20,6 @@ else{
 }
 
 const serverPort = process.env.PORT || 3000
-const serverHost = isProductionMode ? "https://the-chatrooms.herokuapp.com/" : "localhost"
-httpServer.listen(serverPort, serverHost, () => {
-    console.log(`Server up on ${serverHost} listening on port ${serverPort}`)
+httpServer.listen(serverPort, "0.0.0.0", () => {
+    console.log(`Server listening on port ${serverPort}`)
 })
