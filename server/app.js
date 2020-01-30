@@ -1,40 +1,23 @@
 require('./config/database'); //initialize and connect mongoose to mongodb server
-const app = require('express')();
+const express = require('express');
+const app = express();
 const httpServer = require('http').createServer(app);
+const path = require('path');
 const session = require('express-session');
-const cors = require('cors');
-const corsOptions = require('./config/cors');
 const sessionOptions = require('./config/sessionConfig');
 const sessionMiddleware = session(sessionOptions);
 require('./socket')(httpServer, sessionMiddleware);
 
-app.use(cors())
 app.use(sessionMiddleware)
 
-app.get('/', function(req, res){
-    console.log("Http Get /")
-    console.log(req.session)
-    if(!req.session.httpcow){
-        res.send("You seem unfamilar!")
-        req.session.httpcow = 123
-        req.session.save()
-    }
-    else{
-        res.send("I know you! Cow = "+req.session.httpcow)
-    }
-})
-app.get('/ping', function(req, res){
-    console.log("Http Get /")
-    console.log(req.session)
-    if(!req.session.httpcow){
-        res.send("ping unfamilar!")
-        req.session.httpcow = 123
-        req.session.save()
-    }
-    else{
-        res.send("ping familiar! Cow = "+req.session.httpcow)
-    }
-})
+
+//if(process.env.NODE_ENV==='production'){
+    app.use(express.static(path.join(__dirname, '../client/build')))
+    app.use(express.static(path.join(__dirname, '../client/public')))
+    app.get('/*', (req, res)=>{
+        res.sendFile(path.join(__dirname, '../client/build/index.html'))
+    })
+//}
 
 var serverPort = process.env.PORT || 8000;
 httpServer.listen(serverPort, '0.0.0.0', () => {
