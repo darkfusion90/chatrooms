@@ -1,2 +1,2 @@
-# chatrooms_server
-Server code for "chatrooms" application
+#Chatrooms
+Chat application built using ReactJs, Redux and SocketIO
