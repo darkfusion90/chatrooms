@@ -7,10 +7,11 @@ const httpServer = require('http').createServer(app)
 const isProductionMode = process.env.NODE_ENV === 'production'
 
 if (isProductionMode) {
-    app.use(express.static(path.join(__dirname, '../build')))
     app.get('/*', (req, res) => {
+        console.log("DamN!")
         res.sendFile(path.join(__dirname, '../build/index.html'))
     })
+    app.use(express.static(path.join(__dirname, '../build')))
 }
 else{
     app.get('/*', (req, res) => {
