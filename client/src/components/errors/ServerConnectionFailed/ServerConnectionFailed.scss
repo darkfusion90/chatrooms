@@ -1,0 +1,5 @@
+@import "../../../assets/styles/custom.scss";
+
+.connection-failed{
+    @extend %centered-content-flex-container;
+}
