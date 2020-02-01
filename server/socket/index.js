@@ -1,8 +1,5 @@
 const socketio = require('socket.io')
-const Room = require('../models/Room')
-const roomIdGenerator = require('../roomIdGenerator')
-require('./eventHandlers/roomEventsHandler')
-
+const roomEventHandler = require('./eventHandlers/roomEventHandler')
 const events = require('./../constants/socket_event_constants')
 
 /**
@@ -53,57 +50,7 @@ function listen(server, sessionMiddleware) {
         sessionMiddleware(socket.request, socket.request.res, next)
     })
     io.on('connection', (client) => {
-        console.log("NEW? " , client.request.session)
-        client.request.session.cow = 123
-        client.request.session.save()
-        console.log("CONNECTED")
-        const permanentId = client.id
-        client.emit(events.USER_ID_RECIEVE, "you are a cow")
-
-        client.on(events.SEND_MESSAGE, (roomId, message) => {
-            io.sockets.in(client.rooms[roomId]).emit(events.NEW_MESSAGE_RECIEVED, { message: message, senderId: client.id })
-        })
-
-        client.on(events.CREATE_ROOM, (roomName, roomType, roomOwner, callback) => {
-            console.log(client.handshake.session.haha)
-            console.log("wants to create room")
-            //const room = roomManager.createRoom(roomName, roomType, roomOwner)
-            const myRoom = new Room({
-                room_id: roomIdGenerator.generate(),
-                name: roomName,
-                type: roomType,
-                owner: roomOwner
-            })
-            myRoom.save(function (err) {
-                console.log('ERROR?')
-                console.log(err)
-            })
-            callback({
-                status: "ok",
-                room: "yo bro"
-            })
-        })
-
-        client.on(events.ROOM_JOIN_REQUEST, (roomId, callback) => {
-            const room = roomManager.fetchRoom(roomId)
-            console.log("wants to join: ")
-            console.log(room)
-
-            if (typeof room === "undefined" || room === null) {
-                console.log("REJECTED. Undefined or null room")
-                callback({
-                    status: "error",
-                    reason: "room not found"
-                })
-            }
-            else {
-                tryJoiningRoom(room, client, callback)
-            }
-        })
-
-        client.on(events.ROOM_JOIN_PERMISSION_SEND, (whoRequested, permissionStatus) => {
-            io.to(whoRequested).emit(events.ROOM_JOIN_PERMISSION_RECIEVE, permissionStatus)
-        })
+        client.on(events.ROOM_EVENT, (...args) => roomEventHandler(io, client, ...args));
     })
 }
 
