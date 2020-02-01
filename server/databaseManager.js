@@ -12,5 +12,3 @@ client.connect(err => {
 class DatabaseManager {
 
 }
-
-module.exports = 
