@@ -23,7 +23,7 @@ else {
 }
 
 var serverPort = process.env.PORT || 8000;
-httpServer.listen(serverPort, /*'0.0.0.0'*/() => {
+httpServer.listen(serverPort, '0.0.0.0',() => {
     console.log(`Server listening on port ${serverPort}`)
 });
 
