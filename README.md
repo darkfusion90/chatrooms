@@ -1,2 +1,2 @@
 # Chatrooms
-Chat application built using ReactJs, Redux and SocketIO
+Chat application built using ExpressJS, ReactJS, Redux and SocketIO
