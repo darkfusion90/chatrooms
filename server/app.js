@@ -10,16 +10,20 @@ require('./socket')(httpServer, sessionMiddleware);
 
 app.use(sessionMiddleware)
 
-
-//if(process.env.NODE_ENV==='production'){
+if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/build')))
-    app.get('/*', (req, res)=>{
+    app.get('/*', (req, res) => {
         res.sendFile(path.join(__dirname, '../client/build/index.html'))
     })
-//}
+}
+else {
+    app.get('/*', (req, res) => {
+        res.send("Hello from Development Server!")
+    })
+}
 
 var serverPort = process.env.PORT || 8000;
-httpServer.listen(serverPort, '0.0.0.0', () => {
+httpServer.listen(serverPort, /*'0.0.0.0'*/() => {
     console.log(`Server listening on port ${serverPort}`)
 });
 
