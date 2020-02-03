@@ -1,33 +1,54 @@
-require('./config/database'); //initialize and connect mongoose to mongodb server
-const express = require('express');
-const app = express();
-const httpServer = require('http').createServer(app);
-const path = require('path');
-const session = require('express-session');
-const sessionOptions = require('./config/sessionConfig');
-const sessionMiddleware = session(sessionOptions);
-require('./socket')(httpServer, sessionMiddleware);
+require('./config/database') //initialize and connect mongoose to mongodb server
+const path = require('path')
+const express = require('express')
+const app = express()
+const httpServer = require('http').createServer(app)
+const session = require('express-session')
+const sessionOptions = require('./config/sessionConfig')
+const sessionMiddleware = session(sessionOptions)
+require('./socket')(httpServer, sessionMiddleware)
+const uniqueIdGenerator = require('./utils/uniqueIdGenerator')
 
-app.use(sessionMiddleware)
-
-if (process.env.NODE_ENV === 'production') {
+const isProductionMode = process.env.NODE_ENV === 'production'
+if (isProductionMode) {
+    console.log("Production Mode")
     app.use(express.static(path.join(__dirname, '../client/build')))
-    app.get('/*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'))
-    })
 }
 else {
-    app.get('/*', (req, res) => {
-        res.send("Hello from Development Server!")
-    })
+    //Prevents caching
+    app.disable('etag');
 }
 
-var serverPort = process.env.PORT || 8000;
-httpServer.listen(serverPort, '0.0.0.0',() => {
-    console.log(`Server listening on port ${serverPort}`)
-});
+app.use(sessionMiddleware)
+app.use((_, res, next) => {
+    res.set({
+        'Cache-Control': 'no-store, no-cache, must-revalidate',
+        Pragma: 'no-cache'
+    })
+    next();
+})
 
-process.on('unhandledRejection', (reason, promise) => {
-    console.log("Unhandled Promise rejection detected");
-    console.log("Promise: ", promise, "Reason: ", reason);
+app.get('/*', (req, res) => {
+    console.log('GET /')
+    console.log('SessionId: ' + req.sessionID)
+    if (!req.session.userId) {
+        const userId = uniqueIdGenerator.generateIdUsingCrypto()
+        console.log('New User. UserId assigned: ' + userId)
+        req.session.userId = userId
+        req.session.save()
+    }
+    else {
+        console.log('Old User. UserId: ' + req.session.userId)
+    }
+
+    if (isProductionMode) {
+        res.sendFile(path.join(__dirname, '../client/build/index.html'))
+    } else {
+        res.send('Hello from Development Server!')
+    }
+})
+
+var serverPort = process.env.PORT || 8000
+httpServer.listen(serverPort, '0.0.0.0', () => {
+    console.log(`Server listening on port ${serverPort}`)
 })
