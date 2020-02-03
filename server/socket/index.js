@@ -50,6 +50,7 @@ function listen(server, sessionMiddleware) {
         sessionMiddleware(socket.request, socket.request.res, next)
     })
     io.on('connection', (client) => {
+        console.log("FROM SOCKET.IO, UserId: ", client.request.session.userId)
         client.on(events.ROOM_EVENT, (...args) => roomEventHandler(io, client, ...args));
     })
 }
