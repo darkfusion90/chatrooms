@@ -3,12 +3,19 @@ import openSocket from 'socket.io-client';
 import events from '../constants/serverEventConstants';
 
 class ServerApi {
-    socket = openSocket('/', { reconnection: false, autoConnect: false });
+    socket = openSocket('/', { autoConnect: false });
 
     connectToServer = (onConnectionFailed) => {
         this.socket.connect();
         this.socket.on('connect_error', onConnectionFailed);
-        this.socket.on('connect', () => console.log("connected"))
+    }
+
+    onServerConnected = (callback) => {
+        this.socket.on('connect', callback)
+    }
+
+    onServerDisconnected = (callback) => {
+        this.socket.on('disconnect', callback)
     }
 
     sendMessage = (message) => {
@@ -35,8 +42,8 @@ class ServerApi {
         this.socket.on(events.USER_ID_RECIEVE, callback);
     }
 
-    createRoom = (roomName, roomType, roomOwner, callback) => {
-        return this.socket.emit(events.ROOM_EVENT, events.CREATE_ROOM, roomName, roomType, roomOwner, callback);
+    createRoom = (roomName, roomType, callback) => {
+        return this.socket.emit(events.ROOM_EVENT, events.CREATE_ROOM, roomName, roomType, callback);
     }
 
     joinRoom = (roomId, callback) => {
