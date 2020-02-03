@@ -14,7 +14,8 @@ class AppContainer extends React.Component {
 
     componentDidMount() {
         this.props.connectToServer(this.onServerConnectionFailed);
-        serverApi.onUserIdRecieved((userId) => this.props.updateUserId(userId));
+        serverApi.onServerDisconnected(this.onServerDisconnected);
+        serverApi.onServerConnected(this.onServerConnected)
         serverApi.onRoomJoinRequestRecieved(whoSent => {
             console.log(whoSent + " wants to join your room")
             this.props.createNotification(
@@ -25,6 +26,15 @@ class AppContainer extends React.Component {
     }
 
     onServerConnectionFailed = () => {
+        this.setState({ serverConnectionFailed: true })
+    }
+
+    onServerConnected = () => {
+        this.setState({ serverConnectionFailed: false })
+    }
+
+    onServerDisconnected = () => {
+        //TODO: Use redux store for this state as it affects the whole application
         this.setState({ serverConnectionFailed: true })
     }
 
