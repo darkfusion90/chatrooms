@@ -1,15 +1,17 @@
 const sessionStore = require('./sessionStore');
 
-oneday = 24 * 60 * 60
+oneHour = 3600000
 
 const sessionOptions = {
     secret: 'drax is so subtle with movements, he is almost invisible!',
     resave: false,
     saveUninitialized: true,
+    rolling: true,
     store: sessionStore,
     cookie: {
-        maxAge: oneday,
-        secure: false
+        maxAge: oneHour,
+        secure: false,
+        httpOnly: false
     }
 }
 
