@@ -1,7 +1,12 @@
 const randomWords = require('random-words')
+const crypto = require('crypto')
 
-function generate() {
+function generateIdUsingRandomWords() {
     return randomWords({ exactly: 4, maxLength: 8, join: '-' })
 }
 
-module.exports = { generate }
+function generateIdUsingCrypto() {
+    return crypto.randomBytes(16).toString('base64')
+}
+
+module.exports = { generateIdUsingRandomWords, generateIdUsingCrypto }
