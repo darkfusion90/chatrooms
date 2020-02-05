@@ -15,11 +15,11 @@ function generateUserId() {
  *
  * @returns A "User" document with different credentials according to the registration state
  */
-function _createUser(username, password, isRegistered, expirationDate) {
+function _createUser(username, password, isRegistered, expiresAt) {
     const userId = generateUserId();
     if (!isRegistered) {
         username = userId;
-        return new User({ userId, username, isRegistered, expirationDate });
+        return new User({ userId, username, isRegistered, expiresAt });
     }
     return new User({ userId, username, password, isRegistered });
 }
@@ -35,14 +35,14 @@ function _createUser(username, password, isRegistered, expirationDate) {
  * @param {boolean} isRegistered Indicates if a user is registered (i.e., has login credentials)
  *                               or not (i.e., uses sessions to access the app)
  *
- * @param {Date} expirationDate Indicates when should the user be removed from the database
+ * @param {Date} expiresAt Indicates when should the user be removed from the database
  *                              (only applicable for unregistered users).
  *                              This is generally equal to the user's session expiry date
  *
  * @param {Function} callback Callback to report status of user creation
  */
-function createUser(username, password, isRegistered, expirationDate, callback) {
-    const user = _createUser(username, password, isRegistered, expirationDate)
+function createUser(username, password, isRegistered, expiresAt, callback) {
+    const user = _createUser(username, password, isRegistered, expiresAt)
     user.save((err) => {
         if (err) {
             console.log("Error creating user: ", user)
@@ -56,12 +56,12 @@ function createUser(username, password, isRegistered, expirationDate, callback) 
     })
 }
 
-function createRegisteredUser(username, password, callback){
+function createRegisteredUser(username, password, callback) {
     createUser(username, password, true, null, callback);
 }
 
-function createUnregisteredUser(expirationDate, callback){
-    createUser(null, null, false, expirationDate, callback);
+function createUnregisteredUser(expiresAt, callback) {
+    createUser(null, null, false, expiresAt, callback);
 }
 
 module.exports = { createRegisteredUser, createUnregisteredUser }
