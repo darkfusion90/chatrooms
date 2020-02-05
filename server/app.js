@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('./config/database') //initialize and connect mongoose to mongodb server
 const path = require('path')
 const express = require('express')
@@ -7,7 +8,8 @@ const session = require('express-session')
 const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 require('./socket')(httpServer, sessionMiddleware)
-const uniqueIdGenerator = require('./utils/uniqueIdGenerator')
+
+const usersController = require('./controllers/users')
 
 const isProductionMode = process.env.NODE_ENV === 'production'
 if (isProductionMode) {
@@ -32,10 +34,16 @@ app.get('/*', (req, res) => {
     console.log('GET /')
     console.log('SessionId: ' + req.sessionID)
     if (!req.session.userId) {
-        const userId = uniqueIdGenerator.generateIdUsingCrypto()
-        console.log('New User. UserId assigned: ' + userId)
-        req.session.userId = userId
-        req.session.save()
+        usersController.createUnregisteredUser(req.session.cookie.expires, (err, user) => {
+            if (err) {
+                console.log("Error creating user:\n", err)
+            }
+            else {
+                console.log("Callback: ", user)
+                req.session.userId = user.userId
+                req.session.save()
+            }
+        })
     }
     else {
         console.log('Old User. UserId: ' + req.session.userId)
@@ -52,3 +60,4 @@ var serverPort = process.env.PORT || 8000
 httpServer.listen(serverPort, '0.0.0.0', () => {
     console.log(`Server listening on port ${serverPort}`)
 })
+
