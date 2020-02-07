@@ -37,6 +37,8 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.index({ 'expiresAt': 1 }, { expireAfterSeconds: 0 })
-
+UserSchema.methods.verifyPassword = (password) => {
+    return this.password === password
+}
 
 module.exports = mongoose.model('User', UserSchema);
