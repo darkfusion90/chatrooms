@@ -9,7 +9,7 @@ const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 require('./socket')(httpServer, sessionMiddleware)
 const routes = require('./routes')
-const passport = require('./config/passportConfig')
+const { passport, passportAuthenticate } = require('./config/passportConfig')
 
 if (process.env.NODE_ENV === 'production') {
     console.log("Production Mode")
@@ -17,18 +17,16 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
+app.use(express.urlencoded({ extended: false }))
 app.use(sessionMiddleware)
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-app.get('/login', routes.loginGet)
 app.get('/', routes.index)
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-}), routes.loginPost)
+app.get('/login', routes.loginGet)
+app.get('/register', routes.registerGet)
+app.post('/login', passportAuthenticate, routes.loginPost)
+app.post('/register', routes.registerPost)
 
 var serverPort = process.env.PORT || 8000
 httpServer.listen(serverPort, '0.0.0.0', () => {
