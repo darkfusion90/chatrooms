@@ -1,5 +1,6 @@
+const config = require('./config')
 const passport = require('passport')
-const PassportLocalStrategy = require('passport-local').Strategy;
+const PassportLocalStrategy = require('passport-local').Strategy
 const User = require('../models/User')
 
 passport.serializeUser((user, done) => {
@@ -33,4 +34,6 @@ passport.use(new PassportLocalStrategy({}, (userId, password, done) => {
     })
 }))
 
-module.exports = passport
+const passportAuthenticate = passport.authenticate('local', config.PASSPORT_AUTH_OPTS)
+
+module.exports = {passport, passportAuthenticate}
