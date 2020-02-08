@@ -26,14 +26,28 @@ const index = (req, res) => {
 }
 
 const loginGet = (_, res) => {
-    console.log('loginGet')
-    res.sendFile(path.join(__dirname, '../', '../', 'form.html'))
+    console.log('Login Get')
+    res.sendFile(path.join(__dirname, '../', 'html', 'loginForm.html'))
 }
 
 const loginPost = (req, res) => {
-    console.log('loginPost')
+    console.log('Login Post')
     console.log("Passport body: ", req.body)
     res.redirect('/')
 }
 
-module.exports = { index, loginGet, loginPost }
+const registerGet = (_, res) => {
+    console.log('Register Get')
+    res.sendFile(path.join(__dirname, '../', 'html', 'registrationForm.html'))
+}
+
+const registerPost = (req, res) => {    
+    if(req.body.username != "cow"){
+        res.status(400).json({'cow': 'i don\'t like that'})
+    }
+    console.log('Register Post')
+    console.log("Passport body: ", req.body)
+    res.redirect('/')
+}
+
+module.exports = { index, loginGet, loginPost, registerGet, registerPost }
