@@ -9,7 +9,8 @@ const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 require('./socket')(httpServer, sessionMiddleware)
 const routes = require('./routes')
-const { passport, passportAuthenticate } = require('./config/passportConfig')
+const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
+const { passport } = require('./config/passportConfig')
 
 if (process.env.NODE_ENV === 'production') {
     console.log("Production Mode")
@@ -19,14 +20,15 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(sessionMiddleware)
+app.use(cookieCreatorMiddleware)
 app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', routes.index)
-app.get('/login', routes.loginGet)
-app.get('/register', routes.registerGet)
-app.post('/login', passportAuthenticate, routes.loginPost)
-app.post('/register', routes.registerPost)
+app.all('/api*', routes.apiRouter)
+app.all('*', (req, res) => {
+    res.status(404).send("Page Not Found")
+})
 
 var serverPort = process.env.PORT || 8000
 httpServer.listen(serverPort, '0.0.0.0', () => {
