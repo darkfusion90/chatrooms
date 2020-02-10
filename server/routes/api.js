@@ -38,13 +38,19 @@ const registerPost = (req, res) => {
         }
         else {
             logger.debug('Reg Post callback. User: ', user)
+            req.session.isRegistered = user.isRegistered
+            req.session.save()
             res.redirect('/')
         }
     });
 }
 
 const handleLoginAction = (req, res) => {
-    if (req.method === 'GET') {
+    if (req.isAuthenticated()) {
+        logger.debug('Authenticated user. Redirecting to /')
+        res.redirect('/')
+    }
+    else if (req.method === 'GET') {
         loginGet(req, res)
     }
     else if (req.method === 'POST') {
@@ -53,7 +59,11 @@ const handleLoginAction = (req, res) => {
 }
 
 const handleRegisterAction = (req, res) => {
-    if (req.method === 'GET') {
+    if (req.session.isRegistered) {
+        logger.debug('Registered user. Redirecting to /')
+        res.redirect('/')
+    }
+    else if (req.method === 'GET') {
         registerGet(req, res)
     }
     else if (req.method === 'POST') {
