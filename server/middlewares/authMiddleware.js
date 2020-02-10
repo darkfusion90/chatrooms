@@ -11,8 +11,10 @@ const middleware = (req, res, next) => {
         logger.debug('Will authenticate')
         passportAuthenticate(req, res, next)
     }
-    logger.debug('Not authenticating')
-    next()
+    else {
+        logger.debug('Not authenticating')
+        next()
+    }
 }
 
 module.exports = middleware
