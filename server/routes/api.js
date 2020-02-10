@@ -30,9 +30,17 @@ const registerPost = (req, res) => {
     }
 
     usersController.registerUser(req.session.userId, req.body.username, req.body.password, (err, user) => {
-        logger.debug('Reg Post callback. User: ', user)
+        if (err) {
+            res.status(500).send('Oops! The server was punched really hard by the Hulk :(')
+        }
+        else if (!user) {
+            res.status(500).send('Oops! The server was punched really hard by the Hulk :(')
+        }
+        else {
+            logger.debug('Reg Post callback. User: ', user)
+            res.redirect('/')
+        }
     });
-    res.redirect('/')
 }
 
 const handleLoginAction = (req, res) => {
