@@ -37,7 +37,15 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.index({ 'expiresAt': 1 }, { expireAfterSeconds: 0 })
-UserSchema.methods.verifyPassword = (password) => {
+
+/**
+ * Note: DON'T change this function(){} to an ES6 style arrow function
+ * Reason: arrow functions change the semantics of "this" keyword hence may affect how mongoose handles Schema methods
+ * Link: https://stackoverflow.com/questions/36794709/inside-schema-method-scopes-this-is-empty-in-mongoose-4-4-12
+ */
+UserSchema.methods.verifyPassword = function (password) {
+    console.log("USER MODEL: toCompare: %s", password)
+    console.log("USER MODEL: myPassword: %s", this)
     return this.password === password
 }
 
