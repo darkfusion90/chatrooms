@@ -56,12 +56,31 @@ function createUser(username, password, isRegistered, expiresAt, callback) {
     })
 }
 
-function createRegisteredUser(username, password, callback) {
-    createUser(username, password, true, null, callback);
-}
 
 function createUnregisteredUser(expiresAt, callback) {
     createUser(null, null, false, expiresAt, callback);
 }
 
-module.exports = { createRegisteredUser, createUnregisteredUser }
+
+function registerUser(userId, username, password, callback) {
+    const toUpdate = {
+        username: username,
+        password: password,
+        isRegistered: true,
+        expiresAt: null
+    }
+
+    User.findOneAndUpdate(
+        { userId: userId },
+        toUpdate,
+        {
+            new: true,
+            upsert: true,
+            useFindAndModify: false
+        },
+        callback
+    )
+}
+
+
+module.exports = { registerUser, createUnregisteredUser }
