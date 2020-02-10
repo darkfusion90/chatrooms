@@ -1,5 +1,6 @@
 const validator = require('validator')
 const isEmpty = require('is-empty')
+const logger = require('../utils/logger')('[RegistrationFormValidator] ')
 
 const convertEmptyFieldsToEmptyStrings = (data) => {
     Object.keys(data).forEach(key => {
@@ -9,7 +10,7 @@ const convertEmptyFieldsToEmptyStrings = (data) => {
 
 module.exports = (data) => {
     const errors = {}
-    console.log("Before: ", data)
+    logger.debug("Before: ", data)
     convertEmptyFieldsToEmptyStrings(data)
-    console.log("After: ", data)
+    logger.debug("After: ", data)
 }

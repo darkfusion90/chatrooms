@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
+const logger = require('../utils/logger')('[UsersController] ')
 
 /**
  * Generates a random and unique userId
@@ -45,12 +46,12 @@ function createUser(username, password, isRegistered, expiresAt, callback) {
     const user = _createUser(username, password, isRegistered, expiresAt)
     user.save((err) => {
         if (err) {
-            console.log("Error creating user: ", user)
-            console.log(err);
+            logger.debug('UsersController: Error creating user: ', user)
+            logger.debug(err);
             callback(err, user);
         }
         else {
-            console.log("Successfully created user: ", user);
+            logger.debug('UsersController: Successfully created user: ', user);
             callback(null, user);
         }
     })
