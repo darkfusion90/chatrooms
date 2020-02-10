@@ -44,8 +44,6 @@ UserSchema.index({ 'expiresAt': 1 }, { expireAfterSeconds: 0 })
  * Link: https://stackoverflow.com/questions/36794709/inside-schema-method-scopes-this-is-empty-in-mongoose-4-4-12
  */
 UserSchema.methods.verifyPassword = function (password) {
-    console.log("USER MODEL: toCompare: %s", password)
-    console.log("USER MODEL: myPassword: %s", this)
     return this.password === password
 }
 
