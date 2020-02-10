@@ -22,7 +22,13 @@ const registerGet = (_, res) => {
 const registerPost = (req, res) => {
     logger.debug('Register Post')
     logger.debug('Req body: ', req.body)
-    registrationFormValidator(req.body)
+    const { errors, hasErrors } = registrationFormValidator(req.body)
+
+    if (hasErrors) {
+        res.status(400).json(errors)
+        return
+    }
+
     usersController.registerUser(req.session.userId, req.body.username, req.body.password, (err, user) => {
         logger.debug('Reg Post callback. User: ', user)
     });
