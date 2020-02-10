@@ -13,6 +13,7 @@ const middleware = (req, res, next) => {
             }
 
             req.session.userId = user.userId
+            req.session.isRegistered = user.isRegistered
             req.session.save()
             logger.debug('Created user: ', user.userId)
             next()
