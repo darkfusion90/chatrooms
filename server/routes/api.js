@@ -1,6 +1,7 @@
 const path = require('path')
 const usersController = require('../controllers/users')
 const logger = require('../utils/logger')('[ApiRouter] ')
+const registrationFormValidator = require('../utils/registrationFormValidator')
 
 const loginGet = (_, res) => {
     logger.debug('Login Get')
@@ -21,6 +22,7 @@ const registerGet = (_, res) => {
 const registerPost = (req, res) => {
     logger.debug('Register Post')
     logger.debug('Req body: ', req.body)
+    registrationFormValidator(req.body)
     usersController.registerUser(req.session.userId, req.body.username, req.body.password, (err, user) => {
         logger.debug('Reg Post callback. User: ', user)
     });
@@ -65,7 +67,7 @@ const apiRouter = (req, res) => {
     logger.debug(req.path)
 
     if (!isMethodAllowed(req.method)) {
-        logger.debug('METHOD NOT ALLOWED: %s', req.method)
+        logger.debug('METHOD NOT ALLOWED: ', req.method)
         res.status(405).end()
     }
 
