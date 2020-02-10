@@ -46,11 +46,11 @@ const handleRegisterAction = (req, res) => {
 }
 
 const parseApiAction = (apiRoute) => {
-    if (apiRoute === '/api/login' || apiRoute === '/api/login/') {
+    if (/^\/api\/login[\/]{0,1}$/.test(apiRoute)) {
         return 'login'
     }
 
-    if (apiRoute === '/api/register' || apiRoute === '/api/register/') {
+    if (/^\/api\/register[\/]{0,1}$/.test(apiRoute)) {
         return 'register'
     }
 
@@ -80,7 +80,7 @@ const apiRouter = (req, res) => {
     }
     else {
         logger.debug('action unknown')
-        res.status(404).end()
+        res.status(404).send('Oops! Wrong action ;)')
     }
 }
 
