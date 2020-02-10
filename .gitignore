@@ -26,6 +26,9 @@ yarn-error.log*
 .env*
 .TODO*
 
+#VsCode Settings
+settings.json
+
 #babel config
 .babelrc
 node_modules
