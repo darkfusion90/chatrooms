@@ -23,8 +23,8 @@ passport.use(new PassportLocalStrategy({}, (username, password, done) => {
             return done(err)
         }
         if (!user) {
-            logger.debug('<Strategy> no userId: ', user)
-            return done(null, false, { message: 'Invalid userId' })
+            logger.debug('<Strategy> no user found: ', user)
+            return done(null, false, { message: 'Username not found' })
         }
         if (!user.verifyPassword(password)) {
             logger.debug('<Strategy> wrong password: ', user, password)
@@ -35,6 +35,4 @@ passport.use(new PassportLocalStrategy({}, (username, password, done) => {
     })
 }))
 
-const passportAuthenticate = passport.authenticate('local', config.PASSPORT_AUTH_OPTS)
-
-module.exports = { passport, passportAuthenticate }
+module.exports = passport
