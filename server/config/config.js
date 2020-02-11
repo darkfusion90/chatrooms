@@ -6,9 +6,5 @@ module.exports = {
         serverSelectionTimeoutMS: 50000,
         socketTimeoutMS: 50000,
         keepAlive: true
-    },
-    PASSPORT_AUTH_OPTS: {
-        successRedirect: '/',
-        failureRedirect: '/login',
     }
 }
