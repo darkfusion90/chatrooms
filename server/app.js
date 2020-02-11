@@ -10,7 +10,7 @@ const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
 const authMiddleware = require('./middlewares/authMiddleware')
 require('./socket')(httpServer, sessionMiddleware)
-const { passport } = require('./config/passportConfig')
+const passport = require('./config/passportConfig')
 const routes = require('./routes')
 
 if (process.env.NODE_ENV === 'production') {
