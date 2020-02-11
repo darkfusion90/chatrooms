@@ -8,12 +8,6 @@ const loginGet = (_, res) => {
     res.sendFile(path.join(__dirname, '../', 'html', 'loginForm.html'))
 }
 
-const loginPost = (req, res) => {
-    logger.debug('Login Post')
-    logger.debug('Req body: ', req.body)
-    res.redirect('/')
-}
-
 const registerGet = (_, res) => {
     logger.debug('Register Get')
     res.sendFile(path.join(__dirname, '../', 'html', 'registrationForm.html'))
