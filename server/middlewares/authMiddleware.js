@@ -10,7 +10,7 @@ const login = (user, req, res) => {
             logger.debug('UserId before update: ', req.session.userId)
             req.session.userId = user.userId
             req.session.save()
-            res.redirect('/')
+            res.json({ success: 'true', userId: user.userId })
             logger.debug('UserId updated to: ', req.session.userId)
         }
     });
@@ -24,6 +24,12 @@ const matchesLoginPath = (what) => {
 
 const middleware = (req, res, next) => {
     if (matchesLoginPath(req.path) && req.method === 'POST') {
+        if (req.isAuthenticated()) {
+            logger.debug('Authenticated user. Redirecting to /')
+            res.send({ success: 'false', 'reason': 'already logged in' })
+            return
+        }
+
         logger.debug('Will authenticate')
         passport.authenticate('local', function (err, user, info) {
             if (err) {
