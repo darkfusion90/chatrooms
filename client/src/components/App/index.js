@@ -5,6 +5,8 @@ import Layout from '../Layout';
 import LandingPage from '../LandingPage';
 import ServerConnectionFailed from '../errors/ServerConnectionFailed';
 import PageNotFound from '../errors/PageNotFound';
+import LoginContainer from '../../containers/LoginContainer';
+import RegisterContainer from '../../containers/RegisterContainer';
 
 import './App.scss';
 import RoomListContainer from '../../containers/RoomListContainer';
@@ -19,6 +21,8 @@ const App = (props) => {
             <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/rooms" component={RoomListContainer} />
+                <Route exact path="/login" component={LoginContainer} />
+                <Route exact path="/register" component={RegisterContainer} />
                 <Route exact path="*" component={PageNotFound} />
             </Switch>
         );
