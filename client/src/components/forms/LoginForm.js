@@ -1,28 +1,45 @@
 import React from 'react'
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap'
 import { Field, reduxForm } from 'redux-form'
 
 const renderField = (formProps) => {
     return (
-        <div>
-            <label>{formProps.label}</label>
-            <input {...formProps.input} type={formProps.type} required />
-        </div>
+        <>
+            <Form.Label>{formProps.label}</Form.Label>
+            <FormControl
+                {...formProps.input}
+                type={formProps.type}
+                placeholder={formProps.placeholder}
+                required />
+        </>
     );
 }
 
 const LoginForm = (props) => {
     return (
-        <form onSubmit={props.handleSubmit(props.onFormSubmit)}>
-            <div>
-                <label htmlFor="username">Username</label>
-                <Field name="username" component={renderField} type="text" />
-            </div>
-            <div>
-                <label htmlFor="password">Password</label>
-                <Field name="password" component={renderField} type="password" />
-            </div>
-            <button type="submit">Log In</button>
-        </form>
+        <Form onSubmit={props.handleSubmit(props.onFormSubmit)}>
+            <FormGroup controlId="formUsernameGroup">
+                <Field
+                    component={renderField}
+                    name="username"
+                    type="text"
+                    label="Enter Username"
+                    placeholder="Example: mitsy_the_cat"
+                />
+            </FormGroup>
+
+            <FormGroup controlId="formPasswordGroup">
+                <Field
+                    component={renderField}
+                    name="password"
+                    type="password"
+                    label="Enter Password"
+                    placeholder="Password"
+                />
+            </FormGroup>
+
+            <Button type="submit">Login</Button>
+        </Form>
     );
 }
 
