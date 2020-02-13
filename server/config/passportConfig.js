@@ -24,11 +24,11 @@ passport.use(new PassportLocalStrategy({}, (username, password, done) => {
         }
         if (!user) {
             logger.debug('<Strategy> no user found: ', user)
-            return done(null, false, { message: 'Username not found' })
+            return done(null, false, { reason: 'Incorrect username or password' })
         }
         if (!user.verifyPassword(password)) {
             logger.debug('<Strategy> wrong password: ', user, password)
-            return done(null, false, { message: 'Invalid password' })
+            return done(null, false, { reason: 'Incorrect username or password' })
         }
         logger.debug('<Strategy> success: ', user)
         return done(null, user)
