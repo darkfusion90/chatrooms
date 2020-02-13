@@ -1,38 +1,22 @@
 import serverApi from '../server-api';
 
-import { LOGIN_FAIL, LOGIN_SUCCESS } from '../constants/actionConstants'
+import { LOGIN } from '../constants/actionConstants'
 
-const onRequestFulfilled = (dispatch, response) => {
+const onRequestFulfilled = (dispatch, response, onFailureCallback) => {
     console.log("onRequestFulfilled: ", response.data)
-    if (response.data.success === "true") {
-        dispatch(loginSuccessAction(response.data.userId))
+    if (response.data.error) {
+        onFailureCallback(response)
     }
     else {
-        dispatch(loginFailAction(response.data.reason))
+        dispatch(loginAction(response.data.username))
     }
 }
 
-const onRequestRejected = (dispatch, { response }) => {
-    console.log("onRequestRejected: ", response.data)
-    dispatch(loginFailAction(response.data.message))
-}
-
-const loginFailAction = (reason) => {
+const loginAction = (username) => {
     return {
-        type: LOGIN_FAIL,
+        type: LOGIN,
         payload: {
-            status: "failed",
-            reason: reason
-        }
-    }
-}
-
-const loginSuccessAction = (userId) => {
-    return {
-        type: LOGIN_SUCCESS,
-        payload: {
-            status: "success",
-            userId: userId
+            username: username
         }
     }
 }
@@ -42,11 +26,8 @@ export default (username, password, onFailureCallback) => async (dispatch) => {
         username,
         password,
         (response) => {
-            onRequestFulfilled(dispatch, response)
+            onRequestFulfilled(dispatch, response, onFailureCallback)
         },
-        (reason) => {
-            onRequestRejected(dispatch, reason)
-            onFailureCallback(reason)
-        }
+        (reason) => onFailureCallback(reason.response)
     );
 }
