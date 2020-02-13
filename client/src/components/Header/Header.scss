@@ -30,6 +30,11 @@ $foreground-color: white;
 .header-text {
     @include header-item-right-justified();
     @include header-text-general();
+    font-weight: bold;
+}
+
+.header-item-container {
+    margin: auto
 }
 
 .header-icon {
