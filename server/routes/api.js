@@ -65,6 +65,12 @@ const handleRegisterAction = (req, res) => {
     }
 }
 
+const handleUserStatusAction = (req, res) => {
+    res.send({
+        loggedIn: req.isAuthenticated()
+    })
+}
+
 const parseApiAction = (apiRoute) => {
     if (/^\/api\/login[\/]{0,1}$/.test(apiRoute)) {
         return 'login'
@@ -72,6 +78,10 @@ const parseApiAction = (apiRoute) => {
 
     if (/^\/api\/register[\/]{0,1}$/.test(apiRoute)) {
         return 'register'
+    }
+
+    if (/^\/api\/user_info[\/]{0,1}$/.test(apiRoute)) {
+        return 'user_info'
     }
 
     return 'unknown'
@@ -97,6 +107,10 @@ const apiRouter = (req, res) => {
     else if (action === 'register') {
         logger.debug('action register')
         handleRegisterAction(req, res)
+    }
+    else if (action === 'user_info') {
+        logger.debug('action user_info')
+        handleUserStatusAction(req, res)
     }
     else {
         logger.debug('action unknown')
