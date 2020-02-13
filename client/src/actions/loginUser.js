@@ -37,13 +37,12 @@ const loginSuccessAction = (userId) => {
     }
 }
 
-export default (username, password, onSuccessCallback, onFailureCallback) => async (dispatch) => {
+export default (username, password, onFailureCallback) => async (dispatch) => {
     serverApi.loginUser(
         username,
         password,
         (response) => {
             onRequestFulfilled(dispatch, response)
-            onSuccessCallback()
         },
         (reason) => {
             onRequestRejected(dispatch, reason)
