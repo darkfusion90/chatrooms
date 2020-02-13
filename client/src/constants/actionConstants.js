@@ -7,5 +7,5 @@ export const JOIN_ROOM = "JOIN_ROOM";
 export const CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
 
 export const UPDATE_USER_INFO = "UPDATE_USER_STATUS";
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
-export const LOGIN_FAIL = "LOGIN_FAIL"
+export const LOGIN = "LOGIN"
+export const LOGOUT = "LOGOUT"
