@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Popover from 'react-bootstrap/Popover';
+
 import NotificationIcon from './NotificationIcon';
 import NotificationListItem from './NotificationListItem';
+import Dropdown from '../Dropdown';
 
 import './NotificationContainer.scss'
 
 class NotificationContainer extends React.Component {
-    getDropdownMenuContent() {
+    getDropdownMenu() {
         const { notifications } = this.props;
         if (notifications.length === 0) {
             return <div className="item">You don't have any notifications</div>
@@ -28,17 +28,6 @@ class NotificationContainer extends React.Component {
         );
     }
 
-    getNotificationListPopover = () => {
-        return (
-            <Popover>
-                <Popover.Title as="h2">Notifications</Popover.Title>
-                <Popover.Content>
-                    {this.getDropdownMenuContent()}
-                </Popover.Content>
-            </Popover>
-        );
-    }
-
     getWrappedNotificationIcon() {
         return (
             <span className="header-icon nav-item">
@@ -49,14 +38,11 @@ class NotificationContainer extends React.Component {
 
     render() {
         return (
-            <OverlayTrigger
-                trigger="click"
-                placement="bottom"
-                rootClose={true}
-                overlay={this.getNotificationListPopover()}
-            >
-                {this.getWrappedNotificationIcon()}
-            </OverlayTrigger>
+            <Dropdown
+                title="Notifications"
+                menu={this.getDropdownMenu()}
+                triggerComponent={this.getWrappedNotificationIcon()}
+            />
         )
     }
 }
@@ -66,3 +52,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, null)(NotificationContainer);
+
