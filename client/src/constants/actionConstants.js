@@ -4,5 +4,8 @@ export const RECIEVE_MESSAGE = "RECIEVE_MESSAGE";
 export const CREATE_ROOM = "CREATE_ROOM";
 export const JOIN_ROOM = "JOIN_ROOM";
 
-export const UPDATE_USER_ID = "UPDATE_USER_ID";
 export const CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
+
+export const UPDATE_USER_INFO = "UPDATE_USER_STATUS";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+export const LOGIN_FAIL = "LOGIN_FAIL"
