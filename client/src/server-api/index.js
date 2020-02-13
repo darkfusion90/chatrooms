@@ -51,11 +51,15 @@ class ServerApi {
         return this.socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
     }
 
-    loginUser = async (username, password, onRequestFulfilled, onRequestRejected) => {
+    loginUser = (username, password, onRequestFulfilled, onRequestRejected) => {
         axios.post('/api/login',
             { username, password },
             { withCredentials: true }
         ).then(onRequestFulfilled, onRequestRejected)
+    }
+
+    logoutUser = (onRequestFulfilled, onRequestRejected) => {
+        axios.post('/api/logout', {}, { withCredentials: true }).then(onRequestFulfilled, onRequestRejected);
     }
 
     fetchUserInfo = (onRequestFulfilled, onRequestRejected) => {
