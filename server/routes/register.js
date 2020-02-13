@@ -1,6 +1,6 @@
 const registrationFormValidator = require('../utils/registrationFormValidator')
 const usersController = require('../controllers/users')
-const logger = require('../utils/logger')('[Route: Register] ')
+const logger = require('../utils/logger')('[Router: Register] ')
 
 module.exports = (req, res) => {
     logger.debug('Register Post')

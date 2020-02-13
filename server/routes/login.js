@@ -1,5 +1,5 @@
 const passport = require('../config/passportConfig')
-const logger = require('../utils/logger')('[AuthMiddleware] ')
+const logger = require('../utils/logger')('[Router: Login] ')
 
 const login = (user, req, res) => {
     req.logIn(user, function (err) {
