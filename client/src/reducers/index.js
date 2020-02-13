@@ -2,16 +2,14 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 import serverReducer from './serverReducer';
-import messageReducer from './messageReducer';
 import roomReducer from './roomReducer';
-import updateUserIdReducer from './updateUserIdReducer';
 import notificationReducer from './notificationReducer';
+import userReducer from './userReducer';
 
 export default combineReducers({
-    user: updateUserIdReducer,
+    user: userReducer,
     serverConnection: serverReducer,
     roomMetadata: roomReducer,
-    messages: messageReducer,
     notifications: notificationReducer,
-    form: formReducer
+    form: formReducer,
 })
