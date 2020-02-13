@@ -1,0 +1,5 @@
+@import '../../assets/styles/custom.scss';
+
+.login-page-container{
+    @extend %centered-content-flex-container
+}
