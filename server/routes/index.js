@@ -1,5 +1,8 @@
 const path = require('path')
-const apiRouter = require('./api')
+const login = require('./login')
+const logout = require('./logout')
+const register = require('./register')
+const userInfo = require('./userInfo')
 
 const index = (_, res) => {
     if (process.env.NODE_ENV === 'production') {
@@ -9,4 +12,4 @@ const index = (_, res) => {
     }
 }
 
-module.exports = { index, apiRouter }
+module.exports = { index, login, logout, register, userInfo }
