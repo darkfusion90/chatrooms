@@ -16,11 +16,11 @@ class LoginContainer extends React.Component {
         showAlert: false
     }
 
-    onLoginFailure = (reason) => {
-        console.log("LoginContainer onLoginFailure: ", reason.response);
+    onLoginFailure = (response) => {
+        console.log("LoginContainer onLoginFailure: ", response);
         this.setState({
             hasLoginError: true,
-            errorReason: reason.response.data.message,
+            errorReason: response.data.reason,
             showAlert: true
         })
     }
