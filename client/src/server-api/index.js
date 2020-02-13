@@ -1,4 +1,5 @@
 import openSocket from 'socket.io-client';
+import axios from 'axios';
 
 import events from '../constants/serverEventConstants';
 
@@ -48,6 +49,17 @@ class ServerApi {
 
     joinRoom = (roomId, callback) => {
         return this.socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
+    }
+
+    loginUser = async (username, password, onRequestFulfilled, onRequestRejected) => {
+        axios.post('/api/login',
+            { username, password },
+            { withCredentials: true }
+        ).then(onRequestFulfilled, onRequestRejected)
+    }
+
+    fetchUserInfo = (onRequestFulfilled, onRequestRejected) => {
+        axios.get('/api/user_info', { withCredentials: true }).then(onRequestFulfilled, onRequestRejected);
     }
 }
 
