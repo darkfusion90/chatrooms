@@ -3,7 +3,6 @@ import { CREATE_NOTIFICATION } from "../constants/actionConstants";
 const INITIAL_STATE = { length: 0, data: {} }
 
 export default (state = INITIAL_STATE, action) => {
-    console.log("reducer!")
     switch (action.type) {
         case CREATE_NOTIFICATION:
             const { id, ...metadata } = action.payload;
