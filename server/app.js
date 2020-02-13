@@ -8,7 +8,6 @@ const session = require('express-session')
 const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
-const authMiddleware = require('./middlewares/authMiddleware')
 require('./socket')(httpServer, sessionMiddleware)
 const passport = require('./config/passportConfig')
 const routes = require('./routes')
@@ -26,10 +25,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', routes.index)
-app.all('/api*', authMiddleware, routes.apiRouter)
-app.all('*', (_, res) => {
-    res.status(404).send("Page Not Found")
-})
+app.post('/api/login', routes.login)
+app.post('/api/logout', routes.logout)
+app.post('/api/register', routes.register)
+app.get('/api/user_info', routes.userInfo)
 
 var serverPort = process.env.PORT || 8000
 httpServer.listen(serverPort, '0.0.0.0', () => {
