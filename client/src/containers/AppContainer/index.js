@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import App from '../../components/App';
 import serverApi from '../../server-api';
 import connectToServer from '../../actions/connectToServer';
-import updateUserId from '../../actions/updateUserId';
+import updateUserStatus from '../../actions/updateUserStatus';
 import createNotification from '../../actions/createNotification';
 
 class AppContainer extends React.Component {
@@ -15,7 +15,8 @@ class AppContainer extends React.Component {
     componentDidMount() {
         this.props.connectToServer(this.onServerConnectionFailed);
         serverApi.onServerDisconnected(this.onServerDisconnected);
-        serverApi.onServerConnected(this.onServerConnected)
+        serverApi.onServerConnected(this.onServerConnected);
+        serverApi.fetchUserInfo(this.onFetchUserInfoFulfilled, this.onFetchUserInfoRejected)
         serverApi.onRoomJoinRequestRecieved(whoSent => {
             console.log(whoSent + " wants to join your room")
             this.props.createNotification(
@@ -23,6 +24,15 @@ class AppContainer extends React.Component {
                 whoSent + " wants to join your room",
                 null)
         })
+    }
+
+    onFetchUserInfoFulfilled = (response) => {
+        console.log("Response fetch fulfilled: ", response)
+        this.props.updateUserStatus(response.data)
+    }
+
+    onFetchUserInfoRejected = (reason) => {
+        console.log("Response fetch rejected: ", reason)
     }
 
     onServerConnectionFailed = () => {
@@ -47,5 +57,5 @@ class AppContainer extends React.Component {
 
 export default connect(
     null,
-    { connectToServer, updateUserId, createNotification }
+    { connectToServer, createNotification, updateUserStatus }
 )(AppContainer);
