@@ -5,18 +5,24 @@ import { Container } from 'react-bootstrap';
 
 import LoginForm from '../../components/forms/LoginForm';
 import loginUser from '../../actions/loginUser';
+import DismissibleAlert from '../../components/Alerts/DismissibleAlert'
 
 import './LoginContainer.scss';
 
 class LoginContainer extends React.Component {
-    state = { loginAttemptStatus: "unknown" }
-
-    onLoginSuccess = () => {
-        this.setState({ loginAttemptStatus: "success" })
+    state = {
+        hasLoginError: false,
+        errorReason: null,
+        showAlert: false
     }
 
-    onLoginFailure = () => {
-        this.setState({ loginAttemptStatus: "failure" })
+    onLoginFailure = (reason) => {
+        console.log("LoginContainer onLoginFailure: ", reason.response);
+        this.setState({
+            hasLoginError: true,
+            errorReason: reason.response.data.message,
+            showAlert: true
+        })
     }
 
     onFormSubmit = (formValues) => {
@@ -24,7 +30,6 @@ class LoginContainer extends React.Component {
         this.props.loginUser(
             formValues.username,
             formValues.password,
-            this.onLoginSuccess,
             this.onLoginFailure
         );
     }
@@ -39,9 +44,16 @@ class LoginContainer extends React.Component {
             return (
                 <div className="login-page-container">
                     <Container>
+                        <DismissibleAlert
+                            variant="danger"
+                            heading="Login Unsuccessful"
+                            body={this.state.errorReason}
+                            show={this.state.showAlert}
+                            onDismiss={() => this.setState({ showAlert: false })}
+                        />
                         <LoginForm onFormSubmit={this.onFormSubmit} />
                     </Container>
-                </div>
+                </div >
             );
         }
     }
