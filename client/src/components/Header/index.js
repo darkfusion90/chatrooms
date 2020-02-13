@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Button from 'react-bootstrap/Button'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavItem from 'react-bootstrap/NavItem';
@@ -11,7 +13,34 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const style = { backgroundColor: "#23282d" }
 
-const Header = () => {
+const renderConditionallyLoggedInStatus = (loggedIn) => {
+    if (loggedIn) {
+        return (
+            <NavItem as={"span"} className="header-icon" >
+                <FontAwesomeIcon icon={faUser} size="lg" />
+            </NavItem>
+        );
+    }
+    else {
+        return (
+            <>
+                <Link to="/login">
+                    <NavItem as={"span"} className="header-icon" >
+                        <Button size="sm">Login</Button>
+                    </NavItem>
+                </Link>
+
+                <Link to="/register">
+                    <NavItem as={"span"} className="header-icon" >
+                        <Button size="sm">Register</Button>
+                    </NavItem>
+                </Link>
+            </>
+        );
+    }
+}
+
+const Header = (props) => {
     return (
         <Navbar collapseOnSelect style={style} expand="large" sticky="top">
             <Container>
@@ -20,18 +49,24 @@ const Header = () => {
                 </Navbar.Brand>
 
                 <Nav className="justify-content-end flex-row">
-                    <Link to="/rooms" className="header-text">Rooms</Link>
-                    <NotificationContainer />
-                    <NavItem as={"span"} className="header-icon" >
-                        <FontAwesomeIcon icon={faUser} size="lg" />
-                    </NavItem>
+                    <div className="header-item-container">
+                        <Link to="/rooms" className="header-text">Rooms</Link>
+                    </div>
+                    <div className="header-item-container">
+                        <NotificationContainer />
+                    </div>
+                    {renderConditionallyLoggedInStatus(props.loggedIn)}
                 </Nav>
             </Container>
         </Navbar>
     );
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return { loggedIn: state.user.loggedIn }
+}
+
+export default connect(mapStateToProps, null)(Header);
 
 /*
 Logo credits
