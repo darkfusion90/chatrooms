@@ -6,19 +6,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavItem from 'react-bootstrap/NavItem';
 import Container from 'react-bootstrap/Container';
+import UserDropdownInfo from '../../containers/UserDropdownInfo'
 import NotificationContainer from '../NotificationContainer';
 import './Header.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const style = { backgroundColor: "#23282d" }
 
 const renderConditionallyLoggedInStatus = (loggedIn) => {
     if (loggedIn) {
         return (
-            <NavItem as={"span"} className="header-icon" >
-                <FontAwesomeIcon icon={faUser} size="lg" />
-            </NavItem>
+            <UserDropdownInfo />
         );
     }
     else {
