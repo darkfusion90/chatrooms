@@ -32,7 +32,7 @@ class AppContainer extends React.Component {
     }
 
     onFetchUserInfoRejected = (reason) => {
-        console.log("Response fetch rejected: ", reason)
+        console.log("Response fetch rejected: ", reason.response)
     }
 
     onServerConnectionFailed = () => {
