@@ -8,7 +8,7 @@ module.exports = (req, res) => {
     const { errors, hasErrors } = registrationFormValidator(req.body)
 
     if (hasErrors) {
-        res.status(400).json(errors)
+        res.status(400).json({ errors, hasErrors })
         return
     }
 
@@ -23,7 +23,7 @@ module.exports = (req, res) => {
             logger.debug('Reg Post callback. User: ', user)
             req.session.isRegistered = user.isRegistered
             req.session.save()
-            res.redirect('/')
+            res.json({ errors: false, username: user.username })
         }
     });
 }
