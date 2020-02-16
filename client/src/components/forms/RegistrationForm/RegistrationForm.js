@@ -4,63 +4,70 @@ import { Field, reduxForm } from 'redux-form';
 
 import validate from './validate';
 
-const renderFieldFeedback = ({ touched, error }) => {
-    if (touched && error) {
-        return <FormControl.Feedback type="invalid">{error}</FormControl.Feedback>
-    }
-    return null;
-}
-
-const renderField = ({input, type, placeholder, meta: {touched, visited, error}}) => {
-    console.log("FORM PROPS FOR: ", formProps.input.name, ": ", formProps)
-    console.log("IS VALID: ", !formProps.meta.visited ? undefined : formProps.meta.error)
+const renderField = (formProps) => {
+    const { touched, error, pristine } = formProps.meta
     return (
-        <FormGroup controlId={formProps.controlId}>
+        <>
             <Form.Label>{formProps.label}</Form.Label>
             <FormControl
                 {...formProps.input}
-                type={formProps.type}
-                placeholder={formProps.placeholder}
-                required
-                isValid={!formProps.touched ? undefined : formProps.error}
+                {...formProps}
+                isInvalid={touched && error}
+                isValid={!pristine && !(touched && error)}
             />
-            {renderFieldFeedback(formProps.meta)}
-        </FormGroup>
+            <FormControl.Feedback type="invalid">{error}</FormControl.Feedback>
+        </>
     );
 }
 
 const RegisterForm = (props) => {
+    const { pristine, submitting, invalid } = props;
+    const registerButtonDisabled = (pristine || submitting || invalid);
+
+    const registerButtonStyle = {
+        cursor: registerButtonDisabled ? "not-allowed" : "pointer"
+    }
+
     return (
-        <Form noValidate onSubmit={props.handleSubmit(props.onFormSubmit)}>
-            <Field
-                component={renderField}
-                name="username"
-                type="text"
-                label="Enter Username"
-                placeholder="Example: mitsy_the_cat"
-                controlId="formUsernameGroup"
-            />
+        <Form id="registration-form" noValidate onSubmit={props.handleSubmit(props.onFormSubmit)}>
+            <FormGroup controlId="formUsernameGroup">
+                <Field
+                    component={renderField}
+                    name="username"
+                    type="text"
+                    label="Enter Username"
+                    placeholder="Example: mitsy_the_cat"
+                />
+            </FormGroup>
+            <FormGroup controlId="formPasswordGroup">
+                <Field
+                    component={renderField}
+                    name="password"
+                    type="password"
+                    label="Enter Password"
+                    placeholder="Password"
+                />
+            </FormGroup>
 
-            <Field
-                component={renderField}
-                name="password"
-                type="password"
-                label="Enter Password"
-                placeholder="Password"
-                controlId="formPasswordGroup"
-            />
+            <FormGroup controlId="formConfirmPasswordGroup">
+                <Field
+                    component={renderField}
+                    name="confirmPassword"
+                    type="password"
+                    label="Confirm Password"
+                    placeholder="Confirm Password"
+                />
+            </FormGroup>
 
-            <Field
-                component={renderField}
-                name="confirmPassword"
-                type="password"
-                label="Confirm Password"
-                placeholder="Confirm Password"
-                controlId="formConfirmPasswordGroup"
-            />
-
-            <Button type="submit">Register</Button>
-        </Form>
+            <Button
+                type="submit"
+                form="registration-form"
+                disabled={registerButtonDisabled}
+                style={registerButtonStyle}
+            >
+                Register
+            </Button>
+        </Form >
     );
 }
 
