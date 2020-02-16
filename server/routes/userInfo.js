@@ -9,7 +9,7 @@ module.exports = (req, res) => {
             res.status(404).send("User not found")
         }
         else {
-            res.json({ loggedIn: req.isAuthenticated(), username: user.username })
+            res.json({ loggedIn: req.isAuthenticated(), isRegistered: req.session.isRegistered, username: user.username })
         }
     })
 }
