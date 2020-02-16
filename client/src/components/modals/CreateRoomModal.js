@@ -6,6 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 
 import GenericModal from './GenericModal';
 import tryCreatingRoom from '../../actions/tryCreatingRoom';
+import CreateRoomForm from '../forms/CreateRoomForm';
 
 class CreateRoomModal extends React.Component {
     state = { inputValue: "", radioSelectedValue: null, isFormLoading: false }
@@ -81,7 +82,7 @@ class CreateRoomModal extends React.Component {
 
     getModalContent() {
         return (
-            <Form onSubmit={this.onFormSubmit} id="create-room-form">
+            <Form onSubmit={this.onFormSubmit} id="create-rom-form">
                 <Form.Label><strong>Enter Room Name:</strong></Form.Label>
                 <Form.Control
                     type="text"
@@ -133,7 +134,7 @@ class CreateRoomModal extends React.Component {
             <GenericModal
                 header="Create Room"
                 actions={this.getModalActions()}
-                content={this.getModalContent()}
+                content={<CreateRoomForm />}
                 {...this.props}
             />
         );
