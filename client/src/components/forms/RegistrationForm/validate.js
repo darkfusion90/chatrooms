@@ -7,15 +7,15 @@ export default (values) => {
     const errors = {}
 
     if (!username) {
-        errors.username = "Required"
+        errors.username = "Username cannot be empty"
     }
     if (!password) {
-        errors.password = "Required"
+        errors.password = "Password cannot be empty"
     }
     if (!confirmPassword) {
-        errors.confirmPassword = "Required"
+        errors.confirmPassword = "Confirm Password cannot be empty"
     } else if (hasPasswordMismatch(password, confirmPassword)){
-        errors.confirmPassword = "Password Mismatch"
+        errors.confirmPassword = "Confirm Password and Password must match"
     }
 
     return errors
