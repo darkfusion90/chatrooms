@@ -65,6 +65,13 @@ class ServerApi {
     fetchUserInfo = (onRequestFulfilled, onRequestRejected) => {
         axios.get('/api/user_info', { withCredentials: true }).then(onRequestFulfilled, onRequestRejected);
     }
+
+    registerUser = (username, password, confirmPassword, onRequestFulfilled, onRequestRejected) => {
+        axios.post(
+            '/api/register',
+            { username, password, confirmPassword },
+            { withCredentials: true }).then(onRequestFulfilled, onRequestRejected)
+    }
 }
 
 export default new ServerApi();
