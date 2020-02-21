@@ -19,7 +19,7 @@ class CreateRoomModal extends React.Component {
         this.showAlert('success', "Your room was successfully created");
     }
 
-    onFailure = (reason) => {
+    onFailure = () => {
         this.showAlert('danger', "Oops! Your room couldn't be created");
     }
 
