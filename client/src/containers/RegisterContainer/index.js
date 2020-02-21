@@ -34,7 +34,10 @@ class RegisterContainer extends React.Component {
     }
 
     render() {
-        console.log(this.props)
+        if (this.props.isUserLoggedIn) {
+            return <Redirect to="/" />
+        }
+
         if (this.props.isUserRegistered) {
             return this.renderAppropriateRedirect(this.props.isUserLoggedIn)
         }
