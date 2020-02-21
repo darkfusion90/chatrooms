@@ -15,14 +15,13 @@ const radioOptions = [
 
 
 const renderRadioGroup = (formProps) => {
-    console.log("FormProps for radios: ", formProps)
     const { input, meta, options } = formProps;
     const hasErrors = meta.touched && meta.error;
     const impureFormNoErrors = !meta.pristine && !hasErrors;
 
     const radioInputs = options.map(option => {
         return (
-            <Form.Group controlId={`roomType-${option.value}`}>
+            <Form.Group controlId={`roomType-${option.value}`} key={option.value}>
                 <Form.Check
                     {...input}
                     {...option}
