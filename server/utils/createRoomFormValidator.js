@@ -1,20 +1,26 @@
-const validator = require('validator').default
 const isEmpty = require('is-empty')
 
-const convertEmptyFieldsToEmptyStrings = (data) => {
-    data.roomName = isEmpty(data.roomName) ? '' : data.roomName
-    data.roomType = isEmpty(data.roomType) ? '' : data.roomType
+const isValidRoomType = (roomType) => {
+    return roomType === 'public' || roomType === 'private' || roomType === 'unlisted'
 }
 
-module.exports = (data) => {
-    convertEmptyFieldsToEmptyStrings(data)
-    const { roomName, roomType } = data
+const validate = (data) => {
     const errors = {}
-
-    if (validator.isEmpty(roomName)) {
-errors.roomNameEmpty = 
+    const { roomName, roomType } = data
+    if (!roomName) {
+        errors.roomNameEmpty = 'Room name is required'
     }
-    if (validator.isEmpty(roomType)) {
 
+    if (!roomType) {
+        errors.roomTypeEmpty = 'Room type is required'
+    } else if (!isValidRoomType(roomType)) {
+        errors.invalidRoomType = 'Room type should be either of "private", "public" or "unlisted"'
+    }
+
+    return {
+        hasErrors: !isEmpty(errors),
+        errors: errors
     }
 }
+
+module.exports = { validate }
