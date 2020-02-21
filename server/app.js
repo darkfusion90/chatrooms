@@ -28,6 +28,9 @@ app.get('/', routes.index)
 app.post('/api/login', routes.login)
 app.post('/api/logout', routes.logout)
 app.post('/api/register', routes.register)
+app.get(['/api/rooms', '/api/rooms/:id'], routes.room.get)
+app.post('/api/rooms', routes.room.post)
+app.patch('/api/rooms/:id', routes.room.patch)
 app.get('/api/user_info', routes.userInfo)
 
 var serverPort = process.env.PORT || 8000
