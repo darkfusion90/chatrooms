@@ -15,4 +15,15 @@ const determineStatusCode = (err, resource) => {
     }
 }
 
-module.exports = { determineStatusCode }
+genericHandlerCallback = (err, resource, response, returnResourceOnSuccess = false) => {
+    const statusCode = determineStatusCode(err, resource)
+    if (statusCode === httpStatusCodes.OK && returnResourceOnSuccess) {
+        return resource
+    }
+    else {
+        response.status(statusCode).json(resource ? resource : {})
+        return false
+    }
+}
+
+module.exports = { genericHandlerCallback }

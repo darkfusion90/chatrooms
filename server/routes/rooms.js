@@ -1,18 +1,7 @@
 const httpStatusCodes = require('../constants/httpStatusCodes')
-const utils = require('./utils')
+const { genericHandlerCallback } = require('./routeUtils')
 const createRoomFormValidator = require('../utils/createRoomFormValidator')
 const { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId } = require('../controllers/rooms')
-
-genericHandlerCallback = (err, resource, response, returnResourceOnSuccess = false) => {
-    const statusCode = utils.determineStatusCode(err, resource)
-    if (statusCode === httpStatusCodes.OK && returnResourceOnSuccess) {
-        return resource
-    }
-    else {
-        response.status(statusCode).json(resource ? resource : {})
-        return false
-    }
-}
 
 const get = (req, res) => {
     if (req.params.id) {
