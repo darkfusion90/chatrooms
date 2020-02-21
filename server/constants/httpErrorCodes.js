@@ -1,0 +1,5 @@
+module.exports = {
+    INTERNAL_SERVER_ERROR: 500,
+    RESOURCE_NOT_FOUND: 404,
+    FORBIDDEN: 403
+}
