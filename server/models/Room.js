@@ -28,14 +28,28 @@ const RoomSchema = Schema({
 })
 
 
-RoomSchema.pre('findOneAndUpdate', async function (next) {
+async function modificationPermissionValidator(next) {
     const { roomId, owner } = this.getQuery()
     const docToUpdate = await this.model.findOne({ roomId: roomId })
-    if (docToUpdate.owner != owner) {
+
+    //Check owner only if valid document
+    //If not valid, 404 Not Found will be sent to client by the callback given to the respective controller
+    if (docToUpdate && docToUpdate.owner != owner) {
         next(new UnauthorizedError())
     }
     next()
-})
+}
+
+RoomSchema.pre('findOneAndUpdate', modificationPermissionValidator)
+RoomSchema.pre('findOneAndDelete', modificationPermissionValidator)
+
+RoomSchema.methods.userHasPermission = function (userId) {
+    if (this.type === 'private') {
+        return this.owner === userId
+    }
+
+    return true
+}
 
 const Room = mongoose.model("Room", RoomSchema);
 
