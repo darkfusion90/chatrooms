@@ -1,148 +1,108 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button';
 import { connect } from 'react-redux';
 
-import Form from 'react-bootstrap/Form';
-import Spinner from 'react-bootstrap/Spinner';
-
 import GenericModal from './GenericModal';
-import tryCreatingRoom from '../../actions/tryCreatingRoom';
-import CreateRoomForm from '../forms/CreateRoomForm';
+import createRoom from '../../actions/createRoom';
+import CreateRoomForm from '../forms/CreateRoomForm/';
+
+import DismissibleAlert from '../Alerts/DismissibleAlert';
 
 class CreateRoomModal extends React.Component {
-    state = { inputValue: "", radioSelectedValue: null, isFormLoading: false }
+    state = { alert: { show: false } }
 
-    updateCheckedRadioInput = (e) => {
-        this.setState({ radioSelectedValue: e.target.value });
-    }
-
-    onFormSubmit = (event) => {
-        event.preventDefault();
-        const roomName = this.state.inputValue;
-        const roomType = this.state.radioSelectedValue;
-        this.props.tryCreatingRoom(roomName, roomType, this.onSuccess, this.onFailure);
-        this.setState({ isFormLoading: true });
-    }
-
-    restoreInitialState = () => {
-        this.setState({ inputValue: "", radioSelectedValue: null, isFormLoading: false });
+    onFormSubmit = ({ roomName, roomType }) => {
+        this.props.createRoom(roomName, roomType, this.onSuccess, this.onFailure);
     }
 
     onSuccess = () => {
-        this.restoreInitialState();
-        this.props.onSuccess();
+        this.showAlert('success', "Your room was successfully created");
     }
 
     onFailure = (reason) => {
-        this.restoreInitialState();
-        this.props.onFailure(reason);
+        this.showAlert('danger', "Oops! Your room couldn't be created");
     }
 
-    onTextInputChange = (event) => {
+    showAlert = (variant, body) => {
         this.setState({
-            inputValue: event.target.value
+            alert:
+            {
+                show: true,
+                variant: variant,
+                body: body
+            }
         })
     }
 
+    hideAlert = () => {
+        this.setState({ alert: { show: false } })
+    }
+
     onCancelButtonClick = () => {
-        this.restoreInitialState();
+        this.hideAlert();
         this.props.hideModal();
-    }
-
-    renderRadioInputs() {
-        return (
-            <div className="required field">
-                <label>Select Room type:</label>
-                <div className="field">
-                    <div className="ui radio checkbox">
-                        <input type="radio" value="public" name="room-type" tabIndex="0" required onChange={(e) => this.updateCheckedRadioInput(e)} />
-                        <label>
-                            <i className="globe icon" /> Public
-                        </label>
-                    </div>
-                </div>
-                <div className="field">
-                    <div className="ui radio checkbox">
-                        <input type="radio" value="unlisted" name="room-type" tabIndex="0" onChange={(e) => this.updateCheckedRadioInput(e)} />
-                        <label>
-                            <i className="paperclip icon" /> Unlisted
-                        </label>
-                    </div>
-                </div>
-                <div className="field">
-                    <div className="ui radio checkbox">
-                        <input type="radio" value="private" name="room-type" tabIndex="0" onChange={(e) => this.updateCheckedRadioInput(e)} />
-                        <label>
-                            <i className="lock icon" /> Private
-                        </label>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    getModalContent() {
-        return (
-            <Form onSubmit={this.onFormSubmit} id="create-rom-form">
-                <Form.Label><strong>Enter Room Name:</strong></Form.Label>
-                <Form.Control
-                    type="text"
-                    value={this.state.inputValue}
-                    onChange={this.onTextInputChange}
-                    required={true}
-                />
-                {this.renderRadioInputs()}
-            </Form>
-        );
-    }
-
-    renderCreateRoomButton() {
-        const spinner = <Spinner
-            style={{ marginRight: "10px" }}
-            as="span"
-            animation="border"
-            role="status"
-            size="sm"
-        />;
-
-        const disabled = this.state.isFormLoading ? "disabled" : "";
-        return (
-            <button
-                type="submit"
-                className={`ui button orange ${disabled}`}
-                form="create-room-form"
-            >
-                {this.state.isFormLoading ? spinner : null}
-                Create
-            </button>
-        );
     }
 
     getModalActions() {
         return (
-            <React.Fragment>
-                <button className="ui button" onClick={this.onCancelButtonClick}>
-                    Cancel
-                </button>
-
-                {this.renderCreateRoomButton()}
-            </React.Fragment>
+            <>
+                <Button variant='secondary' onClick={this.onCancelButtonClick}>Cancel</Button>
+                <Button form='create-room-form' type='submit'>Create Room</Button>
+            </>
         );
+    }
+
+    getAlertDismissAction = () => {
+        if (!this.state.alert.show) {
+            return null;
+        }
+
+        if (this.state.alert.variant === 'danger') {
+            return null;
+        }
+
+        return (
+            <Button
+                variant='outline-success'
+                onClick={() => {
+                    this.hideAlert();
+                    this.props.hideModal();
+                }}
+            >
+                Back to home
+            </Button>
+        )
+    }
+
+    getModalContent() {
+        return (
+            <>
+                <DismissibleAlert
+                    {...this.state.alert}
+                    onDismiss={this.hideAlert}
+                    dismissAction={this.getAlertDismissAction}
+                />
+                <CreateRoomForm onFormSubmit={this.onFormSubmit} />
+            </>
+        )
     }
 
     render() {
         return (
-            <GenericModal
-                header="Create Room"
-                actions={this.getModalActions()}
-                content={<CreateRoomForm />}
-                {...this.props}
-            />
+            <>
+                <GenericModal
+                    header="Create Room"
+                    actions={this.getModalActions()}
+                    content={this.getModalContent()}
+                    {...this.props}
+                />
+            </>
         );
     }
 }
 
 export default connect(
     null,
-    { tryCreatingRoom }
+    { createRoom }
 )(CreateRoomModal);
 
