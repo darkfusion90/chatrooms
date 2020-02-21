@@ -1,8 +1,10 @@
 const path = require('path')
+
 const login = require('./login')
 const logout = require('./logout')
 const register = require('./register')
 const userInfo = require('./userInfo')
+const room = require('./room')
 
 const index = (_, res) => {
     if (process.env.NODE_ENV === 'production') {
@@ -12,4 +14,4 @@ const index = (_, res) => {
     }
 }
 
-module.exports = { index, login, logout, register, userInfo }
+module.exports = { index, login, logout, register, room, userInfo }
