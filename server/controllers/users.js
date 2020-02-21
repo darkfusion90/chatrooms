@@ -84,4 +84,16 @@ function registerUser(userId, username, password, callback) {
 }
 
 
-module.exports = { registerUser, createUnregisteredUser }
+function getUser(userId, callback) {
+    //Excludes _id while including the other 3 when returning the user document
+    const options = {
+        '_id': 0,
+        'userId': 1,
+        'username': 1,
+        'isRegistered': 1
+    }
+
+    User.findOne({ userId: userId }, options, callback)
+}
+
+module.exports = { registerUser, createUnregisteredUser, getUser }
