@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "NODE_ENV=production node server/app.js",
-    "dev": "nodemon --watch server server/app.js"
+    "dev": "nodemon --delay 3s --watch server server/app.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
