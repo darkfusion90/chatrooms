@@ -1,13 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, ListGroup } from 'react-bootstrap';
 
-class RoomList extends React.Component {
-    render() {
+const renderRoomList = (rooms) => {
+    return rooms.map(({ roomId, name, owner }) => {
         return (
-            <div className="room-list">
-                RoomList
-            </div>
-        );
-    }
+            <ListGroup.Item key={roomId}>
+                <Card>
+                    <Card.Body>
+                        <Card.Title>
+                            <Link to={`/rooms/${roomId}`}>{name}</Link>
+                        </Card.Title>
+                        <Card.Text>
+                            Created by: {owner}
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+            </ListGroup.Item>
+
+        )
+    })
+}
+
+const RoomList = (props) => {
+    return <ListGroup variant='flush'>{renderRoomList(props.rooms)}</ListGroup>
 }
 
 export default RoomList;
