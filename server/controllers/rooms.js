@@ -22,6 +22,10 @@ function createRoom(name, type, owner, callback) {
     })
 }
 
+function deleteRoom(roomId, userId, callback) {
+    Room.findOneAndDelete({ roomId: roomId, owner: userId }, callback)
+}
+
 function getAllPublicRooms(callback) {
     Room.find({ type: 'public' }, callback)
 }
@@ -34,4 +38,4 @@ function updateRoomByRoomId(roomId, userId, updatedValues, callback) {
     Room.findOneAndUpdate({ roomId: roomId, owner: userId }, updatedValues, { returnOriginal: false }, callback)
 }
 
-module.exports = { createRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId }
+module.exports = { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId }
