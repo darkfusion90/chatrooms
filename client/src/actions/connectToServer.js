@@ -1,4 +1,4 @@
-import serverApi from '../server-api';
+import {connectToServer} from '../server-communication/socketServer'
 
 import { CONNECT_TO_SERVER } from '../constants/actionConstants'
 
@@ -9,6 +9,6 @@ export default (onConnectionFailed) => async (dispatch) => {
             the connection status should be either removed from redux store and use callback(s) only
             or remove callback(s) and read/update the connection status from/on the redux store
     */
-    await serverApi.connectToServer(onConnectionFailed);
+    await connectToServer(onConnectionFailed);
     dispatch({ type: CONNECT_TO_SERVER, payload: { connected: true } })
 }

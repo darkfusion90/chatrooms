@@ -1,9 +1,9 @@
 import { LOGOUT } from '../constants/actionConstants';
 
-import serverApi from '../server-api';
+import {logoutUser} from '../server-communication/httpServer'
 
 export default () => {
-    serverApi.logoutUser((response) => console.log("FULFILLED: ", response),
+    logoutUser((response) => console.log("FULFILLED: ", response),
         ({ response }) => console.log("REJECTED: ", response));
     return {
         type: LOGOUT

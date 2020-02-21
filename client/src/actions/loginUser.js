@@ -1,4 +1,4 @@
-import serverApi from '../server-api';
+import {loginUser} from '../server-communication/httpServer'
 
 import { LOGIN } from '../constants/actionConstants'
 
@@ -22,7 +22,7 @@ const loginAction = (username) => {
 }
 
 export default (username, password, onFailureCallback) => async (dispatch) => {
-    serverApi.loginUser(
+    loginUser(
         username,
         password,
         (response) => {
