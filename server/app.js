@@ -28,10 +28,13 @@ app.get('/', routes.index)
 app.post('/api/login', routes.login)
 app.post('/api/logout', routes.logout)
 app.post('/api/register', routes.register)
+
 app.get(['/api/rooms', '/api/rooms/:id'], routes.rooms.get)
 app.post('/api/rooms', routes.rooms.post)
 app.patch('/api/rooms/:id', routes.rooms.patch)
 app.delete('/api/rooms/:id', routes.rooms._delete)
+
+app.get(['/api/user', '/api/user/:id'], routes.user.get)
 app.get('/api/user_info', routes.userInfo)
 
 var serverPort = process.env.PORT || 8000
