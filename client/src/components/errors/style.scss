@@ -1,0 +1,6 @@
+@import '../../assets/styles/custom.scss';
+
+.error{
+    @extend %centered-content-flex-container;
+    font-size: 3em;
+}
