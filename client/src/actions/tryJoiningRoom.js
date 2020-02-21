@@ -1,25 +1,18 @@
 import { JOIN_ROOM } from '../constants/actionConstants';
 
-import serverApi from '../server-api';
-
-const joinRoom = (room) => {
-    return {
-        type: JOIN_ROOM,
-        payload: room
-    };
-}
+import { joinRoom, onRoomJoinPermissionRecieved } from '../server-communication/socketServer';
 
 const tryJoiningRoom =
     (roomId, onSuccess, onPermissionPending, onPermissionRequestCompleted, onFailure) =>
         async dispatch => {
-            await serverApi.joinRoom(roomId, (data) => {
+            await joinRoom(roomId, (data) => {
                 if (data.status === "ok") {
-                    dispatch(joinRoom(data.room));
+                    dispatch({ type: JOIN_ROOM, payload: roomId });
                     onSuccess();
                 }
                 else if (data.status === "permission_pending") {
                     onPermissionPending();
-                    serverApi.onRoomJoinPermissionRecieved(onPermissionRequestCompleted);
+                    onRoomJoinPermissionRecieved(onPermissionRequestCompleted);
                 }
                 else {
                     onFailure(data.reason);
