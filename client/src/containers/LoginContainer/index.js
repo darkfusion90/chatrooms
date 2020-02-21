@@ -16,16 +16,14 @@ class LoginContainer extends React.Component {
     }
 
     onLoginFailure = (response) => {
-        console.log("LoginContainer onLoginFailure: ", response);
         this.setState({
             hasLoginError: true,
             errorReason: response.data.reason,
-            showAlert: true
+            showErrorAlert: true
         })
     }
 
     onFormSubmit = (formValues) => {
-        console.log("Login Container values: ", formValues)
         this.props.loginUser(
             formValues.username,
             formValues.password,
@@ -46,8 +44,6 @@ class LoginContainer extends React.Component {
     }
 
     render() {
-        console.log("Login Props: ", this.props)
-
         if (this.props.isUserLoggedIn) {
             return <Redirect to="/" />
         }
