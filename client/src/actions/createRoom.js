@@ -1,28 +1,17 @@
 import { CREATE_ROOM } from '../constants/actionConstants';
 
-import serverApi from '../server-api';
+import { createRoom } from '../server-communication/httpServer';
 
-const tryCreatingRoom = (roomName, roomType, onSuccess, onFailure) =>
-    async (dispatch) => {
-        await serverApi.createRoom(roomName, roomType, (data) => {
-            if (data.status === "success") {
-                console.log(data.roomId);
-                dispatch(createRoom(data.roomId));
-                onSuccess();
-                console.log("YAY!")
-            }
-            else {
-                onFailure(data.reason);
-                console.log("oops: ", data)
-            }
-        });
-    }
-
-const createRoom = (createdRoom) => {
-    return {
-        type: CREATE_ROOM,
-        payload: createdRoom
-    };
+const attemptCreatingRoom = (roomName, roomType, onSuccess, onFailure) => async (dispatch) => {
+    createRoom(
+        roomName,
+        roomType,
+        (response) => {
+            dispatch({ type: CREATE_ROOM, payload: response.data })
+            onSuccess()
+        },
+        onFailure,
+    )
 }
 
-export default tryCreatingRoom;
+export default attemptCreatingRoom;
