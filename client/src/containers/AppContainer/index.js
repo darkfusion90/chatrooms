@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import App from '../../components/App';
-import serverApi from '../../server-api';
+import { onServerConnected, onServerDisconnected } from '../../server-communication/socketServer'
+import { fetchUserInfo } from '../../server-communication/httpServer'
 import connectToServer from '../../actions/connectToServer';
 import updateUserStatus from '../../actions/updateUserStatus';
 import createNotification from '../../actions/createNotification';
@@ -14,16 +15,9 @@ class AppContainer extends React.Component {
 
     componentDidMount() {
         this.props.connectToServer(this.onServerConnectionFailed);
-        serverApi.onServerDisconnected(this.onServerDisconnected);
-        serverApi.onServerConnected(this.onServerConnected);
-        serverApi.fetchUserInfo(this.onFetchUserInfoFulfilled, this.onFetchUserInfoRejected)
-        serverApi.onRoomJoinRequestRecieved(whoSent => {
-            console.log(whoSent + " wants to join your room")
-            this.props.createNotification(
-                "Room join request",
-                whoSent + " wants to join your room",
-                null)
-        })
+        onServerDisconnected(this.onServerDisconnected);
+        onServerConnected(this.onServerConnected);
+        fetchUserInfo(this.onFetchUserInfoFulfilled, this.onFetchUserInfoRejected)
     }
 
     onFetchUserInfoFulfilled = (response) => {
