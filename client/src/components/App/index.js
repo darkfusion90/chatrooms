@@ -7,9 +7,11 @@ import ServerConnectionFailed from '../errors/ServerConnectionFailed';
 import PageNotFound from '../errors/PageNotFound';
 import LoginContainer from '../../containers/LoginContainer';
 import RegisterContainer from '../../containers/RegisterContainer';
+import RoomListContainer from '../../containers/RoomListContainer';
+import RoomContainer from '../../containers/RoomContainer';
 
 import './App.scss';
-import RoomListContainer from '../../containers/RoomListContainer';
+
 
 const App = (props) => {
 
@@ -20,6 +22,7 @@ const App = (props) => {
         return (
             <Switch>
                 <Route exact path="/" component={LandingPage} />
+                <Route exact path="/rooms/:id" component={RoomContainer} />
                 <Route exact path="/rooms" component={RoomListContainer} />
                 <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/register" component={RegisterContainer} />
