@@ -19,11 +19,11 @@ export const fetchUserInfo = (onRequestFulfilled, onRequestRejected) => {
 }
 
 export const getRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
-    axios.delete(`/api/rooms/${roomId}`).then(onRequestFulfilled, onRequestRejected)
+    axios.get(`/api/rooms/${roomId}`).then(onRequestFulfilled, onRequestRejected)
 }
 
 export const getAllRooms = (onRequestFulfilled, onRequestRejected) => {
-    axios.delete('/api/rooms').then(onRequestFulfilled, onRequestRejected)
+    axios.get('/api/rooms').then(onRequestFulfilled, onRequestRejected)
 }
 
 export const createRoom = (roomName, roomType, onRequestFulfilled, onRequestRejected) => {
