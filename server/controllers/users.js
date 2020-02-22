@@ -11,6 +11,15 @@ const PROJECTIONS = {
     'isRegistered': 1
 }
 
+function filterUsingProjections(user) {
+    const filteredUser = {}
+    Object.keys(PROJECTIONS).forEach(field => {
+        if (PROJECTIONS[field] === 1) {
+            filteredUser[field] = user[field]
+        }
+    })
+    return filteredUser
+}
 
 /**
  * Generates a random and unique userId
@@ -58,11 +67,11 @@ function createUser(username, password, isRegistered, expiresAt, callback) {
         if (err) {
             logger.debug('UsersController: Error creating user: ', user)
             logger.debug(err);
-            callback(err, user);
+            callback(err, filterUsingProjections(user));
         }
         else {
             logger.debug('UsersController: Successfully created user: ', user);
-            callback(null, user);
+            callback(null, filterUsingProjections(user));
         }
     })
 }
@@ -72,8 +81,8 @@ function createUnregisteredUser(expiresAt, callback) {
     createUser(null, null, false, expiresAt, callback);
 }
 
-function createRegisteredUser(data, callback){
-    
+function createRegisteredUser(data, callback) {
+    createUser(data.username, data.password, true, null, callback);
 }
 
 function registerUser(userId, username, password, callback) {
@@ -94,7 +103,6 @@ function registerUser(userId, username, password, callback) {
     User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
 }
 
-
 function getUser(userId, callback) {
     User.findOne({ userId: userId }, PROJECTIONS, callback)
 }
@@ -107,10 +115,9 @@ function updateUser(userId, data, callback) {
     User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
 }
 
-
 function deleteUser(userId, callback) {
     const options = { fields: PROJECTIONS, new: true }
     User.findOneAndDelete({ userId: userId }, options, callback)
 }
 
-module.exports = { registerUser, createUnregisteredUser, getUser, updateUser, deleteUser }
+module.exports = { registerUser, createRegisteredUser, createUnregisteredUser, getUser, updateUser, deleteUser }
