@@ -17,6 +17,9 @@ class UserRequests:
     def get_user(self, id):
         return self.session.get('{base}/{id}'.format(base=self.base_url, id=id))
 
+    def get_current_user(self):
+        return self.session.get(self.base_url)
+
     def delete_user(self, id):
         return self.session.delete('{base}/{id}'.format(base=self.base_url, id=id))
 
