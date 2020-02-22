@@ -10,6 +10,14 @@ export const loginUser = (username, password, onRequestFulfilled, onRequestRejec
     axios.post('/api/login', { username, password }).then(onRequestFulfilled, onRequestRejected)
 }
 
+export const getUser = (userId, onRequestFulfilled, onRequestRejected) => {
+    axios.get(`/api/user/${userId}`).then(onRequestFulfilled, onRequestRejected)
+}
+
+export const getCurrentUser = (onRequestFulfilled, onRequestRejected) => {
+    axios.get('/api/user/').then(onRequestFulfilled, onRequestRejected)
+}
+
 export const logoutUser = (onRequestFulfilled, onRequestRejected) => {
     axios.post('/api/logout').then(onRequestFulfilled, onRequestRejected);
 }
