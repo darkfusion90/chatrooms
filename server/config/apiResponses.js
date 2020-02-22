@@ -10,10 +10,6 @@ const responseCreator = (success, payload, error) => {
     }
 }
 
-const internalServerError = () => {
-    return responseCreator(false, {}, { code: 500 })
-}
-
 const loginSuccess = (user) => {
     return responseCreator(true, { username: user.username }, null)
 }
@@ -25,4 +21,3 @@ const loginFail = (reason) => {
 const registerSuccess = (user) => {
     return responseCreator(true, { username: user.username }, null)
 }
-
