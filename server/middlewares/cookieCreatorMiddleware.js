@@ -1,26 +1,23 @@
-const usersController = require('../controllers/users')
-const logger = require('../utils/logger')('[CookieCreatorMiddleware] ')
+const httpStatusCodes = require('../constants/httpStatusCodes')
+
+const isRegisterPath = (path) => {
+    return /^\/api\/register(\/){0,1}$/.test(path)
+}
 
 const middleware = (req, res, next) => {
-    logger.debug(req.path)
-    if (!req.session.userId) {
-        logger.debug('New User')
-        usersController.createUnregisteredUser(req.session.cookie.expires, (err, user) => {
-            if (err || !user) {
-                logger.debug('Error creating user: ', err)
-                const error = new Error('Internal Server Error')
-                next(error)
-            }
-
-            req.session.userId = user.userId
-            req.session.isRegistered = user.isRegistered
-            req.session.save()
-            logger.debug('Created user: ', user.userId)
-            next()
-        })
+    //Prevent multiple redirects if already being redirected
+    //Important: DON'T change the order of conditions (i.e., check redirect before req.session.userId)
+    //Redirection info needs to be checked before checking req.session.userId otherwise client will be infinitely redirected
+    //because /api/user will never be executed and hence req.session.userId is never created
+    if (req.session.redirectedFromCookieCreator || req.session.redirectedFromRegister) {
+        next()
+    }
+    else if (!req.session.userId) {
+        req.session.redirectedFromCookieCreator = true;
+        req.session.redirectedFromRegister = isRegisterPath(req.path)
+        res.redirect(httpStatusCodes.PERMANENT_REDIRECT, '/api/user')
     }
     else {
-        logger.debug('UserId: ', req.session.userId)
         next()
     }
 }
