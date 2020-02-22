@@ -1,10 +1,11 @@
 const passport = require('../config/passportConfig')
+const httpStatusCodes = require('../constants/httpStatusCodes')
 const logger = require('../utils/logger')('[Router: Login] ')
 
 const login = (user, req, res) => {
     req.logIn(user, function (err) {
         if (err) {
-            res.status(500).send('Oops! Got hurt real bad. Will be right back!')
+            res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
         }
         else {
             logger.debug('UserId before update: ', req.session.userId)
@@ -31,10 +32,10 @@ const middleware = (req, res, next) => {
         logger.debug('Will authenticate')
         passport.authenticate('local', function (err, user, info) {
             if (err) {
-                res.status(500).send('Oops! Got hurt real bad. Will be right back!')
+                res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
             }
             else if (!user) {
-                res.status(401).json(info)
+                res.status(httpStatusCodes.UNAUTHORIZED).json(info)
             }
             else {
                 login(user, req, res)
