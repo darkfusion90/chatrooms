@@ -1,6 +1,6 @@
 const httpStatusCodes = require('../constants/httpStatusCodes')
 const { genericHandlerCallback } = require('./routeUtils')
-const { createUnregisteredUser, registerUser, getUser, updateUser, deleteUser } = require('../controllers/users')
+const { createRegisteredUser, registerUser, getUser, updateUser, deleteUser } = require('../controllers/users')
 const registerUserFormValidator = require('../utils/registerUserFormValidator')
 
 const get = (req, res) => {
@@ -27,46 +27,41 @@ const _delete = (req, res) => {
 }
 
 const post = (req, res) => {
-    console.log("stuff: ", req.session)
-
-    if(req.session.redirectedFromCookieCreator){
-        if(req.session.redirectedFromRegister){
-            handl
-        }
-    }
-}
-
-const handleCreateUnregisteredUser = (req, res) => {
-    createUnregisteredUser(req.session.expires, (err, user) => {
-        //In this case, unable to create user is the server's fault because the client doesn't send any payload
-        //Hence, there is no way for the client to screw up
-        //Failure will generally occur due to duplicate userId (automatically generated in the users controller)
-        if (err || !user) {
-            return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
-        }
-
-        req.session.userId = user.userId
-        req.session.isRegistered = false
+    if (req.session.redirectedFromRegister && !req.session.isRegistered) {
+        handleRegisterUser(req, res)
+        req.session.redirectedFromRegister = false
         req.session.save()
-        res.json(user)
-    })
+    } else {
+        res.json({})
+    }
 }
 
 const handleRegisterUser = (req, res) => {
     const { errors, hasErrors } = registerUserFormValidator(req.body)
 
     if (hasErrors) {
-        return res.status(httpStatusCodes.BAD_REQUEST).json(errors)
+        res.status(httpStatusCodes.BAD_REQUEST).json(errors)
     }
+    else if (!req.session.userId) {
+        createRegisteredUser(req.body, (err, user) => registerUserCallback(err, user, req, res))
+    }
+    else {
+        registerUser(req.session.userId, req.body.username, req.body.password, (err, user) => registerUserCallback(err, user, req, res));
+    }
+}
 
-    registerUser(req.session.userId, req.body.username, req.body.password, (err, _user) => {
-        const user = genericHandlerCallback(err, _user, res, true)
-        if (user) {
-            req.session.isRegistered = user.isRegistered
-            req.session.save()
-            res.json(user)
-        }
-    });
+const registerUserCallback = (err, user, req, res) => {
+    if (err) {
+        genericHandlerCallback(err, user, res)
+    }
+    else if (user) {
+        req.session.userId = user.userId
+        req.session.isRegistered = user.isRegistered
+        req.session.save()
+        res.json(user)
+    } else {
+        res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+    }
 }
 
 module.exports = { get, post, patch, _delete }
