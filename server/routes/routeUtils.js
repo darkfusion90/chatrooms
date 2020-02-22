@@ -14,6 +14,7 @@ const determineResponseMetaFromError = (err) => {
         responseMeta.data = {}
     }
     else {
+        console.log(err)
         responseMeta.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR
         responseMeta.data = {}
     }
