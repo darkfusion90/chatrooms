@@ -6,7 +6,7 @@ function generateIdUsingRandomWords() {
 }
 
 function generateIdUsingCrypto() {
-    return crypto.randomBytes(16).toString('base64')
+    return crypto.randomBytes(16).toString('hex')
 }
 
 module.exports = { generateIdUsingRandomWords, generateIdUsingCrypto }
