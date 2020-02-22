@@ -1,6 +1,16 @@
 const User = require('../models/User')
+const { getUpdatableFieldsFromData } = require('./util')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[UsersController] ')
+
+//Excludes _id while including the other 3 when returning the user document
+const PROJECTIONS = {
+    '_id': 0,
+    'userId': 1,
+    'username': 1,
+    'isRegistered': 1
+}
+
 
 /**
  * Generates a random and unique userId
@@ -62,6 +72,9 @@ function createUnregisteredUser(expiresAt, callback) {
     createUser(null, null, false, expiresAt, callback);
 }
 
+function createRegisteredUser(data, callback){
+    
+}
 
 function registerUser(userId, username, password, callback) {
     const toUpdate = {
@@ -71,29 +84,33 @@ function registerUser(userId, username, password, callback) {
         expiresAt: null
     }
 
-    User.findOneAndUpdate(
-        { userId: userId },
-        toUpdate,
-        {
-            new: true,
-            upsert: true,
-            useFindAndModify: false
-        },
-        callback
-    )
+    const options = {
+        fields: PROJECTIONS,
+        new: true,
+        upsert: true,
+        useFindAndModify: false
+    }
+
+    User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
 }
 
 
 function getUser(userId, callback) {
-    //Excludes _id while including the other 3 when returning the user document
-    const options = {
-        '_id': 0,
-        'userId': 1,
-        'username': 1,
-        'isRegistered': 1
-    }
-
-    User.findOne({ userId: userId }, options, callback)
+    User.findOne({ userId: userId }, PROJECTIONS, callback)
 }
 
-module.exports = { registerUser, createUnregisteredUser, getUser }
+function updateUser(userId, data, callback) {
+    const updatableFields = ['username', 'password']
+    const toUpdate = getUpdatableFieldsFromData(data, updatableFields)
+
+    const options = { fields: PROJECTIONS, new: true }
+    User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
+}
+
+
+function deleteUser(userId, callback) {
+    const options = { fields: PROJECTIONS, new: true }
+    User.findOneAndDelete({ userId: userId }, options, callback)
+}
+
+module.exports = { registerUser, createUnregisteredUser, getUser, updateUser, deleteUser }
