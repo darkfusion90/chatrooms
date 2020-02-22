@@ -1,21 +1,26 @@
-const httpStatusCodes = require('../constants/httpStatusCodes')
+const { createUnregisteredUser } = require('../controllers/users')
 
 const isRegisterPath = (path) => {
     return /^\/api\/register(\/){0,1}$/.test(path)
 }
 
 const middleware = (req, res, next) => {
-    //Prevent multiple redirects if already being redirected
-    //Important: DON'T change the order of conditions (i.e., check redirect before req.session.userId)
-    //Redirection info needs to be checked before checking req.session.userId otherwise client will be infinitely redirected
-    //because /api/user will never be executed and hence req.session.userId is never created
-    if (req.session.redirectedFromCookieCreator || req.session.redirectedFromRegister) {
+    if (isRegisterPath(req.path) || req.session.redirectedFromRegister) {
         next()
-    }
-    else if (!req.session.userId) {
-        req.session.redirectedFromCookieCreator = true;
-        req.session.redirectedFromRegister = isRegisterPath(req.path)
-        res.redirect(httpStatusCodes.PERMANENT_REDIRECT, '/api/user')
+    } else if (!req.session.userId) {
+        createUnregisteredUser(req.session.expires, (err, user) => {
+            //In this case, unable to create user is the server's fault because the client doesn't send any payload
+            //Hence, there is no way for the client to screw up
+            //Failure will generally occur due to duplicate userId (automatically generated in the users controller)
+            if (err || !user) {
+                return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+            }
+
+            req.session.userId = user.userId
+            req.session.isRegistered = false
+            req.session.save()
+            res.json(user)
+        })
     }
     else {
         next()
