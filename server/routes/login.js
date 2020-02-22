@@ -1,4 +1,6 @@
 const passport = require('../config/passportConfig')
+const { getUser } = require('../controllers/users')
+const { genericHandlerCallback } = require('./routeUtils')
 const httpStatusCodes = require('../constants/httpStatusCodes')
 const logger = require('../utils/logger')('[Router: Login] ')
 
@@ -11,7 +13,7 @@ const login = (user, req, res) => {
             logger.debug('UserId before update: ', req.session.userId)
             req.session.userId = user.userId
             req.session.save()
-            res.json({ error: false, username: user.username })
+            res.json(user)
             logger.debug('UserId updated to: ', req.session.userId)
         }
     });
@@ -21,12 +23,11 @@ const matchesLoginPath = (what) => {
     return /^\/api\/login[\/]{0,1}$/.test(what)
 }
 
-const middleware = (req, res, next) => {
+module.exports = (req, res, next) => {
     if (matchesLoginPath(req.path) && req.method === 'POST') {
+        //Simply return user if already logged in
         if (req.isAuthenticated()) {
-            logger.debug('Authenticated user. Will not authenticate again')
-            res.send({ error: true, 'reason': 'Already logged in' })
-            return
+            getUser(req.session.userId, genericHandlerCallback)
         }
 
         logger.debug('Will authenticate')
@@ -47,5 +48,3 @@ const middleware = (req, res, next) => {
         next()
     }
 }
-
-module.exports = middleware
