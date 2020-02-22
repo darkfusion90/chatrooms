@@ -32,3 +32,6 @@ settings.json
 #babel config
 .babelrc
 node_modules
+
+#python cache
+__pycache__
