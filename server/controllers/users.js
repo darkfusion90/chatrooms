@@ -3,15 +3,20 @@ const { getUpdatableFieldsFromData } = require('./util')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[UsersController] ')
 
-//Excludes _id while including the other 3 when returning the user document
+//Excludes _id while including the others when returning the user document
 const PROJECTIONS = {
     '_id': 0,
     'userId': 1,
     'username': 1,
-    'isRegistered': 1
+    'isRegistered': 1,
+    'roomsOwned': 1
 }
 
 function filterUsingProjections(user) {
+    if (!user) {
+        return user
+    }
+
     const filteredUser = {}
     Object.keys(PROJECTIONS).forEach(field => {
         if (PROJECTIONS[field] === 1) {
@@ -62,7 +67,12 @@ function _createUser(username, password, isRegistered, expiresAt) {
  * @param {Function} callback Callback to report status of user creation
  */
 function createUser(username, password, isRegistered, expiresAt, callback) {
-    const user = _createUser(username, password, isRegistered, expiresAt)
+    const userId = generateUserId()
+    if (!isRegistered) {
+        username = userId
+    }
+
+    const user = new User({ userId, username, password, expiresAt, isRegistered })
     user.save((err) => {
         if (err) {
             logger.debug('UsersController: Error creating user: ', user)
@@ -75,7 +85,6 @@ function createUser(username, password, isRegistered, expiresAt, callback) {
         }
     })
 }
-
 
 function createUnregisteredUser(expiresAt, callback) {
     createUser(null, null, false, expiresAt, callback);
@@ -107,6 +116,13 @@ function getUser(userId, callback) {
     User.findOne({ userId: userId }, PROJECTIONS, callback)
 }
 
+function getUserByUsername(username, isFromPassportAuth, callback) {
+    //Include password in projection if and only if coming from Passport Auth
+    const projections = { ...PROJECTIONS, 'password': isFromPassportAuth ? 1 : 0 }
+
+    User.findOne({ username: username }, projections, callback)
+}
+
 function updateUser(userId, data, callback) {
     const updatableFields = ['username', 'password']
     const toUpdate = getUpdatableFieldsFromData(data, updatableFields)
@@ -116,8 +132,17 @@ function updateUser(userId, data, callback) {
 }
 
 function deleteUser(userId, callback) {
-    const options = { fields: PROJECTIONS, new: true }
-    User.findOneAndDelete({ userId: userId }, options, callback)
+    const options = { fields: PROJECTIONS }
+    User.findOneAndDelete({ userId: userId }, options, (err, user) => callback(err, filterUsingProjections(user)))
 }
 
-module.exports = { registerUser, createRegisteredUser, createUnregisteredUser, getUser, updateUser, deleteUser }
+module.exports = {
+    registerUser,
+    createRegisteredUser,
+    createUnregisteredUser,
+    getUser,
+    getUserByUsername,
+    updateUser,
+    deleteUser,
+    filterUsingProjections
+}
