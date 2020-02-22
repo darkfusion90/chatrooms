@@ -19,7 +19,7 @@ const middleware = (req, res, next) => {
             req.session.userId = user.userId
             req.session.isRegistered = false
             req.session.save()
-            res.json(user)
+            next()
         })
     }
     else {
