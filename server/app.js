@@ -9,6 +9,7 @@ const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
 const ensureAuthenticated = require('./middlewares/ensureAuthenticated')
+const errorHandler = require('./middlewares/errorHandler')
 require('./socket')(httpServer, sessionMiddleware)
 const passport = require('./config/passportConfig')
 const routes = require('./routes')
@@ -41,6 +42,8 @@ app.patch('/api/user/:id', ensureAuthenticated, routes.user.patch)
 app.delete('/api/user/:id', ensureAuthenticated, routes.user._delete)
 
 app.get('/api/user_info', routes.userInfo)
+
+app.use(errorHandler)
 
 var serverPort = process.env.PORT || 8000
 httpServer.listen(serverPort, '0.0.0.0', () => {
