@@ -8,6 +8,7 @@ const session = require('express-session')
 const sessionOptions = require('./config/sessionConfig')
 const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
+const ensureAuthenticated = require('./middlewares/ensureAuthenticated')
 require('./socket')(httpServer, sessionMiddleware)
 const passport = require('./config/passportConfig')
 const routes = require('./routes')
@@ -35,6 +36,10 @@ app.patch('/api/rooms/:id', routes.rooms.patch)
 app.delete('/api/rooms/:id', routes.rooms._delete)
 
 app.get(['/api/user', '/api/user/:id'], routes.user.get)
+app.post('/api/user', routes.user.post)
+app.patch('/api/user/:id', ensureAuthenticated, routes.user.patch)
+app.delete('/api/user/:id', ensureAuthenticated, routes.user._delete)
+
 app.get('/api/user_info', routes.userInfo)
 
 var serverPort = process.env.PORT || 8000
