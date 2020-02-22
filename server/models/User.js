@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
+const MongooseDuplicateKeyError = require('../errors/MongooseDuplicateKeyError')
 
+/*
+    A "registered" user uses login information to access the app
+    In contrast, a user who hasn't registered yet uses session cookies to access the app
+    (Which expires after a given amount of consistent inactivity,
+        following which the user is removed from the database)
+*/
 const UserSchema = new mongoose.Schema({
     userId: {
         type: String,
@@ -28,15 +35,26 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     }
-    /*
-        A "registered" user uses login information to access the app
-        In contrast, a user who hasn't registered yet uses session cookies to access the app
-        (Which expires after a given amount of consistent inactivity,
-            following which the user is removed from the database)
-    */
 })
 
 UserSchema.index({ 'expiresAt': 1 }, { expireAfterSeconds: 0 })
+
+function duplicateKeyErrorHandler(err, _, next) {
+    if (err.name === 'MongoError' && err.code === 11000) {
+        let msg = '';
+        if (err.keyValue.username) {
+            msg = 'username already exists'
+        }
+        next(new MongooseDuplicateKeyError('User', msg, err.keyValue));
+    } else {
+        next();
+    }
+}
+
+UserSchema.post('save', duplicateKeyErrorHandler);
+UserSchema.post('update', duplicateKeyErrorHandler);
+UserSchema.post('findOneAndUpdate', duplicateKeyErrorHandler);
+UserSchema.post('insertMany', duplicateKeyErrorHandler);
 
 /**
  * Note: DON'T change this function(){} to an ES6 style arrow function
