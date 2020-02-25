@@ -1,5 +1,9 @@
+const mongoUri = process.env.NODE_ENV === 'production' ?
+    process.env.MONGO_DB_PRODUCTION_URI :
+    process.env.MONGO_DB_DEVELOPMENT_URI
+
 module.exports = {
-    MONGO_URI: 'mongodb://localhost:54000/test',
+    MONGO_URI: encodeURI(mongoUri),
     MONGO_CLIENT_OPTS: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
