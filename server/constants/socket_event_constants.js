@@ -8,4 +8,7 @@ module.exports = {
     NEW_MESSAGE_RECIEVED: "new_message_recieved",
     SEND_MESSAGE: "send_message",
     USER_ID_RECIEVE: "user_id_recieve",
+
+    USER_EVENT: "event:user",
+    CHECK_USERNAME: "CHECK_USERNAME"
 }
