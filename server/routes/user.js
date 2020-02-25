@@ -64,4 +64,8 @@ const registerUserCallback = (err, user, req, res) => {
     }
 }
 
-module.exports = { get, post, patch, _delete }
+const loginStatus = (req, res) => {
+    res.json({ isLoggedIn: req.isAuthenticated() })
+}
+
+module.exports = { get, post, patch, _delete, loginStatus }
