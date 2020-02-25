@@ -6,7 +6,7 @@ export const JOIN_ROOM = "JOIN_ROOM";
 
 export const CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
 
-export const UPDATE_USER_INFO = "UPDATE_USER_STATUS";
+export const UPDATE_USER = "UPDATE_USER";
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
 export const REGISTER = "REGISTER"
