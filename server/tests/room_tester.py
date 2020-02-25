@@ -1,5 +1,6 @@
 import requests
 
+
 class RoomRequests:
     def __init__(self, host_url, session=requests.session()):
         self.session = session
@@ -12,7 +13,5 @@ class RoomRequests:
         return self.session.get(self.base_url)
 
     def create_room(self, roomName, roomType):
-        data = {roomName, roomType}
+        data = {'roomName': roomName, 'roomType': roomType}
         return self.session.post(self.base_url, data=data)
-
-
