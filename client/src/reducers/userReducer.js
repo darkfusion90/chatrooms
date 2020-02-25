@@ -1,21 +1,21 @@
-import { LOGIN, UPDATE_USER_INFO, LOGOUT, REGISTER } from '../constants/actionConstants';
+import { LOGIN, UPDATE_USER, LOGOUT, REGISTER } from '../constants/actionConstants';
 
 const INITIAL_STATE = {
-    loggedIn: false,
-    isRegistered: false,
-    username: null
+    isLoggedIn: false,
+    user: {}
 }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case LOGIN:
-            return { loggedIn: true, isRegistered: true, username: action.payload.username }
+            return { isLoggedIn: true, user: action.payload.user }
         case LOGOUT:
             return INITIAL_STATE
-        case UPDATE_USER_INFO:
-            return { ...action.payload }
         case REGISTER:
-            return { loggedIn: false, isRegistered: true, username: action.payload.username }
+            return { isLoggedIn: false, user: action.payload.user }
+        case UPDATE_USER:
+            //Update only what is provided in payload
+            return { ...state, ...action.payload }
         default:
             return state;
     }
