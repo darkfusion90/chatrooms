@@ -18,12 +18,12 @@ export const getCurrentUser = (onRequestFulfilled, onRequestRejected) => {
     axios.get('/api/user/').then(onRequestFulfilled, onRequestRejected)
 }
 
-export const logoutUser = (onRequestFulfilled, onRequestRejected) => {
-    axios.post('/api/logout').then(onRequestFulfilled, onRequestRejected);
+export const checkLoginStatus = (onRequestFulfilled, onRequestRejected) => {
+    axios.get('/api/user/status/login').then(onRequestFulfilled, onRequestRejected)
 }
 
-export const fetchUserInfo = (onRequestFulfilled, onRequestRejected) => {
-    axios.get('/api/user_info').then(onRequestFulfilled, onRequestRejected);
+export const logoutUser = (onRequestFulfilled, onRequestRejected) => {
+    axios.post('/api/logout').then(onRequestFulfilled, onRequestRejected);
 }
 
 export const getRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
