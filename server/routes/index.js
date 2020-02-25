@@ -3,7 +3,6 @@ const path = require('path')
 const login = require('./login')
 const logout = require('./logout')
 const register = require('./register')
-const userInfo = require('./userInfo')
 const rooms = require('./rooms')
 const user = require('./user')
 
@@ -15,4 +14,4 @@ const index = (_, res) => {
     }
 }
 
-module.exports = { index, login, logout, register, rooms, user, userInfo }
+module.exports = { index, login, logout, register, rooms, user }
