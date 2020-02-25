@@ -12,8 +12,8 @@ import './Header.scss';
 
 const style = { backgroundColor: "#23282d" }
 
-const renderConditionallyLoggedInStatus = (loggedIn) => {
-    if (loggedIn) {
+const renderConditionallyLoggedInStatus = (isUserLoggedIn) => {
+    if (isUserLoggedIn) {
         return (
             <UserDropdownInfo />
         );
@@ -52,7 +52,7 @@ const Header = (props) => {
                     <div className="header-item-container">
                         <NotificationContainer />
                     </div>
-                    {renderConditionallyLoggedInStatus(props.loggedIn)}
+                    {renderConditionallyLoggedInStatus(props.isUserLoggedIn)}
                 </Nav>
             </Container>
         </Navbar>
@@ -60,7 +60,7 @@ const Header = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return { loggedIn: state.user.loggedIn }
+    return { isUserLoggedIn: state.user.isLoggedIn }
 }
 
 export default connect(mapStateToProps, null)(Header);
