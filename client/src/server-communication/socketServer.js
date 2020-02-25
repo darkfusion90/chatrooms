@@ -27,3 +27,8 @@ export const onUserIdRecieved = (callback) => {
 export const joinRoom = (roomId, callback) => {
     return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
+
+export const checkUsername = (username, callback) => {
+    console.log('will emit')
+    return socket.emit(events.USER_EVENT, events.CHECK_USERNAME, username, callback)
+}
