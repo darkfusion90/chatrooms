@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 import App from '../../components/App';
 import { onServerConnected, onServerDisconnected } from '../../server-communication/socketServer'
-import { fetchUserInfo } from '../../server-communication/httpServer'
 import connectToServer from '../../actions/connectToServer';
-import updateUserStatus from '../../actions/updateUserStatus';
+import updateUser from '../../actions/updateUser';
 import createNotification from '../../actions/createNotification';
 
 class AppContainer extends React.Component {
@@ -17,16 +16,7 @@ class AppContainer extends React.Component {
         this.props.connectToServer(this.onServerConnectionFailed);
         onServerDisconnected(this.onServerDisconnected);
         onServerConnected(this.onServerConnected);
-        fetchUserInfo(this.onFetchUserInfoFulfilled, this.onFetchUserInfoRejected)
-    }
-
-    onFetchUserInfoFulfilled = (response) => {
-        console.log("Response fetch fulfilled: ", response)
-        this.props.updateUserStatus(response.data)
-    }
-
-    onFetchUserInfoRejected = (reason) => {
-        console.log("Response fetch rejected: ", reason.response)
+        this.props.updateUser()
     }
 
     onServerConnectionFailed = () => {
@@ -51,5 +41,5 @@ class AppContainer extends React.Component {
 
 export default connect(
     null,
-    { connectToServer, createNotification, updateUserStatus }
+    { connectToServer, createNotification, updateUser }
 )(AppContainer);
