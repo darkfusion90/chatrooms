@@ -118,7 +118,13 @@ function getUser(userId, callback) {
 
 function getUserByUsername(username, isFromPassportAuth, callback) {
     //Include password in projection if and only if coming from Passport Auth
-    const projections = { ...PROJECTIONS, 'password': isFromPassportAuth ? 1 : 0 }
+    let projections;
+    if (isFromPassportAuth) {
+        projections = { ...PROJECTIONS, 'password': 1 }
+    }
+    else {
+        projections = PROJECTIONS
+    }
 
     User.findOne({ username: username }, projections, callback)
 }
