@@ -54,8 +54,8 @@ class RegisterContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isUserRegistered: state.user.isRegistered,
-        isUserLoggedIn: state.user.loggedIn
+        isUserRegistered: state.user.user.isRegistered,
+        isUserLoggedIn: state.user.isLoggedIn
     }
 }
 

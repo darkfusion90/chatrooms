@@ -51,7 +51,7 @@ class UserDropdownInfo extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { username: state.user.username }
+    return { username: state.user.user.username }
 }
 
 export default connect(mapStateToProps, { logoutUser })(UserDropdownInfo);
