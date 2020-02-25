@@ -3,11 +3,22 @@ from random import randint
 COLOR_RESET = '\033[0m'
 
 with open('names.txt') as file:
-    name_list = file.readlines()
+    username_list = file.readlines()
+
+with open('words.txt') as file:
+    room_name_list = file.readlines()
+
+
+def get_random(_list):
+    return _list[randint(0, len(_list)-1)].strip()
 
 
 def get_random_username():
-    return name_list[randint(0, len(name_list)-1)].strip()
+    return get_random(username_list)
+
+
+def get_random_room_name():
+    return get_random(room_name_list)
 
 
 def print_star_line(color=COLOR_RESET):
