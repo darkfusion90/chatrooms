@@ -3,26 +3,36 @@ import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
 
 import validate from './validate';
+import { checkUsernameExists, USERNAME_TAKEN_ERROR_MESSAGE } from './asyncValidate';
+import './style.scss';
+
 
 const renderField = (formProps) => {
-    const { touched, error, pristine } = formProps.meta
+    const { touched, error, pristine, asyncValidating } = formProps.meta
+    const hasErrors = isAsyncValidationError(error) || (touched && error)
+
     return (
         <>
             <Form.Label>{formProps.label}</Form.Label>
             <FormControl
+                className={asyncValidating ? 'loading' : ''}
                 {...formProps.input}
                 {...formProps}
-                isInvalid={touched && error}
-                isValid={!pristine && !(touched && error)}
+                isInvalid={hasErrors}
+                isValid={!asyncValidating && !pristine && !hasErrors}
             />
             <FormControl.Feedback type="invalid">{error}</FormControl.Feedback>
         </>
     );
 }
 
+const isAsyncValidationError = (error) => {
+    return error === USERNAME_TAKEN_ERROR_MESSAGE
+}
+
 const RegisterForm = (props) => {
-    const { pristine, submitting, invalid } = props;
-    const registerButtonDisabled = (pristine || submitting || invalid);
+    const { pristine, submitting, asyncValidating, invalid } = props;
+    const registerButtonDisabled = (pristine || submitting || asyncValidating || invalid);
 
     const registerButtonStyle = {
         cursor: registerButtonDisabled ? "not-allowed" : "pointer"
@@ -73,5 +83,7 @@ const RegisterForm = (props) => {
 
 export default reduxForm({
     form: 'registerForm',
-    validate: validate
+    validate: validate,
+    asyncValidate: checkUsernameExists,
+    asyncChangeFields: ['username']
 })(RegisterForm)
