@@ -8,7 +8,7 @@ const middleware = (req, res, next) => {
     if (isRegisterPath(req.path) || req.session.redirectedFromRegister) {
         next()
     } else if (!req.session.userId) {
-        createUnregisteredUser(req.session.expires, (err, user) => {
+        createUnregisteredUser(req.session.cookie.expires, (err, user) => {
             //In this case, unable to create user is the server's fault because the client doesn't send any payload
             //Hence, there is no way for the client to screw up
             //Failure will generally occur due to duplicate userId (automatically generated in the users controller)
