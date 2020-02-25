@@ -15,7 +15,7 @@ class LoginContainer extends React.Component {
         showErrorAlert: false,
     }
 
-    onLoginFailure = (response) => {
+    onLoginFailure = ({response}) => {
         this.setState({
             hasLoginError: true,
             errorReason: response.data.reason,
@@ -69,7 +69,7 @@ class LoginContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isUserLoggedIn: state.user.loggedIn,
+        isUserLoggedIn: state.user.isLoggedIn,
     }
 }
 
