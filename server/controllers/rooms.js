@@ -38,4 +38,8 @@ function updateRoomByRoomId(roomId, userId, updatedValues, callback) {
     Room.findOneAndUpdate({ roomId: roomId, owner: userId }, updatedValues, { returnOriginal: false }, callback)
 }
 
-module.exports = { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId }
+function addNewMessage(roomId, userId, messageId, callback) {
+    updateRoomByRoomId(roomId, userId, { $push: { 'messages': messageId } }, callback)
+}
+
+module.exports = { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId, addNewMessage }
