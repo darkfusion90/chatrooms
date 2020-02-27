@@ -26,14 +26,12 @@ class RoomListContainer extends React.Component {
     }
 
     onUserFetchSuccess = (response) => {
-        console.log('User fetch success', response)
         const user = response.data
-        const usersMap = { [user.userId]: user }
-        console.log("user map: ", usersMap)
+        this.setState({ users: { ...this.state.users, [user.userId]: user } })
     }
 
     render() {
-        return <RoomList rooms={this.state.rooms} />;
+        return <RoomList rooms={this.state.rooms} users={this.state.users} />;
     }
 }
 
