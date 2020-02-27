@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 
 import Room from '../../components/Room';
 import Forbidden from '../../components/errors/Forbidden'
 import PageNotFound from '../../components/errors/PageNotFound'
 import { getRoom } from '../../server-communication/httpServer'
+import sendMessage from '../../actions/sendMessage'
 
 class RoomContainer extends React.Component {
     state = {
@@ -29,7 +31,7 @@ class RoomContainer extends React.Component {
     renderError() {
         const { status } = this.state.error;
         if (status === 403) {
-            return <Forbidden msg='User not allowed'/>
+            return <Forbidden msg='User not allowed' />
         }
         else if (status === 404) {
             return <PageNotFound />
@@ -38,13 +40,34 @@ class RoomContainer extends React.Component {
         return <div>Unexpected Error</div>
     }
 
+    onSendMessageButtonClick = (formValues) => {
+        console.log('formValues: ', formValues)
+        const { message } = formValues
+        if (message.trim().length === 0) {
+            console.log('empty. not sending')
+        }
+        else {
+            const { room } = this.state
+            this.props.sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
+        }
+    }
+
+    onSendMessageSuccess = (response) => {
+        const { room } = this.state
+        getRoom(room.roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
+    }
+
+    onSendMessageFailure = () => {
+        console.log('Send message failure room container')
+    }
+
     render() {
         const { room, error } = this.state;
         if (room) {
-            return <Room room={room} />;
+            return <Room room={room} onSendMessageButtonClick={this.onSendMessageButtonClick} />;
         }
 
-        if(error){
+        if (error) {
             return this.renderError()
         }
 
@@ -57,4 +80,4 @@ class RoomContainer extends React.Component {
     }
 }
 
-export default RoomContainer;
+export default connect(null, { sendMessage })(RoomContainer);
