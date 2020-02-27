@@ -24,7 +24,8 @@ const RoomSchema = Schema({
         type: String,
         required: true,
         index: true
-    }
+    },
+    messages: [String]
 })
 
 
