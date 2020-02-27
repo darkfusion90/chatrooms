@@ -48,6 +48,6 @@ def bulk_test():
 
         session = requests.session()
         user_requests.session = session
-        user_requests.session = session
+        room_requests.session = session
 
 bulk_test()
