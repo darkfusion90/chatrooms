@@ -16,19 +16,14 @@ export const onServerDisconnected = (callback) => {
     socket.on('disconnect', callback)
 }
 
-export const onRoomJoinPermissionRecieved = (callback) => {
-    socket.on(events.ROOM_EVENT, events.ROOM_JOIN_PERMISSION_RECIEVE, callback);
-}
-
-export const onUserIdRecieved = (callback) => {
-    socket.on(events.USER_ID_RECIEVE, callback);
-}
-
 export const joinRoom = (roomId, callback) => {
     return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
 
 export const checkUsername = (username, callback) => {
-    console.log('will emit')
     return socket.emit(events.USER_EVENT, events.CHECK_USERNAME, username, callback)
+}
+
+export const sendMessage = (roomId, message, callback) => {
+    return socket.emit(events.MESSAGE_EVENT, events.SEND_MESSAGE, roomId, message, callback)
 }
