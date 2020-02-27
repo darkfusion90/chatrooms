@@ -5,10 +5,10 @@ export default {
     CREATE_ROOM: "create_room",
     JOIN_ROOM: "join_room",
 
-    NEW_MESSAGE_RECIEVED: "new_message_recieved",
-    SEND_MESSAGE: "send_message",
-    USER_ID_RECIEVE: "user_id_recieve",
+    MESSAGE_EVENT: 'event:message',
+    SEND_MESSAGE: 'send_message',
+    RECEIVE_MESSAGE: 'receive-message',
 
-    USER_EVENT: "event:user",
-    CHECK_USERNAME: "CHECK_USERNAME"
+    USER_EVENT: 'event:user',
+    CHECK_USERNAME: 'check_username'
 }
