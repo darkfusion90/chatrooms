@@ -41,6 +41,8 @@ app.post('/api/user', routes.user.post)
 app.patch('/api/user/:id', ensureAuthenticated, routes.user.patch)
 app.delete('/api/user/:id', ensureAuthenticated, routes.user._delete)
 
+app.get('/api/message/:id', routes.message.get)
+
 app.get('/api/user/status/login', routes.user.loginStatus)
 
 app.use(errorHandler)
