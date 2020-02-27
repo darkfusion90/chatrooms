@@ -1,6 +1,6 @@
 import { JOIN_ROOM } from '../constants/actionConstants';
 
-import { joinRoom, onRoomJoinPermissionRecieved } from '../server-communication/socketServer';
+import { joinRoom } from '../server-communication/socketServer';
 
 const tryJoiningRoom =
     (roomId, onSuccess, onPermissionPending, onPermissionRequestCompleted, onFailure) =>
@@ -12,7 +12,7 @@ const tryJoiningRoom =
                 }
                 else if (data.status === "permission_pending") {
                     onPermissionPending();
-                    onRoomJoinPermissionRecieved(onPermissionRequestCompleted);
+                    //onRoomJoinPermissionRecieved(onPermissionRequestCompleted);
                 }
                 else {
                     onFailure(data.reason);
