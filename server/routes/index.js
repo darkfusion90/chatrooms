@@ -5,7 +5,6 @@ const logout = require('./logout')
 const register = require('./register')
 const rooms = require('./rooms')
 const user = require('./user')
-const message = require('./message')
 
 const index = (_, res) => {
     if (process.env.NODE_ENV === 'production') {
@@ -15,4 +14,4 @@ const index = (_, res) => {
     }
 }
 
-module.exports = { index, login, logout, register, rooms, user, message }
+module.exports = { index, login, logout, register, rooms, user }
