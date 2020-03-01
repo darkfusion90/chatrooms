@@ -1,11 +1,8 @@
 const Message = require('../models/Message')
-const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[MessagesController] ')
 
 exports.createMessage = (author, roomId, messageTxt, callback) => {
-    const messageId = uniqueIdGenerator.generateIdUsingCrypto()
     const message = new Message({
-        id: messageId,
         author: author,
         atRoom: roomId,
         data: messageTxt
@@ -24,5 +21,19 @@ exports.createMessage = (author, roomId, messageTxt, callback) => {
 }
 
 exports.getMessage = (messageId, callback) => {
-    Message.findOne({ id: messageId }, callback)
+    if (callback) {
+        Message.findById(messageId, callback)
+    }
+    else {
+        return new Promise((resolve, reject) => {
+            Message.findById(messageId, (err, message) => {
+                if (err) {
+                    reject(err)
+                }
+                else {
+                    resolve(message)
+                }
+            })
+        })
+    }
 }

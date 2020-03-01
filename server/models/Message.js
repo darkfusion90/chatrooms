@@ -1,12 +1,6 @@
 const mongoose = require('mongoose')
 
 const MessageSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        index: true
-    },
     author: {
         type: String,
         required: true,
