@@ -20,10 +20,14 @@ export const joinRoom = (roomId, callback) => {
     return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
 
+export const connectToRoom = (roomId, callback) => {
+    return socket.emit(events.ROOM_EVENT, events.CONNECT_TO_ROOM, roomId, callback)
+}
+
 export const checkUsername = (username, callback) => {
     return socket.emit(events.USER_EVENT, events.CHECK_USERNAME, username, callback)
 }
 
-export const sendMessage = (roomId, message, callback) => {
-    return socket.emit(events.MESSAGE_EVENT, events.SEND_MESSAGE, roomId, message, callback)
+export const sendMessage = (roomId, messageId) => {
+    return socket.emit(events.MESSAGE_EVENT, events.NEW_MESSAGE, roomId, messageId)
 }
