@@ -1,11 +1,13 @@
 const events = require('../../constants/socket_event_constants')
 const roomsController = require('../../controllers/rooms')
 
-function handleCreateRoom(client, args) {
-    const [roomName, roomType, clientCallback] = args
-    const roomOwner = client.request.session.userId
-    console.log(roomName, roomType, roomOwner, clientCallback)
-    roomsController.createRoom(roomName, roomType, roomOwner, clientCallback)
+function handleConnectToRoom(io, client, args) {
+    const [roomId, clientCallback] = args
+    console.log('client callback: ', args)
+    client.join(roomId, clientCallback)
+    client.broadcast.to(roomId).emit(events.NEW_USER_IN_ROOM, {
+        userId: client.request.session.userId
+    })
 }
 
 function eventHandler(io, client, subEvent, ...args) {
@@ -13,13 +15,8 @@ function eventHandler(io, client, subEvent, ...args) {
     console.log("SubEvent: " + subEvent)
     console.log("Other args: ", args)
     switch (subEvent) {
-        case events.CREATE_ROOM:
-            handleCreateRoom(client, args)
-            break;
-        case events.JOIN_ROOM:
-            const [roomId, clientCallback] = args
-            console.log(roomId, clientCallback)
-        //TODO: Join Room
+        case events.CONNECT_TO_ROOM:
+            handleConnectToRoom(io, client, args)
         default:
             console.log(args)
     }
