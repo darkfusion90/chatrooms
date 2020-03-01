@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { ListGroup } from 'react-bootstrap';
 
 import Message from '../../components/Message'
-import { getMessage } from '../../server-communication/httpServer'
+import { getRoomMessage } from '../../server-communication/httpServer'
 
 class MessageContainer extends React.Component {
     state = { message: null }
 
     componentDidMount() {
-        getMessage(this.props.messageId, this.onMessageFetchSuccess, this.onMessageFetchFailure)
+        const { roomId, messageId } = this.props
+        getRoomMessage(roomId, messageId, this.onMessageFetchSuccess, this.onMessageFetchFailure)
     }
 
     onMessageFetchSuccess = (response) => {
