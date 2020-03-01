@@ -15,7 +15,7 @@ const renderMessageList = (room) => {
         <ListGroup className='chat-container pre-scrollable'>
             {
                 room.messages.map(messageId => {
-                    return <MessageContainer messageId={messageId} key={messageId} />
+                    return <MessageContainer roomId={room.roomId} messageId={messageId} key={messageId} />
                 })
             }
         </ListGroup>
