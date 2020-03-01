@@ -1,20 +1,22 @@
 const httpStatusCodes = require('../constants/httpStatusCodes')
 const { genericHandlerCallback } = require('./routeUtils')
 const createRoomFormValidator = require('../utils/createRoomFormValidator')
-const { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId } = require('../controllers/rooms')
+const roomMessages = require('./roomMessages')
+const {
+    createRoom,
+    deleteRoom,
+    getAllPublicRooms,
+    getRoomByRoomId,
+    updateRoomByRoomId
+} = require('../controllers/rooms')
 
 const get = (req, res) => {
     if (req.params.id) {
-        getRoomByRoomId(req.params.id, (err, rawRoom) => {
-            let room = genericHandlerCallback(err, rawRoom, res, true)
-            let statusCode = httpStatusCodes.OK;
-            if (room) {
-                if (!room.userHasPermission(req.session.userId)) {
-                    statusCode = httpStatusCodes.FORBIDDEN
-                    room = {}
-                }
-                res.status(statusCode).json(room)
+        getRoomByRoomId(req.params.id, (err, room) => {
+            if (room && !room.userHasPermission(req.session.userId)) {
+                return res.status(httpStatusCodes.FORBIDDEN).json()
             }
+            genericHandlerCallback(err, room, res)
         })
     }
     else {
@@ -59,4 +61,4 @@ const _delete = (req, res) => {
     deleteRoom(req.params.id, req.session.userId, (err, room) => genericHandlerCallback(err, room, res))
 }
 
-module.exports = { get, post, patch, _delete }
+module.exports = { get, post, patch, _delete, roomMessages }

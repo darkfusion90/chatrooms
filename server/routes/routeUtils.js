@@ -17,13 +17,8 @@ const determineResponseMeta = (err, resource) => {
     return responseMeta
 }
 
-genericHandlerCallback = (err, resource, response, returnResourceOnSuccess = false) => {
+genericHandlerCallback = (err, resource, response) => {
     const { statusCode, data } = determineResponseMeta(err, resource)
-
-    if (statusCode === httpStatusCodes.OK && returnResourceOnSuccess) {
-        return resource
-    }
-
     response.status(statusCode).json(data)
 }
 
