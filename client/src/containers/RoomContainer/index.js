@@ -1,12 +1,12 @@
 import React from 'react';
-import { connect } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 
 import Room from '../../components/Room';
 import Forbidden from '../../components/errors/Forbidden'
 import PageNotFound from '../../components/errors/PageNotFound'
 import { getRoom } from '../../server-communication/httpServer'
-import sendMessage from '../../actions/sendMessage'
+import { connectToRoom } from '../../server-communication/socketServer'
+import sendMessage from '../../helpers/sendMessage'
 
 class RoomContainer extends React.Component {
     state = {
@@ -19,12 +19,20 @@ class RoomContainer extends React.Component {
         getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
     }
 
+    componentDidUpdate() {
+        const { room } = this.state
+        if (room) {
+            connectToRoom(room.roomId, function (err) {
+                console.log('room connect callback: ', err)
+            })
+        }
+    }
+
     onRoomFetchSuccess = (response) => {
         this.setState({ room: response.data, error: null })
     }
 
     onRoomFetchFail = ({ response }) => {
-        console.log('Room fetch failed: ', response)
         this.setState({ error: response })
     }
 
@@ -41,24 +49,28 @@ class RoomContainer extends React.Component {
     }
 
     onSendMessageButtonClick = (formValues) => {
-        console.log('formValues: ', formValues)
         const { message } = formValues
+        if (!message) {
+            return null
+        }
+
         if (message.trim().length === 0) {
             console.log('empty. not sending')
         }
         else {
             const { room } = this.state
-            this.props.sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
+            sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
         }
     }
 
     onSendMessageSuccess = (response) => {
-        const { room } = this.state
-        getRoom(room.roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
+        console.log('send message success: ', response)
+        this.setState({ room: response.data })
     }
 
-    onSendMessageFailure = () => {
-        console.log('Send message failure room container')
+    onSendMessageFailure = ({ response }) => {
+        console.log('send message failure: ', response)
+        this.setState({ error: response })
     }
 
     render() {
@@ -80,4 +92,4 @@ class RoomContainer extends React.Component {
     }
 }
 
-export default connect(null, { sendMessage })(RoomContainer);
+export default RoomContainer
