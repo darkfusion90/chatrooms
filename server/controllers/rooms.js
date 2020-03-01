@@ -1,4 +1,5 @@
 const Room = require('../models/Room')
+const messagesController = require('./messages')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[RoomsController] ')
 
@@ -38,8 +39,48 @@ function updateRoomByRoomId(roomId, userId, updatedValues, callback) {
     Room.findOneAndUpdate({ roomId: roomId, owner: userId }, updatedValues, { returnOriginal: false }, callback)
 }
 
-function addNewMessage(roomId, userId, messageId, callback) {
-    updateRoomByRoomId(roomId, userId, { $push: { 'messages': messageId } }, callback)
+function addMessageToRoom(roomId, userId, message, callback) {
+    messagesController.createMessage(userId, roomId, message, (err, messageDoc) => {
+        if (messageDoc) {
+            updateRoomByRoomId(roomId, userId, { $push: { 'messages': messageDoc._id } }, callback)
+        }
+        else {
+            callback(err, messageDoc)
+        }
+    })
 }
 
-module.exports = { createRoom, deleteRoom, getAllPublicRooms, getRoomByRoomId, updateRoomByRoomId, addNewMessage }
+function getRoomMessage(roomId, messageId, callback) {
+    Room.findOne({ roomId: roomId, messages: messageId }, (err, room) => {
+        if (!err && room) {
+            return messagesController.getMessage(messageId, callback)
+        }
+        callback(err, room)
+    })
+}
+
+function getAllMessagesInRoom(roomId, callback) {
+    Room.findOne({ roomId: roomId }, async (err, room) => {
+        if (room) {
+            const messages = await Promise.all(room.messages.map(messageId => {
+                return messagesController.getMessage(messageId)
+            }))
+            callback(null, messages)
+        }
+        else {
+            callback(err, null)
+        }
+    })
+}
+
+
+module.exports = {
+    createRoom,
+    deleteRoom,
+    updateRoomByRoomId,
+    getRoomByRoomId,
+    getAllPublicRooms,
+    getRoomMessage,
+    getAllMessagesInRoom,
+    addMessageToRoom,
+}
