@@ -36,12 +36,13 @@ app.post('/api/rooms', routes.rooms.post)
 app.patch('/api/rooms/:id', routes.rooms.patch)
 app.delete('/api/rooms/:id', routes.rooms._delete)
 
+app.get(['/api/rooms/:roomId/messages/:messageId', '/api/rooms/:roomId/messages/'], routes.rooms.roomMessages.get)
+app.post('/api/rooms/:roomId/messages', routes.rooms.roomMessages.post)
+
 app.get(['/api/user', '/api/user/:id'], routes.user.get)
 app.post('/api/user', routes.user.post)
 app.patch('/api/user/:id', ensureAuthenticated, routes.user.patch)
 app.delete('/api/user/:id', ensureAuthenticated, routes.user._delete)
-
-app.get('/api/message/:id', routes.message.get)
 
 app.get('/api/user/status/login', routes.user.loginStatus)
 
