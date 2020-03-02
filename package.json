@@ -26,7 +26,8 @@
     "random-words": "^1.1.0",
     "rimraf": "^3.0.0",
     "socket.io": "^2.3.0",
-    "validator": "^12.2.0"
+    "validator": "^12.2.0",
+    "react-scripts": "^3.3.0"
   },
   "devDependencies": {},
   "repository": {
