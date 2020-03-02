@@ -16,6 +16,19 @@ export const onServerDisconnected = (callback) => {
     socket.on('disconnect', callback)
 }
 
+export const registerNewMessageListener = (roomId, callback) => {
+    socket.on(events.MESSAGE_EVENT, (...args) => {
+        console.log("Message Event: ", args)
+        const subEvent = args[0]
+        if (subEvent === events.NEW_MESSAGE) {
+            const data = args[1]
+            if (data.roomId === roomId) {
+                callback(data)
+            }
+        }
+    })
+}
+
 export const joinRoom = (roomId, callback) => {
     return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
