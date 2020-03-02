@@ -5,7 +5,7 @@ import Room from '../../components/Room';
 import Forbidden from '../../components/errors/Forbidden'
 import PageNotFound from '../../components/errors/PageNotFound'
 import { getRoom } from '../../server-communication/httpServer'
-import { connectToRoom } from '../../server-communication/socketServer'
+import { connectToRoom, registerNewMessageListener } from '../../server-communication/socketServer'
 import sendMessage from '../../helpers/sendMessage'
 
 class RoomContainer extends React.Component {
@@ -16,6 +16,10 @@ class RoomContainer extends React.Component {
 
     componentDidMount() {
         const roomId = this.props.match.params.id;
+        registerNewMessageListener(roomId, (data) => {
+            console.log("new message: ", data)
+            getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
+        })
         getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
     }
 
@@ -64,12 +68,10 @@ class RoomContainer extends React.Component {
     }
 
     onSendMessageSuccess = (response) => {
-        console.log('send message success: ', response)
         this.setState({ room: response.data })
     }
 
     onSendMessageFailure = ({ response }) => {
-        console.log('send message failure: ', response)
         this.setState({ error: response })
     }
 
