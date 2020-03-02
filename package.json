@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/app.js",
-    "build": "cd client; npm run build",
     "dev": "nodemon --delay 3s --watch server server/app.js"
   },
   "dependencies": {
@@ -26,8 +25,7 @@
     "random-words": "^1.1.0",
     "rimraf": "^3.0.0",
     "socket.io": "^2.3.0",
-    "validator": "^12.2.0",
-    "react-scripts": "^3.3.0"
+    "validator": "^12.2.0"
   },
   "devDependencies": {},
   "repository": {
