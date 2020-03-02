@@ -8,3 +8,6 @@ mongoose.connect(config.MONGO_URI, config.MONGO_CLIENT_OPTS);
 mongoose.connection.on('open', function cb() {
     console.log("connected to db")
 })
+mongoose.connection.on('error', function cb(err) {
+    console.log("Error connecting to db: ", err)
+})
