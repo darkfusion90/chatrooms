@@ -3,20 +3,18 @@ const roomsController = require('../../controllers/rooms')
 
 function handleConnectToRoom(io, client, args) {
     const [roomId, clientCallback] = args
-    console.log('client callback: ', args)
+    console.log('connect to room id ', roomId)
     client.join(roomId, clientCallback)
-    client.broadcast.to(roomId).emit(events.NEW_USER_IN_ROOM, {
-        userId: client.request.session.userId
+    client.broadcast.to(roomId).emit(events.ROOM_EVENT, events.NEW_USER_IN_ROOM, {
+        userId: client.request.session.userId,
+        roomId: roomId
     })
 }
 
 function eventHandler(io, client, subEvent, ...args) {
-    console.log("Room Event fired by: " + client.id)
-    console.log("SubEvent: " + subEvent)
-    console.log("Other args: ", args)
     switch (subEvent) {
         case events.CONNECT_TO_ROOM:
-            handleConnectToRoom(io, client, args)
+            return handleConnectToRoom(io, client, args)
         default:
             console.log(args)
     }
