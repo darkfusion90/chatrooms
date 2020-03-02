@@ -13,7 +13,6 @@ class MessageContainer extends React.Component {
     }
 
     onMessageFetchSuccess = (response) => {
-        console.log('Message fetch success: ', response)
         this.setState({ message: response.data })
     }
 
@@ -23,6 +22,8 @@ class MessageContainer extends React.Component {
 
     isCurrentUserMessageAuthor = () => {
         const { message } = this.state
+        console.log('message author: ', message ? message.author : '')
+        console.log('userid: ', this.props.userId)
         return message && message.author === this.props.userId
     }
 
@@ -34,6 +35,8 @@ class MessageContainer extends React.Component {
 
         const messageAlignment = this.isCurrentUserMessageAuthor() ? 'right' : 'left'
         const messageVariant = this.isCurrentUserMessageAuthor() ? 'primary' : 'secondary'
+
+        console.log('Message: ', message, '\nIs owner: ', this.isCurrentUserMessageAuthor())
 
         return (
             <Message
