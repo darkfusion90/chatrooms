@@ -9,7 +9,8 @@ const RoomSchema = Schema({
         type: String,
         required: true,
         index: true,
-        unique: true
+        unique: true,
+        immutable: true
     },
     name: {
         type: String,
@@ -21,12 +22,14 @@ const RoomSchema = Schema({
         enum: ['private', 'public', 'unlisted'],
         required: true
     },
-    createdBy: User,
-    messages: [String],
-    members: [{
-        type: Schema.Types.ObjectId,
-        ref: 'RoomMember'
-    }]
+    createdBy: {
+        type: User,
+        immutable: true,
+        required: true,
+    },
+    createdAt: { type: Date, default: Date.now },
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
+    members: [{ type: Schema.Types.ObjectId, ref: 'RoomMember' }]
 })
 
 const Room = mongoose.model("Room", RoomSchema);
