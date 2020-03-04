@@ -1,4 +1,4 @@
-const User = require('../models/User')
+const { User } = require('../models/User')
 const { getUpdatableFieldsFromData } = require('./util')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[UsersController] ')
@@ -33,20 +33,6 @@ function filterUsingProjections(user) {
  */
 function generateUserId() {
     return uniqueIdGenerator.generateIdUsingCrypto();
-}
-
-/**
- * Creates a user conditionally based on whether they are registered or not
- *
- * @returns A "User" document with different credentials according to the registration state
- */
-function _createUser(username, password, isRegistered, expiresAt) {
-    const userId = generateUserId();
-    if (!isRegistered) {
-        username = userId;
-        return new User({ userId, username, isRegistered, expiresAt });
-    }
-    return new User({ userId, username, password, isRegistered });
 }
 
 /**
