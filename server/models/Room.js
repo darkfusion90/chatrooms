@@ -29,14 +29,6 @@ const RoomSchema = Schema({
     }]
 })
 
-RoomSchema.methods.userHasPermission = function (userId) {
-    if (this.type === 'private') {
-        return this.owner === userId
-    }
-
-    return true
-}
-
 const Room = mongoose.model("Room", RoomSchema);
 
 module.exports = Room;

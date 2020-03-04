@@ -12,12 +12,7 @@ const {
 
 const get = (req, res) => {
     if (req.params.id) {
-        getRoomByRoomId(req.params.id, (err, room) => {
-            if (room && !room.userHasPermission(req.session.userId)) {
-                return res.status(httpStatusCodes.FORBIDDEN).json()
-            }
-            genericHandlerCallback(err, room, res)
-        })
+        getRoomByRoomId(req.params.id, (err, room) => genericHandlerCallback(err, room, res))
     }
     else {
         getAllPublicRooms((err, room) => genericHandlerCallback(err, room, res))
