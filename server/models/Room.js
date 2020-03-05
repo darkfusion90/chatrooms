@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const User = require('./User')
-const UnauthorizedError = require('../errors/Unauthorized')
+const { UserSchema } = require('./User')
 
 const Schema = mongoose.Schema;
 
@@ -23,7 +22,7 @@ const RoomSchema = Schema({
         required: true
     },
     createdBy: {
-        type: User,
+        type: UserSchema,
         immutable: true,
         required: true,
     },
