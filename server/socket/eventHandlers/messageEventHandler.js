@@ -6,16 +6,18 @@ const logger = require('../../utils/logger')('[Socket: MessageEventHandler] ')
 
 
 const handleSendMessage = (io, client, ...args) => {
-    const [roomId, messageId] = args
-    client.broadcast.to(roomId).emit(events.NEW_MESSAGE, {
-        author: client.request.session.userId,
-        messageId: messageId
+    console.log("new message args: ", args)
+    const [roomId] = args
+    console.log("new message to: ", roomId)
+    client.broadcast.to(roomId).emit(events.MESSAGE_EVENT, events.NEW_MESSAGE, {
+        roomId: roomId,
+        author: client.request.session.userId
     })
 }
 
 const eventHandler = (io, client, subEvent, ...args) => {
     switch (subEvent) {
-        case events.SEND_MESSAGE:
+        case events.NEW_MESSAGE:
             handleSendMessage(io, client, ...args)
     }
 }
