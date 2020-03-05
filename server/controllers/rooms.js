@@ -1,5 +1,6 @@
 const Room = require('../models/Room')
 const messagesController = require('./messages')
+const roomMemberController = require('./roomMemberController')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[RoomsController] ')
 
@@ -7,24 +8,34 @@ function generateRoomId() {
     return uniqueIdGenerator.generateIdUsingRandomWords()
 }
 
-function createRoom(name, type, owner, callback) {
+async function createRoom(name, type, creator, callback) {
     const roomId = generateRoomId()
-    const room = new Room({ roomId, name, type, owner })
-    room.save((err) => {
-        if (err) {
-            logger.debug("Error creating room: ", room)
-            logger.debug(err)
-            callback(err, null)
-        }
-        else {
-            logger.debug("Successfully created room: ", room)
-            callback(null, room)
-        }
+    const room = new Room({
+        roomId: roomId,
+        name: name,
+        type: type,
+        createdBy: creator,
+        createdAt: Date.now(),
+    })
+    room.save().then(async room => {
+        logger.debug("Successfully created room: ", room)
+        const roomMemberCreator = await roomMemberController.createRoomMember(creator, roomMemberController.MEMBER_TYPE_ADMIN)
+        room.updateOne({ $push: { 'members': roomMemberCreator } }).
+            then(room => {
+                callback(null, room)
+            })
+            .catch(err => {
+                callback(err, null)
+            })
+    }).catch(err => {
+        logger.debug("Error creating room: ", room)
+        logger.debug(err)
+        callback(err, null)
     })
 }
 
-function deleteRoom(roomId, userId, callback) {
-    Room.findOneAndDelete({ roomId: roomId, owner: userId }, callback)
+function deleteRoom(roomId, callback) {
+    Room.findOneAndDelete({ roomId: roomId }, callback)
 }
 
 function getAllPublicRooms(callback) {
@@ -35,18 +46,17 @@ function getRoomByRoomId(roomId, callback) {
     Room.findOne({ roomId: roomId }, callback)
 }
 
-function updateRoomByRoomId(roomId, userId, updatedValues, callback) {
-    Room.findOneAndUpdate({ roomId: roomId, owner: userId }, updatedValues, { returnOriginal: false }, callback)
+function updateRoomByRoomId(roomId, updatedValues, callback) {
+    Room.findOneAndUpdate({ roomId: roomId }, updatedValues, { returnOriginal: false }, callback)
 }
 
-function addMessageToRoom(roomId, userId, message, callback) {
-    messagesController.createMessage(userId, roomId, message, (err, messageDoc) => {
-        if (messageDoc) {
-            updateRoomByRoomId(roomId, userId, { $push: { 'messages': messageDoc._id } }, callback)
-        }
-        else {
-            callback(err, messageDoc)
-        }
+function addMessageToRoom(roomId, author, message, callback) {
+    Room.findOne({ roomId }, (err, room) => {
+        if (!room || err) callback(err, room)
+        messagesController.createMessage(author, roomId, message, (err, messageDoc) => {
+            if (!messageDoc || err) callback(err, messageDoc)
+            room.update({ $push: { 'messages': messageDoc } })
+        })
     })
 }
 
