@@ -99,7 +99,16 @@ function registerUser(userId, username, password, callback) {
 }
 
 function getUser(userId, callback) {
-    User.findOne({ userId: userId }, PROJECTIONS, callback)
+    if(callback){
+        User.findOne({ userId: userId }, PROJECTIONS, callback)
+    }else{
+        return new Promise((resolve, reject)=>{
+            User.findOne({userId: userId}, (err, user)=>{
+                if(err) reject(err)
+                else resolve(user)
+            })
+        })
+    }
 }
 
 function getUserByUsername(username, isFromPassportAuth, callback) {
