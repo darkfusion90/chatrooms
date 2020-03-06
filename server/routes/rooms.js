@@ -9,6 +9,7 @@ const {
     getRoomByRoomId,
     updateRoomByRoomId
 } = require('../controllers/rooms')
+const logger = require('../utils/logger')('[RoomsRoute] ')
 
 const get = (req, res) => {
     if (req.params.id) {
@@ -19,10 +20,11 @@ const get = (req, res) => {
     }
 }
 
-
 const post = async (req, res) => {
+    logger.debug('POST. req.body: ', req.body)
     const { errors, hasErrors } = createRoomFormValidator.validate(req.body)
     if (hasErrors) {
+        logger.debug('Bad Request: ', req.body)
         res.status(httpStatusCodes.BAD_REQUEST).json(errors)
         return
     }
@@ -53,7 +55,7 @@ const patch = (req, res) => {
 }
 
 const _delete = (req, res) => {
-    deleteRoom(req.params.id, (err, room) => genericHandlerCallback(err, room, res))
+    deleteRoom(req.params.id, (err, _) => genericHandlerCallback(err, { 'nDeleted': 1 }, res))
 }
 
 module.exports = { get, post, patch, _delete, roomMessages }
