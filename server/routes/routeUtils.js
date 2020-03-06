@@ -5,6 +5,7 @@ const determineResponseMeta = (err, resource) => {
     let responseMeta = {}
 
     if (err) {
+        console.log("Error in handler: ", err)
         responseMeta = determineResponseMetaFromError(err)
     } else if (!resource) {
         responseMeta.statusCode = httpStatusCodes.RESOURCE_NOT_FOUND
