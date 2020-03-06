@@ -3,6 +3,7 @@ const UnauthorizedError = require('../errors/Unauthorized')
 const MongooseDuplicateKeyError = require('../errors/MongooseDuplicateKeyError')
 
 const determineResponseMetaFromError = (err) => {
+    console.log('Error: ', err)
     const responseMeta = {}
 
     if (err instanceof MongooseDuplicateKeyError) {
@@ -14,7 +15,6 @@ const determineResponseMetaFromError = (err) => {
         responseMeta.data = {}
     }
     else {
-        console.log('Generic Error: ', err)
         responseMeta.statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR
         responseMeta.data = {}
     }
