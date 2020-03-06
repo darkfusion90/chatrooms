@@ -5,11 +5,9 @@ const logger = require('../utils/logger')('[UsersController] ')
 
 //Excludes _id while including the others when returning the user document
 const PROJECTIONS = {
-    '_id': 0,
-    'userId': 1,
+    '_id': 1,
     'username': 1,
     'isRegistered': 1,
-    'roomsOwned': 1
 }
 
 function filterUsingProjections(user) {
@@ -98,13 +96,13 @@ function registerUser(userId, username, password, callback) {
     User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
 }
 
-function getUser(userId, callback) {
-    if(callback){
-        User.findOne({ userId: userId }, PROJECTIONS, callback)
-    }else{
-        return new Promise((resolve, reject)=>{
-            User.findOne({userId: userId}, (err, user)=>{
-                if(err) reject(err)
+function getUser(id, callback) {
+    if (callback) {
+        User.findById(id, PROJECTIONS, callback)
+    } else {
+        return new Promise((resolve, reject) => {
+            User.findById(id, PROJECTIONS, (err, user) => {
+                if (err) reject(err)
                 else resolve(user)
             })
         })
