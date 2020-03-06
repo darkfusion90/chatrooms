@@ -8,12 +8,6 @@ const MongooseDuplicateKeyError = require('../errors/MongooseDuplicateKeyError')
         following which the user is removed from the database)
 */
 const UserSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        index: true,
-        unique: true,
-        required: true
-    },
     username: {
         type: String,
         index: true,
@@ -27,10 +21,6 @@ const UserSchema = new mongoose.Schema({
     expiresAt: {
         type: Date,
         default: undefined //This field is set to undefined by default. Adding here only for clarity
-    },
-    roomsOwned: {
-        type: [String],
-        default: []
     },
     isRegistered: {
         type: Boolean,
