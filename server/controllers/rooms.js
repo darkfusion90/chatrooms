@@ -1,11 +1,23 @@
 const Room = require('../models/Room')
 const messagesController = require('./messages')
-const roomMemberController = require('./roomMemberController')
+const { createRoomMember, MEMBER_TYPE_ADMIN } = require('./roomMemberController')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
-const logger = require('../utils/logger')('[RoomsController] ')
 
 function generateRoomId() {
     return uniqueIdGenerator.generateIdUsingRandomWords()
+}
+
+function populateApplicableFields(query) {
+    return query.populate('createdBy').populate('messages').populate({
+        path: 'members',
+        model: 'RoomMember',
+        select: 'user memberType -_id',
+        populate: {
+            path: 'user',
+            model: 'User',
+            select: 'username isRegistered -_id',
+        }
+    })
 }
 
 function addMemberToRoom(room, roomMember, callback) {
@@ -22,8 +34,9 @@ function createRoom(name, type, creatorUserId, callback) {
         createdBy: creatorUserId,
         createdAt: Date.now(),
     })
+
     room.save().then(_ => {
-        roomMemberController.createRoomMember(room._id, creatorUserId, 'admin', (err, roomMember) => {
+        createRoomMember(room._id, creatorUserId, MEMBER_TYPE_ADMIN, (err, roomMember) => {
             if (err || !roomMember) {
                 return callback(err, roomMember)
             }
@@ -37,11 +50,11 @@ function deleteRoom(roomId, callback) {
 }
 
 function getAllPublicRooms(callback) {
-    Room.find({ type: 'public' }, callback)
+    populateApplicableFields(Room.find({ type: 'public' })).exec(callback)
 }
 
 function getRoomByRoomId(roomId, callback) {
-    Room.findOne({ roomId: roomId }, callback)
+    populateApplicableFields(Room.findOne({ roomId: roomId })).exec(callback)
 }
 
 function updateRoomByRoomId(roomId, updatedValues, callback) {
