@@ -1,14 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const { UserSchema } = require('./User')
-
-
 const RoomMemberSchema = new Schema({
+    room: {
+        type: Schema.Types.ObjectId,
+        ref: 'Room'
+    },
     user: {
-        type: UserSchema,
-        required: true,
-        unique: false
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     memberType: {
         type: String,
