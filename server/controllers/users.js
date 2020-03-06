@@ -97,26 +97,28 @@ function registerUser(userId, username, password, callback) {
 }
 
 function getUser(id, callback) {
-    if (callback) {
-        User.findById(id, PROJECTIONS, callback)
-    } else {
-        return new Promise((resolve, reject) => {
-            User.findById(id, PROJECTIONS, (err, user) => {
-                if (err) reject(err)
-                else resolve(user)
-            })
+    const promise = new Promise((resolve, reject) => {
+        User.findById(id, PROJECTIONS).then(user => {
+            logger.debug('User found. Promise resolve: ', user)
+            resolve(user)
+        }).catch(err => {
+            logger.debug('Error encountered. Promise reject: ', err)
+            reject(err)
         })
+    })
+
+    if (callback && typeof (callback) === 'function') {
+        promise.then(user => callback(null, user)).catch(err => callback(err, null))
     }
+
+    return promise
 }
 
 function getUserByUsername(username, isFromPassportAuth, callback) {
     //Include password in projection if and only if coming from Passport Auth
-    let projections;
+    let projections = PROJECTIONS;
     if (isFromPassportAuth) {
         projections = { ...PROJECTIONS, 'password': 1 }
-    }
-    else {
-        projections = PROJECTIONS
     }
 
     User.findOne({ username: username }, projections, callback)
