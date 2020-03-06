@@ -1,6 +1,5 @@
 const httpStatusCodes = require('../constants/httpStatusCodes')
 const { genericHandlerCallback } = require('./routeUtils')
-const getCurrentUserDocument = require('../utils/getCurrentUserDocument')
 const createRoomFormValidator = require('../utils/createRoomFormValidator')
 const roomMessages = require('./roomMessages')
 const {
@@ -28,15 +27,10 @@ const post = async (req, res) => {
         return
     }
 
-    const currentUserDoc = await getCurrentUserDocument(req);
-    if (currentUserDoc instanceof Error) {
-        return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
-    }
-
     createRoom(
         req.body.roomName,
         req.body.roomType,
-        currentUserDoc,
+        req.session.userId,
         (err, room) => genericHandlerCallback(err, room, res)
     )
 }
