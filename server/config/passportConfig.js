@@ -8,7 +8,7 @@ const getUserWithoutPasswordField = (user) => {
 }
 
 passport.serializeUser((user, done) => {
-    done(null, user.userId)
+    done(null, user._id)
 })
 
 passport.deserializeUser((userId, done) => {
