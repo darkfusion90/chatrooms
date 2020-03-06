@@ -22,7 +22,8 @@ const RoomSchema = Schema({
         required: true
     },
     createdBy: {
-        type: UserSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         immutable: true,
         required: true,
     },
