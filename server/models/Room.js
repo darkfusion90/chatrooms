@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const { UserSchema } = require('./User')
-
 const Schema = mongoose.Schema;
 
 const RoomSchema = Schema({
