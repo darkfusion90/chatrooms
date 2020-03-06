@@ -1,3 +1,4 @@
+const {createUnregisteredUser} = require('../controllers/users')
 module.exports = (req) => {
     createUnregisteredUser(req.session.cookie.expires, (err, user) => {
         //In this case, unable to create user is the server's fault because the client doesn't send any payload
@@ -7,7 +8,7 @@ module.exports = (req) => {
             return null
         }
 
-        req.session.userId = user.userId
+        req.session.userId = user._id
         req.session.isRegistered = false
         req.session.save()
         return user
