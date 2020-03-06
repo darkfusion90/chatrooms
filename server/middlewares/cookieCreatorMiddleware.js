@@ -9,8 +9,10 @@ const middleware = (req, res, next) => {
     if (isRegisterPath(req.path) || req.session.redirectedFromRegister) {
         next()
     } else if (!req.session.userId) {
-        if (addUserToSession(req)) next()
-        else return res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+        addUserToSession(req).then(() => next()).catch(err => {
+            res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+            console.log('bababababab: ', err)
+        })
     }
     else {
         next()
