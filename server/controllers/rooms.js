@@ -8,29 +8,27 @@ function generateRoomId() {
     return uniqueIdGenerator.generateIdUsingRandomWords()
 }
 
-async function createRoom(name, type, creator, callback) {
+function addMemberToRoom(room, roomMember, callback) {
+    Room.findByIdAndUpdate(room._id, { $push: { members: roomMember } }, { returnOriginal: false })
+        .populate('createdBy').exec(callback)
+}
+
+function createRoom(name, type, creatorUserId, callback) {
     const roomId = generateRoomId()
     const room = new Room({
         roomId: roomId,
         name: name,
         type: type,
-        createdBy: creator,
+        createdBy: creatorUserId,
         createdAt: Date.now(),
     })
-    room.save().then(async room => {
-        logger.debug("Successfully created room: ", room)
-        const roomMemberCreator = await roomMemberController.createRoomMember(creator, roomMemberController.MEMBER_TYPE_ADMIN)
-        room.updateOne({ $push: { 'members': roomMemberCreator } }).
-            then(room => {
-                callback(null, room)
-            })
-            .catch(err => {
-                callback(err, null)
-            })
-    }).catch(err => {
-        logger.debug("Error creating room: ", room)
-        logger.debug(err)
-        callback(err, null)
+    room.save().then(_ => {
+        roomMemberController.createRoomMember(room._id, creatorUserId, 'admin', (err, roomMember) => {
+            if (err || !roomMember) {
+                return callback(err, roomMember)
+            }
+            addMemberToRoom(room, roomMember, callback)
+        })
     })
 }
 
