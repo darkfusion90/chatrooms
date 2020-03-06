@@ -1,4 +1,4 @@
-const { createUnregisteredUser } = require('../controllers/users')
+const httpStatusCodes = require('../constants/httpStatusCodes')
 const addUserToSession = require('../utils/addUserToSession')
 
 const isRegisterPath = (path) => {
