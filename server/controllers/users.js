@@ -3,7 +3,6 @@ const { getUpdatableFieldsFromData } = require('./util')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 const logger = require('../utils/logger')('[UsersController] ')
 
-//Excludes _id while including the others when returning the user document
 const PROJECTIONS = {
     '_id': 1,
     'username': 1,
