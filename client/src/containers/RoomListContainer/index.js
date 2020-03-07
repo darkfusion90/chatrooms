@@ -22,7 +22,7 @@ class RoomListContainer extends React.Component {
     }
 
     render() {
-        return <RoomList rooms={this.state.rooms} users={this.state.users} />;
+        return <RoomList rooms={this.state.rooms} />;
     }
 }
 
