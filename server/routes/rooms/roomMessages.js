@@ -1,6 +1,6 @@
-const httpStatusCodes = require('../constants/httpStatusCodes')
-const { getRoomMessage, getAllMessagesInRoom, addMessageToRoom } = require('../controllers/rooms')
-const { genericHandlerCallback } = require('./routeUtils')
+const httpStatusCodes = require('../../constants/httpStatusCodes')
+const { getRoomMessage, getAllMessagesInRoom, addMessageToRoom, deleteMessageFromRoom } = require('../../controllers/rooms')
+const { genericHandlerCallback } = require('../routeUtils')
 
 
 const get = (req, res) => {
@@ -8,12 +8,7 @@ const get = (req, res) => {
     if (messageId) {
         return getRoomMessage(roomId, messageId, (err, message) => genericHandlerCallback(err, message, res))
     }
-    getAllMessagesInRoom(roomId, (err, messages) => {
-        if (messages) {
-            messages = { messages: messages }
-        }
-        genericHandlerCallback(err, messages, res)
-    })
+    getAllMessagesInRoom(roomId, (err, messages) => genericHandlerCallback(err, messages, res))
 }
 
 const post = (req, res) => {
@@ -26,4 +21,8 @@ const post = (req, res) => {
     addMessageToRoom(roomId, userId, message, (err, messageDoc) => genericHandlerCallback(err, messageDoc, res))
 }
 
-module.exports = { get, post }
+const _delete = (req, res) => {
+    deleteMessageFromRoom(req.params.roomId, req.params.messageId, (err, room) => genericHandlerCallback(err, room, res))
+}
+
+module.exports = { get, post, _delete }
