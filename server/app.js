@@ -31,18 +31,18 @@ app.post('/api/login/', routes.login)
 app.post('/api/logout/', routes.logout)
 app.post('/api/register/', routes.register)
 
-app.get('/api/rooms(/){0,1}(:roomId){0,1}', routes.rooms.get)
+app.get('/api/rooms/:roomId?', routes.rooms.get)
 app.post('/api/rooms', routes.rooms.post)
 app.patch('/api/rooms/:roomId', routes.rooms.patch)
 app.delete('/api/rooms/:roomId', routes.rooms._delete)
 
-app.get('/api/rooms/:roomId/messages(/){0,1}(:messageId){0,1}', routes.rooms.messages.get)
+app.get('/api/rooms/:roomId/messages/:messageId?', routes.rooms.messages.get)
 app.post('/api/rooms/:roomId/messages', routes.rooms.messages.post)
 app.delete('/api/rooms/:roomId/messages/:messageId', routes.rooms.messages._delete)
 
-app.get('/api/rooms/:roomId/members(/){0,1}(:memberId){0,1}', routes.rooms.members.get)
+app.get('/api/rooms/:roomId/members/:memberId?', routes.rooms.members.get)
 
-app.get('/api/user(/){0,1}(:userId){0,1}', routes.user.get)
+app.get('/api/user/:userId?', routes.user.get)
 app.post('/api/user', routes.user.post)
 app.patch('/api/user/:userId', ensureAuthenticated, routes.user.patch)
 app.delete('/api/user/:userId', ensureAuthenticated, routes.user._delete)
