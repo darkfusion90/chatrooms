@@ -54,14 +54,9 @@ class RoomContainer extends React.Component {
 
     onSendMessageButtonClick = (formValues) => {
         const { message } = formValues
-        if (!message) {
+        if (!message || message.trim().length === 0) {
             return null
-        }
-
-        if (message.trim().length === 0) {
-            console.log('empty. not sending')
-        }
-        else {
+        } else {
             const { room } = this.state
             sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
         }
