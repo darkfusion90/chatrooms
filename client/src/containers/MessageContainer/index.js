@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import Message from '../../components/Message'
 import { getRoomMessage } from '../../server-communication/httpServer'
 
+const logger = require('../../helpers/logger')('[MessageContainer]')
+
 class MessageContainer extends React.Component {
     state = { message: null }
 
@@ -17,13 +19,13 @@ class MessageContainer extends React.Component {
     }
 
     onMessageFetchFailure = ({ response }) => {
-        console.log('Message fetch failure: ', response)
+        logger.debug('Message fetch failure: ', response)
     }
 
     isCurrentUserMessageAuthor = () => {
         const { message } = this.state
-        console.log('message author: ', message ? message.author : '')
-        console.log('userid: ', this.props.userId)
+        logger.debug('message author: ', message ? message.author : '')
+        logger.debug('userid: ', this.props.userId)
         return message && message.author === this.props.userId
     }
 
@@ -36,7 +38,7 @@ class MessageContainer extends React.Component {
         const messageAlignment = this.isCurrentUserMessageAuthor() ? 'right' : 'left'
         const messageVariant = this.isCurrentUserMessageAuthor() ? 'primary' : 'secondary'
 
-        console.log('Message: ', message, '\nIs owner: ', this.isCurrentUserMessageAuthor())
+        logger.debug('Message: ', message, '\nIs owner: ', this.isCurrentUserMessageAuthor())
 
         return (
             <Message
@@ -49,7 +51,7 @@ class MessageContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { userId: state.user.user.userId }
+    return { userId: state.user.user._id }
 }
 
 export default connect(mapStateToProps, null)(MessageContainer);
