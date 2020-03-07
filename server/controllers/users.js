@@ -25,11 +25,11 @@ function filterUsingProjections(user) {
 }
 
 /**
- * Generates a random and unique userId
+ * Generates a random and unique username
  *
- * @returns A random and unique userId
+ * @returns A random and unique username
  */
-function generateUserId() {
+function generateRandomUsername() {
     return uniqueIdGenerator.generateIdUsingCrypto();
 }
 
@@ -51,12 +51,9 @@ function generateUserId() {
  * @param {Function} callback Callback to report status of user creation
  */
 function createUser(username, password, isRegistered, expiresAt, callback) {
-    const userId = generateUserId()
-    if (!isRegistered) {
-        username = userId
-    }
+    username = username ? username : generateRandomUsername()
 
-    const user = new User({ userId, username, password, expiresAt, isRegistered })
+    const user = new User({ username, password, expiresAt, isRegistered })
     user.save((err) => {
         if (err) {
             logger.debug('UsersController: Error creating user: ', user)
@@ -90,10 +87,9 @@ function registerUser(userId, username, password, callback) {
         fields: PROJECTIONS,
         new: true,
         upsert: true,
-        useFindAndModify: false
     }
 
-    User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
+    User.findByIdAndUpdate(userId, toUpdate, options, callback)
 }
 
 function getUser(id, callback) {
@@ -127,9 +123,9 @@ function getUserByUsername(username, isFromPassportAuth, callback) {
 function updateUser(userId, data, callback) {
     const updatableFields = ['username', 'password']
     const toUpdate = getUpdatableFieldsFromData(data, updatableFields)
-
     const options = { fields: PROJECTIONS, new: true }
-    User.findOneAndUpdate({ userId: userId }, toUpdate, options, callback)
+
+    User.findByIdAndUpdate(userId, toUpdate, options, callback)
 }
 
 function deleteUser(userId, callback) {
