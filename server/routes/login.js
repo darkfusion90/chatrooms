@@ -11,7 +11,7 @@ const login = (user, req, res) => {
         }
         else {
             logger.debug('UserId before update: ', req.session.userId)
-            req.session.userId = user.userId
+            req.session.userId = user._id
             req.session.save()
             res.json(user)
             logger.debug('UserId updated to: ', req.session.userId)
