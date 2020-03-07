@@ -40,6 +40,8 @@ app.get('/api/rooms/:roomId/messages(/){0,1}(:messageId){0,1}', routes.rooms.mes
 app.post('/api/rooms/:roomId/messages', routes.rooms.messages.post)
 app.delete('/api/rooms/:roomId/messages/:messageId', routes.rooms.messages._delete)
 
+app.get('/api/rooms/:roomId/members(/){0,1}(:memberId){0,1}', routes.rooms.members.get)
+
 app.get('/api/user(/){0,1}(:userId){0,1}', routes.user.get)
 app.post('/api/user', routes.user.post)
 app.patch('/api/user/:userId', ensureAuthenticated, routes.user.patch)
