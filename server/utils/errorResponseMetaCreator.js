@@ -3,7 +3,6 @@ const UnauthorizedError = require('../errors/Unauthorized')
 const MongooseDuplicateKeyError = require('../errors/MongooseDuplicateKeyError')
 
 const determineResponseMetaFromError = (err) => {
-    console.log('Error: ', err)
     const responseMeta = {}
 
     if (err instanceof MongooseDuplicateKeyError) {
