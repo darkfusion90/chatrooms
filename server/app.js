@@ -41,6 +41,7 @@ app.post('/api/rooms/:roomId/messages', routes.rooms.messages.post)
 app.delete('/api/rooms/:roomId/messages/:messageId', routes.rooms.messages._delete)
 
 app.get('/api/rooms/:roomId/members/:memberId?', routes.rooms.members.get)
+app.post('/api/rooms/:roomId/members/', routes.rooms.members.post)
 
 app.get('/api/user/:userId?', routes.user.get)
 app.post('/api/user', routes.user.post)
