@@ -7,8 +7,8 @@ const get = (req, res) => {
     let userId;
     //In case of "/api/user/:id", the id passed in url will be used
     //In case of "/api/user", the id will be taken from the session of the client
-    if (req.params.id) {
-        userId = req.params.id
+    if (req.params.userId) {
+        userId = req.params.userId
     }
     else if (req.session.userId) {
         userId = req.session.userId
@@ -18,11 +18,11 @@ const get = (req, res) => {
 
 const patch = (req, res) => {
     //Authorization is done in ensureAuthenticated middleware
-    updateUser(req.params.id, req.body, (err, user) => genericHandlerCallback(err, user, res))
+    updateUser(req.params.userId, req.body, (err, user) => genericHandlerCallback(err, user, res))
 }
 
 const _delete = (req, res) => {
-    deleteUser(req.params.id, (err, user) => genericHandlerCallback(err, user, res))
+    deleteUser(req.params.userId, (err, user) => genericHandlerCallback(err, user, res))
     req.session.destroy()
 }
 
@@ -55,7 +55,7 @@ const registerUserCallback = (err, user, req, res) => {
         genericHandlerCallback(err, user, res)
     }
     else if (user) {
-        req.session.userId = user.userId
+        req.session.userId = user._id
         req.session.isRegistered = user.isRegistered
         req.session.save()
         res.json(user)
