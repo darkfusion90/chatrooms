@@ -91,9 +91,9 @@ function registerUser(userId, username, password, callback) {
     User.findByIdAndUpdate(userId, toUpdate, options, callback)
 }
 
-function getUser(id, callback) {
+function _getUser(id, callback, options = PROJECTIONS) {
     const promise = new Promise((resolve, reject) => {
-        User.findById(id, PROJECTIONS).then(user => {
+        User.findById(id, options).then(user => {
             logger.debug('User found. Promise resolve: ', user)
             resolve(user)
         }).catch(err => {
@@ -107,6 +107,14 @@ function getUser(id, callback) {
     }
 
     return promise
+}
+
+function getUser(id, callback) {
+    return _getUser(id, callback)
+}
+
+function getUserWithExpiresAtField(userId, callback) {
+    return _getUser(userId, callback, { ...PROJECTIONS, expiresAt: 1 })
 }
 
 function getUserByUsername(username, isFromPassportAuth, callback) {
@@ -132,13 +140,19 @@ function deleteUser(userId, callback) {
     User.findOneAndDelete({ userId: userId }, options, (err, user) => callback(err, filterUsingProjections(user)))
 }
 
+function updateUserDocumentExpirationDate(userId, newExpiresAt, callback) {
+    User.findByIdAndUpdate(userId, { expiresAt: newExpiresAt }, { rawResult: false }, callback)
+}
+
 module.exports = {
     registerUser,
     createRegisteredUser,
     createUnregisteredUser,
     getUser,
     getUserByUsername,
+    getUserWithExpiresAtField,
     updateUser,
     deleteUser,
-    filterUsingProjections
+    filterUsingProjections,
+    updateUserDocumentExpirationDate
 }
