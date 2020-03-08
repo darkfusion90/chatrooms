@@ -1,16 +1,19 @@
 import React from 'react';
 import { Card, ListGroupItem } from 'react-bootstrap';
 
-const RoomListItem = (props) => {
+const RoomListItem = ({ title, content, footer, key }) => {
     return (
-        <ListGroupItem key={props.key}>
+        <ListGroupItem key={key}>
             <Card>
                 <Card.Body>
                     <Card.Title>
-                        {props.title}
+                        {title}
                     </Card.Title>
-                    {props.content}
+                    {content}
                 </Card.Body>
+                {
+                    footer ? <Card.Footer>{footer}</Card.Footer> : ''
+                }
             </Card>
         </ListGroupItem>
     )
