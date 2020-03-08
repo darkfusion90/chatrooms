@@ -26,7 +26,7 @@ const POPULATE_CONFIG = {
         populate: {
             path: 'user',
             model: 'User',
-            select: 'username isRegistered -_id',
+            select: 'username isRegistered',
         }
     }
 }
