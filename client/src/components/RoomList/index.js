@@ -1,9 +1,9 @@
 import React from 'react'
-import RoomListItem from '../RoomListItem'
+import RoomListItemContainer from '../../containers/RoomListItemContainer'
 import ListGroup from 'react-bootstrap/ListGroup'
 
 const renderRoomList = (props) => {
-    return props.rooms.map((room) => <RoomListItem room={room} />)
+    return props.rooms.map((room) => <RoomListItemContainer room={room} key={room.roomId}/>)
 }
 
 const RoomList = (props) => {
