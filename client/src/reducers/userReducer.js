@@ -12,7 +12,7 @@ export default (state = INITIAL_STATE, action) => {
         case LOGOUT:
             return INITIAL_STATE
         case REGISTER:
-            return { isLoggedIn: false, user: action.payload.user }
+            return { isLoggedIn: false, user: action.payload }
         case UPDATE_USER:
             //Update only what is provided in payload
             return { ...state, ...action.payload }
