@@ -10,5 +10,7 @@ module.exports = {
         serverSelectionTimeoutMS: 50000,
         socketTimeoutMS: 50000,
         keepAlive: true
-    }
+    },
+    COOKIE_MAX_AGE_IN_MILLISECONDS: 3600000,
+    GUEST_USER_DB_DOCUMENT_MAX_AGE_MILLISECONDS: 7200000
 }
