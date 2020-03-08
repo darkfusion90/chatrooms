@@ -46,6 +46,10 @@ export const deleteRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
     axios.delete(`/api/rooms/${roomId}`).then(onRequestFulfilled, onRequestRejected)
 }
 
+export const joinRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
+    axios.post(`/api/rooms/${roomId}/members`).then(onRequestFulfilled, onRequestRejected)
+}
+
 export const getRoomMessage = (roomId, messageId, onRequestFulfilled, onRequestRejected) => {
     axios.get(`/api/rooms/${roomId}/messages/${messageId}`).then(onRequestFulfilled, onRequestRejected)
 }
