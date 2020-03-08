@@ -5,6 +5,7 @@ import serverReducer from './serverReducer';
 import roomReducer from './roomReducer';
 import notificationReducer from './notificationReducer';
 import userReducer from './userReducer';
+import modalReducer from './modalReducer';
 
 export default combineReducers({
     user: userReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
     roomMetadata: roomReducer,
     notifications: notificationReducer,
     form: formReducer,
+    modal: modalReducer
 })

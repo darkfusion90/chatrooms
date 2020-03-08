@@ -10,3 +10,6 @@ export const UPDATE_USER = "UPDATE_USER";
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
 export const REGISTER = "REGISTER"
+
+export const SHOW_MODAL = 'SHOW_MODAL'
+export const HIDE_MODAL = 'HIDE_MODAL'
