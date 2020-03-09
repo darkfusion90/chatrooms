@@ -74,7 +74,9 @@ class RoomListItemActionsContainer extends React.Component {
     render() {
         const { room, currentUser } = this.props
         const getMemberRefInRoom = (room, queryUserId) => {
-            return room.members.filter(roomMember => roomMember.user._id === queryUserId)
+            return room.members.filter(roomMember => {
+                return roomMember && roomMember.user && roomMember.user._id === queryUserId
+            })
         }
 
         if (currentUser) {
