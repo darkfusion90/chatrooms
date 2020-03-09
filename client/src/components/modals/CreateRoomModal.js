@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import GenericModal from './GenericModal';
 import createRoom from '../../actions/createRoom';
+import hideModal from '../../actions/hideModal';
 import CreateRoomForm from '../forms/CreateRoomForm/';
 
 import DismissibleAlert from '../Alerts/DismissibleAlert';
@@ -89,20 +90,23 @@ class CreateRoomModal extends React.Component {
 
     render() {
         return (
-            <>
-                <GenericModal
-                    header="Create Room"
-                    actions={this.getModalActions()}
-                    content={this.getModalContent()}
-                    {...this.props}
-                />
-            </>
+            <GenericModal
+                header="Create Room"
+                actions={this.getModalActions()}
+                content={this.getModalContent()}
+                visible={this.props.isModalVisible}
+                hideModal={this.props.hideModal}
+            />
         );
     }
 }
 
+const mapStateToProps = (state) => {
+    return { isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'CreateRoom' }
+}
+
 export default connect(
-    null,
-    { createRoom }
+    mapStateToProps,
+    { createRoom, hideModal }
 )(CreateRoomModal);
 

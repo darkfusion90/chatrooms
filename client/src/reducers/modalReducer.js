@@ -1,20 +1,17 @@
 import { SHOW_MODAL, HIDE_MODAL } from '../constants/actionConstants'
 
 const INITIAL_STATE = {
-    modal: {
-        open: false,
-        name: null
-    }
+    isModalOpen: false,
+    modalName: null,
+    modalProps: null
 }
 
-export default (state, action) => {
+export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case SHOW_MODAL:
             return {
-                modal: {
-                    open: true,
-                    name: action.payload
-                }
+                isModalOpen: true,
+                ...action.payload
             }
 
         case HIDE_MODAL:

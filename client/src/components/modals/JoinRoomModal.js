@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import GenericModal from './GenericModal';
 import tryJoiningRoom from '../../actions/tryJoiningRoom';
+import hideModal from '../../actions/hideModal';
 
 class JoinRoomModal extends React.Component {
     state = { inputValue: "", isFormLoading: false }
@@ -71,10 +72,15 @@ class JoinRoomModal extends React.Component {
                 header="Join Room"
                 actions={this.getModalActions()}
                 content={this.getModalContent()}
-                {...this.props}
+                visible={this.props.isModalVisible}
+                hideModal={this.props.hideModal}
             />
         );
     }
 }
 
-export default connect(null, { tryJoiningRoom })(JoinRoomModal);
+const mapStateToProps = (state) => {
+    return { isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'JoinRoom' }
+}
+
+export default connect(mapStateToProps, { tryJoiningRoom, hideModal })(JoinRoomModal);

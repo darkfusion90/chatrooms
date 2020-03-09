@@ -18,7 +18,7 @@ const GenericModal = (props) => {
                 {props.content}
             </Modal.Body>
             <Modal.Footer>
-                {props.actions}    
+                {props.actions}
             </Modal.Footer>
         </Modal>
     )
