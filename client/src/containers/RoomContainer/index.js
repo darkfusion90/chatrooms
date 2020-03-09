@@ -15,7 +15,7 @@ class RoomContainer extends React.Component {
     }
 
     componentDidMount() {
-        const roomId = this.props.match.params.id;
+        const { roomId } = this.props;
         registerNewMessageListener(roomId, (data) => {
             console.log("new message: ", data)
             getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
@@ -84,7 +84,7 @@ class RoomContainer extends React.Component {
             <div className='centered-content'>
                 <h2>Please wait while your Room is loading...</h2>
                 <Spinner animation='border' size='xl' />
-            </div >
+            </div>
         );
     }
 }
