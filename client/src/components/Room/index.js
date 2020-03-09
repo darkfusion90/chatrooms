@@ -17,11 +17,8 @@ class Room extends React.Component {
     }
 
     scrollChatListToBottom() {
-        console.log('last el: ', this.chatListRef)
         const chatList = this.chatListRef.current
-        console.log('scroll top b4: ', chatList.scrollTop)
         chatList.scrollTop = chatList.scrollHeight + 120
-        console.log('scroll top after: ', chatList.scrollTop)
     }
 
     renderMessageList = (room) => {
@@ -47,14 +44,14 @@ class Room extends React.Component {
     render() {
         const { room, onSendMessageButtonClick } = this.props
         return (
-            <Container style={{ border: '1px solid red' }}>
+            <Container style={{ border: '1px solid red', marginTop: '1vh' }}>
                 <Container>
                     <p>Hey! I am the chat container of room {room ? room.name : ''}</p>
                     <br />
                     {this.renderMessageList(room)}
                 </Container>
                 <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
-            </Container >
+            </Container>
         );
     }
 }

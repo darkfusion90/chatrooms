@@ -2,9 +2,11 @@ import React from 'react';
 import { Card, ListGroupItem } from 'react-bootstrap';
 
 const RoomListItem = ({ title, content, footer, key }) => {
+    const style = { backgroundColor: '#ededed' }
+
     return (
         <ListGroupItem key={key}>
-            <Card>
+            <Card className='border-0' style={style}>
                 <Card.Body>
                     <Card.Title>
                         {title}

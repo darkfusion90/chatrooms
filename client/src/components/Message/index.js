@@ -1,8 +1,8 @@
-import React from 'react'
+    import React from 'react'
 import { ListGroup, Container } from 'react-bootstrap'
 
 const Message = (props) => {
-    const { message, align, variant } = props
+    const { message, align, variant} = props
     if (!message) {
         return null
     }

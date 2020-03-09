@@ -1,0 +1,9 @@
+@import "../../../assets/styles/custom.scss";
+
+.textarea-container {
+    border: 1px solid white;
+    background-color: $text-area-bgcolor;
+    border-radius: 30px;
+    padding: 0.4vw;
+    overflow: hidden;
+}
