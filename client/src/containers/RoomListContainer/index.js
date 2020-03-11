@@ -1,29 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
 import RoomList from '../../components/RoomList';
-import { getAllRooms } from '../../server-communication/httpServer'
+import fetchPublicRooms from '../../actions/fetchPublicRooms'
 
 const logger = require('../../helpers/logger')('[RoomListContainer]')
 
 class RoomListContainer extends React.Component {
-    state = { rooms: [] }
-
     componentDidMount() {
-        getAllRooms(this.onRoomFetchSuccess, this.onRoomFetchFail)
+        this.props.fetchPublicRooms(this.onRoomFetchFail)
     }
 
     onRoomFetchFail = ({ response }) => {
         logger.debug('RoomList fetch fail: ', response)
     }
 
-    onRoomFetchSuccess = (response) => {
-        logger.debug('RoomList fetch success: ', response)
-        this.setState({ rooms: response.data })
-    }
-
     render() {
-        return <RoomList rooms={this.state.rooms} />;
+        console.log(this.props.rooms)
+        return <RoomList rooms={this.props.rooms} />;
     }
 }
 
-export default RoomListContainer;
+const mapStateToProps = (state) => {
+    return { rooms: state.rooms }
+}
+
+export default connect(mapStateToProps, { fetchPublicRooms })(RoomListContainer);
