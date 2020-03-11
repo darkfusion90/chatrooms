@@ -10,7 +10,7 @@ import modalReducer from './modalReducer';
 export default combineReducers({
     user: userReducer,
     serverConnection: serverReducer,
-    roomMetadata: roomReducer,
+    rooms: roomReducer,
     notifications: notificationReducer,
     form: formReducer,
     modal: modalReducer
