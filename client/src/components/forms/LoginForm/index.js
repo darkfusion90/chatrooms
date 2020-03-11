@@ -2,15 +2,34 @@ import React from 'react'
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap'
 import { Field, reduxForm } from 'redux-form'
 
+import ToggleablePasswordField from '../../ToggleablePasswordField'
+import validate from './validate'
+
+const getFormControlProps = (formProps) => {
+    const { touched, error, pristine } = formProps.meta
+    const hasErrors = touched && error
+
+    return {
+        ...formProps,
+        ...formProps.input,
+        isInvalid: hasErrors,
+        isValid: !pristine && !hasErrors
+    }
+}
+
 const renderField = (formProps) => {
+    const { error } = formProps.meta
+    const formControlProps = getFormControlProps(formProps)
+
+    if (formProps.type === 'password') {
+        return <ToggleablePasswordField formProps={formControlProps} error={error} />
+    }
+
     return (
         <>
             <Form.Label>{formProps.label}</Form.Label>
-            <FormControl
-                {...formProps.input}
-                type={formProps.type}
-                placeholder={formProps.placeholder}
-                required />
+            <FormControl {...formControlProps} />
+            <FormControl.Feedback type='invalid'>{error}</FormControl.Feedback>
         </>
     );
 }
@@ -44,5 +63,6 @@ const LoginForm = (props) => {
 }
 
 export default reduxForm({
-    form: 'loginForm'
+    form: 'loginForm',
+    validate
 })(LoginForm)
