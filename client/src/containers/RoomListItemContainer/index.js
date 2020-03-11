@@ -7,7 +7,7 @@ import RoomListItem from '../../components/RoomListItem'
 import RoomListItemActionsContainer from './RoomListItemActionsContainer';
 
 class RoomListItemContainer extends React.Component {
-    state = { error: null, deleteModalShow: false }
+    state = { error: null }
 
     renderRoomMetaData() {
         const { room } = this.props
