@@ -29,11 +29,11 @@ class Room extends React.Component {
         return (
             <ListGroup className='chat-container pre-scrollable' ref={this.chatListRef}>
                 {
-                    room.messages.map(messageId => {
+                    room.messages.map(message => {
                         return <MessageContainer
                             roomId={room.roomId}
-                            messageId={messageId}
-                            key={messageId}
+                            message={message}
+                            key={message && message._id}
                         />
                     })
                 }
