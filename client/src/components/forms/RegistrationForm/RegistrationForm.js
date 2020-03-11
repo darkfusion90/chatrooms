@@ -5,22 +5,33 @@ import { Field, reduxForm } from 'redux-form';
 import validate from './validate';
 import { checkUsernameExists, USERNAME_TAKEN_ERROR_MESSAGE } from './asyncValidate';
 import './style.scss';
+import ToggleablePasswordField from '../../ToggleablePasswordField';
 
-
-const renderField = (formProps) => {
+const getPropsForFormControl = (formProps) => {
     const { touched, error, pristine, asyncValidating } = formProps.meta
     const hasErrors = isAsyncValidationError(error) || (touched && error)
+
+    return {
+        ...formProps,
+        ...formProps.input,
+        className: asyncValidating ? 'loading' : '',
+        isInvalid: hasErrors,
+        isValid: !asyncValidating && !pristine && !hasErrors
+    }
+}
+
+const renderField = (formProps) => {
+    const { error } = formProps.meta
+    const formControlProps = getPropsForFormControl(formProps)
+
+    if (formProps.type === 'password') {
+        return <ToggleablePasswordField formProps={formControlProps} error={error} />
+    }
 
     return (
         <>
             <Form.Label>{formProps.label}</Form.Label>
-            <FormControl
-                className={asyncValidating ? 'loading' : ''}
-                {...formProps.input}
-                {...formProps}
-                isInvalid={hasErrors}
-                isValid={!asyncValidating && !pristine && !hasErrors}
-            />
+            <FormControl {...formControlProps} />
             <FormControl.Feedback type="invalid">{error}</FormControl.Feedback>
         </>
     );
