@@ -7,6 +7,8 @@ import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 import ButtonWithLeadingIcon from '../../../components/ButtonWithLeadingIcon'
 import { joinRoom } from '../../../server-communication/httpServer'
+import showModal from '../../../actions/showModal'
+import hideModal from '../../../actions/hideModal'
 
 class RoomListItemActionsContainer extends React.Component {
     state = { joinRoomStatus: 'initial' }
@@ -45,8 +47,12 @@ class RoomListItemActionsContainer extends React.Component {
         this.setState({ joinRoomStatus: 'pending' })
     }
 
+    onDeleteButtonClick = () => {
+        this.props.showModal('DeleteRoom', { room: this.props.room })
+    }
+
     getActionsForRoomMember(roomMember, roomId) {
-        const adminActions = <Button variant='danger'>Delete</Button>
+        const adminActions = <Button variant='danger' onClick={this.onDeleteButtonClick}>Delete</Button>
 
         const isRoomAdmin = (roomMember) => {
             return roomMember && roomMember.memberType === 'admin'
@@ -87,8 +93,6 @@ class RoomListItemActionsContainer extends React.Component {
                 return this.getActionsForRoomMember(currentUserRoomMemberReference, room.roomId)
             }
         }
-
-        return <div>Hello World!</div>;
     }
 }
 
@@ -96,4 +100,4 @@ const mapStateToProps = (state) => {
     return { currentUser: state.user.user, isUserLoggedIn: state.user.isLoggedIn }
 }
 
-export default connect(mapStateToProps)(RoomListItemActionsContainer);
+export default connect(mapStateToProps, { showModal, hideModal })(RoomListItemActionsContainer);
