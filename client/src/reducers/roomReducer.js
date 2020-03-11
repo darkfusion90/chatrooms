@@ -1,17 +1,13 @@
-import {
-    CREATE_ROOM,
-    JOIN_ROOM
+import _ from 'lodash'
 
-}
-    from '../constants/actionConstants';
+import { DELETE_ROOM, FETCH_PUBLIC_ROOMS } from '../constants/actionConstants';
 
-export default (state = {}, action) => {
-    const room = action.payload;
+export default (state = [], action) => {
     switch (action.type) {
-        case CREATE_ROOM:
-            return { ...state, [room.id]: room };
-        case JOIN_ROOM:
-            return { ...state, [room.id]: room };
+        case FETCH_PUBLIC_ROOMS:
+            return action.payload
+        case DELETE_ROOM:
+            return _.omit(state, action.payload)
         default:
             return state;
     }
