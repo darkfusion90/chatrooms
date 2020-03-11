@@ -4,9 +4,11 @@ import { Redirect } from 'react-router-dom';
 import { Alert, Container } from 'react-bootstrap';
 
 
-import LoginForm from '../../components/forms/LoginForm';
+import LoginForm from '../../components/forms/LoginForm/'
 import loginUser from '../../actions/loginUser';
 import DismissibleAlert from '../../components/Alerts/DismissibleAlert'
+
+import './style.scss'
 
 class LoginContainer extends React.Component {
     state = {
@@ -15,7 +17,7 @@ class LoginContainer extends React.Component {
         showErrorAlert: false,
     }
 
-    onLoginFailure = ({response}) => {
+    onLoginFailure = ({ response }) => {
         this.setState({
             hasLoginError: true,
             errorReason: response.data.reason,
@@ -49,8 +51,8 @@ class LoginContainer extends React.Component {
         }
         else {
             return (
-                <div className="centered-content">
-                    <Container>
+                <Container className="compensate-header">
+                    <div className="centered-content login-container">
                         {this.renderAppropriateContentIfRedirect(this.props)}
                         <DismissibleAlert
                             variant="danger"
@@ -60,8 +62,8 @@ class LoginContainer extends React.Component {
                             onDismiss={() => this.setState({ showErrorAlert: false })}
                         />
                         <LoginForm onFormSubmit={this.onFormSubmit} />
-                    </Container>
-                </div >
+                    </div>
+                </Container>
             );
         }
     }
