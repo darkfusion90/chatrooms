@@ -15,13 +15,17 @@ const styles = {
 }
 
 const roomListColProps = (roomId) => {
-    return roomId ? { xl: 5, lg: 5, md: 6, sm: 0, xs: 0 } : {}
+    return roomId ? { xl: 5, lg: 5, md: 6, sm: 0, xs: 0, className: 'd-none d-md-block' } : {}
+}
+
+const roomColProps = (roomId) => {
+    return roomId ? { xs: 12, sm: 12 } : {}
 }
 
 const renderRoomCol = (roomId) => {
     if (roomId) {
         return (
-            <Col sm={12} xl={7} lg={7} md={6} xs={12}>
+            <Col xl={7} lg={7} md={6} {...roomColProps(roomId)}>
                 <RoomContainer roomId={roomId} key={roomId} />
             </Col>
         )
@@ -30,7 +34,7 @@ const renderRoomCol = (roomId) => {
 
 const renderRoomListCol = (roomId) => {
     return (
-        <Col {...roomListColProps(roomId)} className='d-none d-md-block' style={{maxHeight: '90vh', overflow:'scroll'}}>
+        <Col {...roomListColProps(roomId)} style={{ maxHeight: '90vh', overflow: 'scroll' }}>
             <RoomListContainer />
         </Col>
     )
