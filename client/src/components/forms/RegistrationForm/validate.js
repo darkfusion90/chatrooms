@@ -14,8 +14,10 @@ export default (values) => {
     }
     if (!confirmPassword) {
         errors.confirmPassword = "Confirm Password cannot be empty"
-    } else if (hasPasswordMismatch(password, confirmPassword)){
-        errors.confirmPassword = "Confirm Password and Password must match"
+    } else if (hasPasswordMismatch(password, confirmPassword)) {
+        const errMsg = "Confirm Password and Password must match"
+        errors.confirmPassword = errMsg
+        errors.password = errMsg
     }
 
     return errors
