@@ -5,8 +5,8 @@ const RoomListItem = ({ title, content, footer, key }) => {
     const style = { backgroundColor: '#ededed' }
 
     return (
-        <ListGroupItem key={key}>
-            <Card className='border-0' style={style}>
+        <ListGroupItem key={key} className='px-0'>
+            <Card className='border-0 mx-0 px-0' style={style}>
                 <Card.Body>
                     <Card.Title>
                         {title}
