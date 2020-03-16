@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import RoomList from '../../components/RoomList';
 import fetchPublicRooms from '../../actions/fetchPublicRooms'
 
-const logger = require('../../helpers/logger')('[RoomListContainer]')
+import loggerInit from '../../helpers/logger'
+
+const logger = loggerInit('[RoomListContainer] ')
 
 class RoomListContainer extends React.Component {
     componentDidMount() {
@@ -12,6 +14,7 @@ class RoomListContainer extends React.Component {
     }
 
     onRoomFetchFail = ({ response }) => {
+        logger.
         logger.debug('RoomList fetch fail: ', response)
     }
 

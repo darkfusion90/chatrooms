@@ -6,8 +6,8 @@ import ChatWindowContainer from '../../containers/ChatWindowContainer'
 
 import RoomInfoHeader from '../RoomInfoHeader';
 
-const Room = () => {
-    const { room, onSendMessageButtonClick } = this.props
+const Room = (props) => {
+    const { room, onSendMessageButtonClick } = props
     return (
         <div style={{ border: '1px solid red', marginTop: '1vh', height: '100%' }}>
             <RoomInfoHeader room={room} />
