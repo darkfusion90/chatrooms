@@ -52,6 +52,8 @@ app.delete('/api/user/:userId', ensureAuthenticated, routes.user._delete)
 
 app.get('/api/user/status/login', routes.user.loginStatus)
 
+app.get('*', routes.index)
+
 app.use(errorHandler)
 
 var serverPort = process.env.PORT || 8000
