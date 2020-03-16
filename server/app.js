@@ -1,25 +1,29 @@
 require('dotenv').config();
 require('./config/database') //initialize and connect mongoose to mongodb server
+
 const path = require('path')
 const express = require('express')
 const app = express()
 const httpServer = require('http').createServer(app)
+
 const session = require('express-session')
 const sessionOptions = require('./config/sessionConfig')
+
+//middlewares
 const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
 const guestUserExpiryRollingMiddleware = require('./middlewares/guestUserExpiryRolling')
 const ensureAuthenticated = require('./middlewares/ensureAuthenticated')
 const errorHandler = require('./middlewares/errorHandler')
-require('./socket')(httpServer, sessionMiddleware)
 const passport = require('./config/passportConfig')
+
+require('./socket')(httpServer, sessionMiddleware)
 const routes = require('./routes')
 
 if (process.env.NODE_ENV === 'production') {
     console.log("Production Mode")
     app.use(express.static(path.join(__dirname, '../client/build')))
 }
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(sessionMiddleware)
