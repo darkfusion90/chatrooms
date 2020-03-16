@@ -1,13 +1,13 @@
-class Logger{
-    constructor(loggerKey){
+class Logger {
+    constructor(loggerKey) {
         this.loggerKey = loggerKey
     }
 
-    debug(...args){
+    debug(...args) {
         console.log(this.loggerKey, ...args)
     }
 }
 
-module.exports = function (loggerKey){
+export default (loggerKey) => {
     return new Logger(loggerKey)
 }
