@@ -10,11 +10,19 @@ $text-area-bgcolor: #fff;
     height: 75%;
 }
 
-.centered-content{
+.centered-content {
     @extend %centered-content-flex-container;
 }
 
-.compensate-header{
+.compensate-header {
     @extend %centered-content-flex-container;
     padding-top: 15.4vw;
+}
+
+.title {
+    color: #333;
+}
+
+.subtitle {
+    color: #666;
 }
