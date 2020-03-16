@@ -30,6 +30,26 @@ const RoomSchema = Schema({
     members: [{ type: Schema.Types.ObjectId, ref: 'RoomMember' }]
 })
 
+RoomSchema.methods.isMember = function (userId) {
+    let isRoomMember = false
+    this.members.forEach(member => {
+        if (member.user && member.user._id.equals(userId)) {
+            isRoomMember = true
+        }
+    })
+    return isRoomMember
+}
+
+RoomSchema.methods.isAdmin = function (userId) {
+    let isRoomAdmin = false
+    this.members.forEach(member => {
+        if (member.user && member.user._id.equals(userId) && member.memberType === 'admin') {
+            isRoomAdmin = true
+        }
+    })
+    return isRoomAdmin
+}
+
 const Room = mongoose.model("Room", RoomSchema);
 
 module.exports = Room;
