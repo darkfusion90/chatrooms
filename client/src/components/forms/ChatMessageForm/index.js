@@ -17,8 +17,8 @@ const ChatMessageForm = (props) => {
     const onFormSubmit = props.handleSubmit(props.onFormSubmit)
     return (
         <Form onSubmit={onFormSubmit} id={FORM_ID}>
-            <Row className='d-flex align-items-center'>
-                <Col sm={10}>
+            <Row className='d-flex align-items-center w-100'> 
+                <Col sm={10} md={10} ld={10}>
                     <Form.Group controlId='message' className='w-100 textarea-container'>
                         <Field
                             name='message'
@@ -28,7 +28,7 @@ const ChatMessageForm = (props) => {
                         />
                     </Form.Group>
                 </Col>
-                <Col sm={2} className='text-left'>
+                <Col sm={2} md={2} lg={2}>
                     <Button type='submit' form={FORM_ID}>Send</Button>
                 </Col>
             </Row>
