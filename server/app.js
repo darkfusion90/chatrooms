@@ -14,6 +14,7 @@ const sessionMiddleware = session(sessionOptions)
 const cookieCreatorMiddleware = require('./middlewares/cookieCreatorMiddleware')
 const guestUserExpiryRollingMiddleware = require('./middlewares/guestUserExpiryRolling')
 const ensureAuthenticated = require('./middlewares/ensureAuthenticated')
+const roomAuth = require('./middlewares/roomAuth')
 const errorHandler = require('./middlewares/errorHandler')
 const passport = require('./config/passportConfig')
 
@@ -33,21 +34,25 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', routes.index)
+app.all('/api/test/rooms/:roomId', roomAuth.room, (req, res) => {
+    res.send('Hello, bro! :)')
+})
+
 app.post('/api/login/', routes.login)
 app.post('/api/logout/', routes.logout)
 app.post('/api/register/', routes.register)
 
-app.get('/api/rooms/:roomId?', routes.rooms.get)
+app.get('/api/rooms/:roomId?', roomAuth.room, routes.rooms.get)
 app.post('/api/rooms', routes.rooms.post)
-app.patch('/api/rooms/:roomId', routes.rooms.patch)
-app.delete('/api/rooms/:roomId', routes.rooms._delete)
+app.patch('/api/rooms/:roomId', roomAuth.room, routes.rooms.patch)
+app.delete('/api/rooms/:roomId', roomAuth.room, routes.rooms._delete)
 
 app.get('/api/rooms/:roomId/messages/:messageId?', routes.rooms.messages.get)
 app.post('/api/rooms/:roomId/messages', routes.rooms.messages.post)
 app.delete('/api/rooms/:roomId/messages/:messageId', routes.rooms.messages._delete)
 
-app.get('/api/rooms/:roomId/members/:memberId?', routes.rooms.members.get)
-app.post('/api/rooms/:roomId/members/', routes.rooms.members.post)
+app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, routes.rooms.members.get)
+app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, routes.rooms.members.post)
 
 app.get('/api/user/:userId?', routes.user.get)
 app.post('/api/user', routes.user.post)
