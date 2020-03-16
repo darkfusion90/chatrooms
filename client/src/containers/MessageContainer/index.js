@@ -2,30 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import Message from '../../components/Message'
-const logger = require('../../helpers/logger')('[MessageContainer]')
 
 class MessageContainer extends React.Component {
     isCurrentUserMessageAuthor = () => {
-        const { message } = this.props
-        return message && message.author === this.props.userId
+        const { message, userId } = this.props
+        return message && message.author && message.author._id === userId
     }
 
     render() {
-        const { message } = this.props
+        const { message, color } = this.props
         if (!message) {
             return null
         }
 
         const messageAlignment = this.isCurrentUserMessageAuthor() ? 'right' : 'left'
-        const messageVariant = this.isCurrentUserMessageAuthor() ? 'primary' : 'secondary'
-
-        logger.debug('Message: ', message, '\nIs owner: ', this.isCurrentUserMessageAuthor())
 
         return (
             <Message
                 message={message}
                 align={messageAlignment}
-                variant={messageVariant}
+                color={color}
+                isCurrentUserMessageAuthor={this.isCurrentUserMessageAuthor()}
             />
         )
     }
