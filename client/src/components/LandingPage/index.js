@@ -8,7 +8,7 @@ import hideModal from '../../actions/hideModal'
 
 const LandingPage = (props) => {
     return (
-        <div className="landing-page">
+        <div className="landing-page compensate-header">
             <div className="inner-wrapper">
                 <p>Welcome to ChatRooms!</p>
 
