@@ -4,16 +4,6 @@ import { Row, Col, Container } from 'react-bootstrap'
 import RoomListContainer from '../RoomListContainer';
 import RoomContainer from '../RoomContainer';
 
-const styles = {
-    row: {
-        marginLeft: 0,
-        marginRight: 0,
-    },
-    container: {
-        paddingLeft: 0
-    }
-}
-
 const roomListColProps = (roomId) => {
     return roomId ? { xl: 5, lg: 5, md: 6, sm: 0, xs: 0, className: 'd-none d-md-block' } : {}
 }
@@ -34,7 +24,7 @@ const renderRoomCol = (roomId) => {
 
 const renderRoomListCol = (roomId) => {
     return (
-        <Col {...roomListColProps(roomId)} style={{ maxHeight: '90vh', overflow: 'scroll' }}>
+        <Col {...roomListColProps(roomId)} style={{ maxHeight: '90vh', height: '90vh', overflow: 'auto' }}>
             <RoomListContainer />
         </Col>
     )
@@ -42,9 +32,11 @@ const renderRoomListCol = (roomId) => {
 
 const RoomAndRoomListWrapperContainer = (props) => {
     const roomId = props.match.params.id
+    const gutterStyle = roomId ? {} : { className: 'no-gutters' }
+
     return (
-        <Container fluid style={styles.container}>
-            <Row style={styles.row}>
+        <Container fluid style={{ paddingLeft: 0 }}>
+            <Row className='mx-0' style={gutterStyle}>
                 {renderRoomListCol(roomId)}
                 {renderRoomCol(roomId)}
             </Row>
