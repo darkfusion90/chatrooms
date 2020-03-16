@@ -7,7 +7,7 @@ export default (state = [], action) => {
         case FETCH_PUBLIC_ROOMS:
             return action.payload
         case DELETE_ROOM:
-            return _.omit(state, action.payload)
+            return _.toArray(_.omit(state, action.payload))
         default:
             return state;
     }
