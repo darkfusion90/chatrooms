@@ -1,0 +1,8 @@
+.chat-container{
+    min-height: 100%;
+    overflow: hidden;
+}
+
+.chat-container:hover, .chat-container:active, .chat-container:focus{
+    overflow-y: scroll;
+}
