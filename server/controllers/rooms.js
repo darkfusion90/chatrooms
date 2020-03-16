@@ -17,7 +17,12 @@ const POPULATE_CONFIG = {
     messages: {
         path: 'messages',
         model: 'Message',
-        select: 'author atRoom data'
+        select: 'author atRoom data',
+        populate: {
+            path: 'author',
+            model: 'User',
+            select: 'username isRegistered'
+        }
     },
     members: {
         path: 'members',
