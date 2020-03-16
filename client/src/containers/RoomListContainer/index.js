@@ -14,7 +14,6 @@ class RoomListContainer extends React.Component {
     }
 
     onRoomFetchFail = ({ response }) => {
-        logger.
         logger.debug('RoomList fetch fail: ', response)
     }
 
