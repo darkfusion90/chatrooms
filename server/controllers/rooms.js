@@ -74,7 +74,7 @@ function createRoom(name, type, creatorUserId, callback) {
 }
 
 function deleteRoom(roomId, callback) {
-    Room.findOneAndDelete({ roomId: roomId }, callback)
+    Room.findOneAndDelete({ roomId }, callback)
 }
 
 function getAllPublicRooms(callback) {
@@ -83,7 +83,7 @@ function getAllPublicRooms(callback) {
 
 function getRoomByRoomId(roomId, callback) {
     const promise = new Promise((resolve, reject) => {
-        populateApplicableFields(Room.findOne({ roomId: roomId }, DEFAULT_PROJECTIONS))
+        populateApplicableFields(Room.findOne({ roomId }, DEFAULT_PROJECTIONS))
             .then(resolve).catch(reject)
     })
 
@@ -127,7 +127,7 @@ function getAllMessagesInRoom(roomId, callback) {
 }
 
 function deleteMessageFromRoom(roomId, messageId, callback) {
-    populateApplicableFields(Room.findOneAndUpdate(roomId, { $pull: { messages: messageId } })).exec(callback)
+    populateApplicableFields(Room.findOneAndUpdate({ roomId }, { $pull: { messages: messageId } })).exec(callback)
 }
 
 function getRoomMember(roomId, memberId, callback) {
