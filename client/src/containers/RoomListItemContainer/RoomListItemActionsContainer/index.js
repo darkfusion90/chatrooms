@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { Button, ButtonGroup, Spinner } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 import ButtonWithLeadingIcon from '../../../components/ButtonWithLeadingIcon'
+import LinkButton from '../../../components/LinkButton'
 import { joinRoom } from '../../../server-communication/httpServer'
 import showModal from '../../../actions/showModal'
 import hideModal from '../../../actions/hideModal'
@@ -60,7 +61,7 @@ class RoomListItemActionsContainer extends React.Component {
 
         return (
             <ButtonGroup>
-                <Link to={`/rooms/${roomId}`} component={Button}>Open</Link>
+                <LinkButton to={`/rooms/${roomId}`}>Open</LinkButton>
                 {this.props.isUserLoggedIn && isRoomAdmin(roomMember) ? adminActions : null}
             </ButtonGroup>
         )
