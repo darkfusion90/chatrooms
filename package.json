@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server/app.js",
+    "server": "NODE_ENV=production node server/app.js",
     "dev": "nodemon --delay 3s --watch server server/app.js"
   },
   "dependencies": {
