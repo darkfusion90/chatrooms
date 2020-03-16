@@ -82,7 +82,16 @@ function getAllPublicRooms(callback) {
 }
 
 function getRoomByRoomId(roomId, callback) {
-    populateApplicableFields(Room.findOne({ roomId: roomId }, DEFAULT_PROJECTIONS)).exec(callback)
+    const promise = new Promise((resolve, reject) => {
+        populateApplicableFields(Room.findOne({ roomId: roomId }, DEFAULT_PROJECTIONS))
+            .then(resolve).catch(reject)
+    })
+
+    if (callback && typeof callback === 'function') {
+        promise.then(res => callback(null, res)).catch(callback)
+    }
+
+    return promise
 }
 
 function updateRoomByRoomId(roomId, updates, callback) {
