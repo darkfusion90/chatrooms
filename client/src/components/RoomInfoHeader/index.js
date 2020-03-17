@@ -11,7 +11,7 @@ const RoomInfoHeader = ({ room }) => {
     console.log('room: ', room)
     return (
         <Container fluid>
-            <Row style={{ backgroundColor: '#ededed', height: '3.5vw' }}>
+            <Row style={{ backgroundColor: '#ededed', height: '40px' }}>
                 <Col>
                     <span className='room-name'><strong>{room.name}</strong></span>
                 </Col>
