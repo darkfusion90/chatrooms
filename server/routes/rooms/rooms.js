@@ -16,7 +16,7 @@ const get = (req, res) => {
         getRoomByRoomId(req.params.roomId, (err, room) => genericHandlerCallback(err, room, res))
     }
     else {
-        getAllPublicRooms((err, room) => genericHandlerCallback(err, room, res))
+        getAllPublicRooms((err, rooms) => genericHandlerCallback(err, rooms, res))
     }
 }
 
