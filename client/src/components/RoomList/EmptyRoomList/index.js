@@ -11,11 +11,11 @@ const EmptyRoomList = () => {
             <Container style={{textAlign: 'center'}} className='subtitle'>
                 <span>You could</span>
                 <Container style={{ display: 'inline' }}>
-                    <CreateRoomButton size='sm' />
+                    <CreateRoomButton size='sm' variant='outline-primary'/>
                 </Container>
                 <span>or</span>
                 <Container style={{ display: 'inline' }}>
-                    <JoinRoomButton label='Join a Room using ID' size='sm' />
+                    <JoinRoomButton label='Join a Room using ID' size='sm' variant='outline-primary'/>
                 </Container>
             </Container>
         </Container>
