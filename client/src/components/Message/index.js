@@ -17,7 +17,7 @@ const Message = (props) => {
         const borderAttr = `15px solid ${color}`
         const style = align === 'left' ? { borderRight: borderAttr } : { borderLeft: borderAttr }
 
-        return <p className={`arrow ${align}`} style={style} />
+        return <p className={`msg-box-arrow ${align}`} style={style} />
     }
 
     const messageAuthor = getMessageAuthor()
