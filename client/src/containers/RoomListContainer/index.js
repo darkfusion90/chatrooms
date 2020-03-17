@@ -3,12 +3,15 @@ import { connect } from 'react-redux'
 
 import RoomList from '../../components/RoomList';
 import fetchPublicRooms from '../../actions/fetchPublicRooms'
+import { byName } from './sort'
 
 import loggerInit from '../../helpers/logger'
 
 const logger = loggerInit('[RoomListContainer] ')
 
 class RoomListContainer extends React.Component {
+    state = { sortRoomListBy: 'name' }
+
     componentDidMount() {
         this.props.fetchPublicRooms(this.onRoomFetchFail)
     }
@@ -17,9 +20,22 @@ class RoomListContainer extends React.Component {
         logger.debug('RoomList fetch fail: ', response)
     }
 
+    sortRoomList = () => {
+        const { rooms } = this.props
+        if (!rooms) {
+            return []
+        }
+
+        switch (this.state.sortRoomListBy) {
+            case 'name':
+                return rooms.sort(byName)
+            default:
+                return rooms
+        }
+    }
+
     render() {
-        console.log(this.props.rooms)
-        return <RoomList rooms={this.props.rooms} />;
+        return <RoomList rooms={this.sortRoomList()} />;
     }
 }
 
