@@ -15,3 +15,5 @@ export const REGISTER = "REGISTER"
 
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
+
+export const SET_ROOM_LIST_SORT_TECHNIQUE = 'SET_ROOM_LIST_SORT_TECHNIQUE'
