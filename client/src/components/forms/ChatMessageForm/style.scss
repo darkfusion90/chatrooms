@@ -8,3 +8,11 @@
     overflow: hidden;
     margin: auto;
 }
+
+//Using :focus-within because the actual focus is in the textarea which is child of element with this class name
+//A non-input element cannot use :focus and hence to make the element with this class use the :focus pseudo-class
+//we use :focus-within which 'matches' if any of the child element have gained focus
+.textarea-container:focus-within {
+    border: 2px solid rgba(0, 121, 250, 0.4);
+    box-shadow: 0 0 5px rgba(0, 121, 250, 0.4);
+}
