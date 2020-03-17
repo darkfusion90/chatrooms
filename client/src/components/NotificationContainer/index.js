@@ -11,7 +11,7 @@ class NotificationContainer extends React.Component {
     getDropdownMenu() {
         const { notifications } = this.props;
         if (notifications.length === 0) {
-            return <div className="item">You don't have any notifications</div>
+            return <div>You don't have any notifications</div>
         }
 
         return (
