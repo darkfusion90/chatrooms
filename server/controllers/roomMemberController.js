@@ -1,8 +1,8 @@
 const RoomMember = require('../models/RoomMember')
 
-exports.createRoomMember = (room, user, memberType, callback) => {
+exports.createRoomMember = (roomId, userId, memberType, callback) => {
     const promise = new Promise((resolve, reject) => {
-        const roomMember = new RoomMember({ room, user, memberType })
+        const roomMember = new RoomMember({ room: roomId, user: userId, memberType })
         roomMember.save().then(resolve).catch(reject)
     })
 
@@ -12,6 +12,11 @@ exports.createRoomMember = (room, user, memberType, callback) => {
 
     return promise
 }
+
+exports.deleteRoomMember = (memberId, callback) => {
+    RoomMember.findByIdAndDelete(memberId, callback)
+}
+
 
 exports.MEMBER_TYPE_ADMIN = 'admin'
 exports.MEMBER_TYPE_PARTICIPANT = 'participant'
