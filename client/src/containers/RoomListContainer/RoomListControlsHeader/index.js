@@ -39,7 +39,7 @@ class RoomListControlsHeader extends React.Component {
         }
 
         return (
-            <Container fluid>
+            <Container fluid className='room-page-sub-header'>
                 <Dropdown {...dropdownProps} />
             </Container>
         )
