@@ -15,7 +15,7 @@ const RoomList = ({ rooms, onRoomControlsChange }) => {
     }
 
     return (
-        <ListGroup variant='flush' style={{ marginLeft: 0, marginRight: 0 }}>
+        <ListGroup variant='flush' className='mx-0'>
             {renderRoomList(rooms)}
         </ListGroup>
     )
