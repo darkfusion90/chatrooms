@@ -19,7 +19,13 @@ const ensureIsRoomMember = (userId, room, next) => {
     }
 }
 
+const isPrivateRoom = (room) => {
+    return room.type === 'private'
+}
+
 module.exports = {
     ensureIsRoomAdmin,
-    ensureIsRoomMember
+    ensureIsRoomMember,
+    isPrivateRoom,
+    roomAuthFailedError
 }

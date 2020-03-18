@@ -1,9 +1,5 @@
 const { getRoomByRoomId } = require('../../controllers/rooms')
-const { ensureIsRoomAdmin, ensureIsRoomMember } = require('./helper')
-
-const isPrivateRoom = (room) => {
-    return room.type === 'private'
-}
+const { ensureIsRoomAdmin, ensureIsRoomMember, isPrivateRoom } = require('./helper')
 
 const handleRoomGetAuth = (req, next, room) => {
     const { userId } = req.session
