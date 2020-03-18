@@ -5,6 +5,7 @@ export const FETCH_PUBLIC_ROOMS = 'FETCH_PUBLIC_ROOMS'
 export const CREATE_ROOM = "CREATE_ROOM";
 export const DELETE_ROOM = 'DELETE_ROOM'
 export const JOIN_ROOM = "JOIN_ROOM";
+export const LEAVE_ROOM = "LEAVE_ROOM";
 
 export const CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
 
