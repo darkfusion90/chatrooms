@@ -1,0 +1,17 @@
+.room-content-container {
+    height: 100%;
+    max-height: 100%;
+    padding-bottom: 1vh;
+}
+
+.room-content-header {
+    flex: 1 1 0;
+}
+
+.room-content-body {
+    flex: 8 1 0;
+}
+
+.room-content-footer {
+    flex: 1 1 0;
+}
