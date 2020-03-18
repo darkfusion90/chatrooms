@@ -53,6 +53,7 @@ app.delete('/api/rooms/:roomId/messages/:messageId', routes.rooms.messages._dele
 
 app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, routes.rooms.members.get)
 app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, routes.rooms.members.post)
+app.delete('/api/rooms/:roomId/members/:memberId', roomAuth.roomMembersAuth, routes.rooms.members._delete)
 
 app.get('/api/user/:userId?', routes.user.get)
 app.post('/api/user', routes.user.post)
