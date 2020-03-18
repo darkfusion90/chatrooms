@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import CreateRoomModal from '../../components/modals/CreateRoomModal'
 import JoinRoomModal from '../../components/modals/JoinRoomModal'
 import DeleteRoomModal from '../../components/modals/DeleteRoomModal'
+import LeaveRoomModal from '../../components/modals/LeaveRoomModal'
 
 const getModalComponentToShow = (modalName) => {
     switch (modalName) {
@@ -13,6 +14,8 @@ const getModalComponentToShow = (modalName) => {
             return <JoinRoomModal />
         case 'DeleteRoom':
             return <DeleteRoomModal />
+        case 'LeaveRoom':
+            return <LeaveRoomModal />
         default:
             return null
     }
