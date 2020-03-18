@@ -1,13 +1,22 @@
 import _ from 'lodash'
 
-import { DELETE_ROOM, FETCH_PUBLIC_ROOMS } from '../constants/actionConstants';
+import { DELETE_ROOM, FETCH_PUBLIC_ROOMS, LEAVE_ROOM } from '../constants/actionConstants';
 
-export default (state = [], action) => {
+export default (state = {}, action) => {
     switch (action.type) {
         case FETCH_PUBLIC_ROOMS:
-            return action.payload
+            return { ...state, ..._.mapKeys(action.payload, 'roomId') }
         case DELETE_ROOM:
-            return _.toArray(_.omit(state, action.payload))
+            return _.omit(state, action.payload)
+        case LEAVE_ROOM:
+            const { roomId, updatedMembers } = action.payload
+            console.log('mems: ', updatedMembers)
+            const roomLeft = state[roomId]
+            if (!roomLeft) {
+                return state
+            }
+            roomLeft.members = updatedMembers
+            return { ...state, [roomId]: roomLeft }
         default:
             return state;
     }
