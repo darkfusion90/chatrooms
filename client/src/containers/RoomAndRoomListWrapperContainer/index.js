@@ -3,19 +3,28 @@ import { Row, Col, Container } from 'react-bootstrap'
 
 import RoomListContainer from '../RoomListContainer';
 import RoomContainer from '../RoomContainer';
+import './style.scss'
 
 const roomListColProps = (roomId) => {
-    return roomId ? { xl: 5, lg: 5, md: 6, sm: 0, xs: 0, className: 'd-none d-md-block' } : {}
+    const fixedClass = 'overflow-auto h-100'
+    if (roomId) {
+        return { xl: 5, lg: 5, md: 5, sm: 0, xs: 0, className: `d-none d-md-block ${fixedClass}` }
+    } else {
+        return { className: fixedClass }
+    }
 }
 
 const roomColProps = (roomId) => {
-    return roomId ? { xs: 12, sm: 12 } : {}
+    const fixedProps = { xl: 7, lg: 7, md: 7 }
+    const otherProps = roomId ? { xs: 12, sm: 12, className: 'h-100' } : {}
+
+    return { ...fixedProps, ...otherProps }
 }
 
 const renderRoomCol = (roomId) => {
     if (roomId) {
         return (
-            <Col xl={7} lg={7} md={6} {...roomColProps(roomId)}>
+            <Col {...roomColProps(roomId)} >
                 <RoomContainer roomId={roomId} key={roomId} />
             </Col>
         )
@@ -24,7 +33,7 @@ const renderRoomCol = (roomId) => {
 
 const renderRoomListCol = (roomId) => {
     return (
-        <Col {...roomListColProps(roomId)} style={{ maxHeight: '90vh', height: '90vh', overflow: 'auto' }}>
+        <Col {...roomListColProps(roomId)}>
             <RoomListContainer />
         </Col>
     )
@@ -32,11 +41,10 @@ const renderRoomListCol = (roomId) => {
 
 const RoomAndRoomListWrapperContainer = (props) => {
     const roomId = props.match.params.id
-    const gutterStyle = roomId ? {} : { className: 'no-gutters' }
 
     return (
-        <Container fluid style={{ paddingLeft: 0 }}>
-            <Row className='mx-0' style={gutterStyle}>
+        <Container fluid className='pl-sm-0 pl-md-0 pr-0 room-page-container'>
+            <Row className='mx-0 no-gutters h-100'>
                 {renderRoomListCol(roomId)}
                 {renderRoomCol(roomId)}
             </Row>
