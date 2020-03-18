@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, reset, Field } from 'redux-form';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Container, Button, Form } from 'react-bootstrap';
 
 import TextInputWordWrap from '../../TextInputWordWrap'
 import './style.scss'
@@ -14,12 +14,13 @@ const renderMessageField = (formProps) => {
 }
 
 const ChatMessageForm = (props) => {
-    const onFormSubmit = props.handleSubmit(props.onFormSubmit)
+    const { handleSubmit, onFormSubmit } = props
+
     return (
-        <Form onSubmit={onFormSubmit} id={FORM_ID}>
-            <Row className='d-flex align-items-center w-100'> 
-                <Col sm={10} md={10} ld={10}>
-                    <Form.Group controlId='message' className='w-100 textarea-container'>
+        <Form onSubmit={handleSubmit(onFormSubmit)} id={FORM_ID} className='chat-message-form'>
+            <Container className='d-flex align-items-center' fluid>
+                <div className='textarea-flex-container'>
+                    <Form.Group controlId='message' className='textarea-wrapper'>
                         <Field
                             name='message'
                             placeholder='Type a message...'
@@ -27,11 +28,11 @@ const ChatMessageForm = (props) => {
                             component={renderMessageField}
                         />
                     </Form.Group>
-                </Col>
-                <Col sm={2} md={2} lg={2}>
-                    <Button type='submit' form={FORM_ID}>Send</Button>
-                </Col>
-            </Row>
+                </div>
+                <div className='send-btn-flex-container'>
+                    <Button type='submit' form={FORM_ID} variant='outline-primary'>Send</Button>
+                </div>
+            </Container>
         </Form>
     )
 }
