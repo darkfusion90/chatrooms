@@ -56,7 +56,7 @@ class RoomListContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { rooms: state.rooms, roomListSortTechnique: state.roomListSortTechnique }
+    return { rooms: Object.values(state.rooms), roomListSortTechnique: state.roomListSortTechnique }
 }
 
 export default connect(mapStateToProps, { fetchPublicRooms, setRoomListSortTechnique })(RoomListContainer);
