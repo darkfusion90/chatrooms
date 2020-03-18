@@ -1,6 +1,6 @@
 const Room = require('../models/Room')
 const messagesController = require('./messages')
-const { createRoomMember, MEMBER_TYPE_ADMIN } = require('./roomMemberController')
+const { createRoomMember, deleteRoomMember, MEMBER_TYPE_ADMIN } = require('./roomMemberController')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 
 const DEFAULT_PROJECTIONS = {
@@ -41,6 +41,10 @@ function generateRoomId() {
 }
 
 function populateApplicableFields(query) {
+    if (!query) {
+        return
+    }
+
     const { createdBy, members, messages } = POPULATE_CONFIG
     return query.populate(members).populate(messages).populate(createdBy)
 }
@@ -95,11 +99,25 @@ function getRoomByRoomId(roomId, callback) {
 }
 
 function updateRoomByRoomId(roomId, updates, callback) {
-    populateApplicableFields(Room.findOneAndUpdate(
-        { roomId: roomId },
-        updates,
-        { returnOriginal: false, fields: DEFAULT_PROJECTIONS })
-    ).exec(callback)
+    const promise = new Promise((resolve, reject) => {
+        const populated = populateApplicableFields(Room.findOneAndUpdate(
+            { roomId },
+            updates,
+            { returnOriginal: false, fields: DEFAULT_PROJECTIONS })
+        )
+
+        if (!populated) {
+            reject(new Error('Doc not found'))
+        } else {
+            populated.then(resolve).catch(reject)
+        }
+    })
+
+    if (callback && typeof callback === 'function') {
+        promise.then(res => callback(null, res)).catch(callback)
+    }
+
+    return promise
 }
 
 function addMessageToRoom(roomId, author, message, callback) {
@@ -133,7 +151,10 @@ function deleteMessageFromRoom(roomId, messageId, callback) {
 function getRoomMember(roomId, memberId, callback) {
     Room.findOne({ roomId, members: memberId }, DEFAULT_PROJECTIONS)
         .populate(POPULATE_CONFIG.members)
-        .exec((err, room) => callback(err, room ? room.members[0] : room))
+        .exec((err, room) => {
+            const matchingMemberDoc = room ? room.members.filter(member => member._id.equals(memberId)) : room
+            callback(err, matchingMemberDoc)
+        })
 }
 
 function getAllRoomMembersOfRoom(roomId, callback) {
@@ -152,6 +173,19 @@ function addMemberToRoomByRoomId(roomId, memberData, callback) {
     })
 }
 
+function deleteRoomMemberFromRoom(roomId, memberId, callback) {
+    updateRoomByRoomId(roomId, { $pull: { members: memberId } })
+        .then(room => {
+            if (!room) return callback(null, room)
+            deleteRoomMember(memberId, (err, deletedMemberDoc) => {
+                if (err || !deletedMemberDoc) {
+                    return callback(null, null)
+                }
+                callback(null, room)
+            })
+        }).catch(callback)
+}
+
 module.exports = {
     createRoom,
     deleteRoom,
@@ -164,5 +198,6 @@ module.exports = {
     deleteMessageFromRoom,
     getRoomMember,
     getAllRoomMembersOfRoom,
-    addMemberToRoomByRoomId
+    addMemberToRoomByRoomId,
+    deleteRoomMemberFromRoom
 }
