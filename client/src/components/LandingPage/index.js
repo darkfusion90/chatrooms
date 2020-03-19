@@ -1,8 +1,9 @@
 import React from 'react';
+import Button from 'react-bootstrap/Button'
 
-import CreateRoomButton from '../CreateRoomButton'
-import JoinRoomButton from '../JoinRoomButton'
+import ModalTrigger from '../modals/ModalTrigger'
 import './LandingPage.scss';
+
 
 const LandingPage = () => {
     return (
@@ -11,8 +12,17 @@ const LandingPage = () => {
                 <p>Welcome to ChatRooms!</p>
 
                 <div className="buttons-container">
-                    <CreateRoomButton />
-                    <JoinRoomButton />
+                    <ModalTrigger
+                        component={Button}
+                        content='Create Room'
+                        modalName='CreateRoom'
+                    />
+                    <ModalTrigger
+                        component={Button}
+                        componentProps={{ variant: 'outline-primary' }}
+                        content='Join Room By Id'
+                        modalName='JoinRoom'
+                    />
                 </div>
             </div>
         </div>
