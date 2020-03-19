@@ -1,0 +1,17 @@
+@import "../../../assets/styles/custom.scss";
+
+.text-input-wrap {
+    display: block;
+    margin: auto;
+    min-height: 4vw!important;
+    max-height: 100px!important;
+    line-height: 2vw!important;
+    border: none!important;
+    overflow: auto!important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    resize: none!important;
+    outline: none!important;
+    background-color: $text-area-bgcolor!important;
+}

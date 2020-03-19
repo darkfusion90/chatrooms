@@ -1,0 +1,11 @@
+.chat-window {
+    overflow: hidden;
+    min-height: 100%;
+    height: 100%;
+}
+
+.chat-window:hover,
+.chat-window:active,
+.chat-window:focus {
+    overflow-y: scroll;
+}
