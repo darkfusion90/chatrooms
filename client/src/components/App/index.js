@@ -10,6 +10,7 @@ import RegisterContainer from '../../containers/RegisterContainer';
 import RoomAndRoomListWrapperContainer from '../../containers/RoomAndRoomListWrapperContainer';
 
 import Room from '../../components-beta/Room'
+import RoomList from '../../components-beta/RoomList'
 
 import './App.scss';
 
@@ -27,6 +28,7 @@ const App = (props) => {
                 <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/register" component={RegisterContainer} />
                 <Route exact path="/test/rooms/:roomId" component={Room} />
+                <Route exact path="/test/rooms" component={RoomList} />
                 <Route exact path="*" component={PageNotFound} />
             </Switch>
         );
