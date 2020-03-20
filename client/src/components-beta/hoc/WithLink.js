@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 export default (props) => {
-    const { to, shouldUseReplace, componentProps } = props
+    const { to, shouldUseReplace, componentProps, ...rest } = props
     const Component = props.component
 
     const history = useHistory()
@@ -14,6 +14,7 @@ export default (props) => {
         <Component
             onClick={onClick}
             {...componentProps}
+            {...rest}
         />
     )
 }
