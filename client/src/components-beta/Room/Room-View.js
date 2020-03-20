@@ -1,24 +1,55 @@
 import React from 'react';
+import { Spinner } from 'react-bootstrap'
 
 import { ChatMessageForm, ChatWindow, RoomHeader } from './components'
+import Forbidden from '../../components/errors/Forbidden'
+import PageNotFound from '../../components/errors/PageNotFound'
 import './Room-Style.scss'
 
+const renderLoadingRoom = () => {
+    return (
+        <div className='centered-content'>
+            <h2>Please wait while the Room is loading...</h2>
+            <Spinner size='lg' animation='border' />
+        </div>
+    );
+}
 
-const Room = (props) => {
-    const { room, onSendMessageButtonClick } = props
-    const cw = <ChatWindow room={room} />
-    const cmw = <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
+const renderErrorScreen = (error) => {
+    switch (error.status) {
+        case 403:
+            return <Forbidden msg='User not allowed' />
+        case 404:
+            return <PageNotFound />
+        default:
+            return <div>Unexpected Error</div>
+    }
+}
+
+const renderRoom = (room, onSendMessageButtonClick) => {
     return (
         <div className='d-flex flex-column room-content-container'>
             <RoomHeader room={room} className='room-content-header' />
             <div className='room-content-body'>
-                {cw}
+                <ChatWindow room={room} />
             </div>
             <div className='room-content-footer'>
-                {cmw}
+                <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
             </div>
         </div>
     );
+}
+
+const Room = (props) => {
+    const { error, room, onSendMessageButtonClick } = props
+
+    if (error) {
+        return renderErrorScreen(error)
+    } else if (!room) {
+        return renderLoadingRoom()
+    } else {
+        return renderRoom(room, onSendMessageButtonClick)
+    }
 }
 
 export default Room;

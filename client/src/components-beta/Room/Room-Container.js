@@ -1,9 +1,6 @@
 import React from 'react';
-import { Spinner } from 'react-bootstrap'
 
 import RoomView from './Room-View';
-import Forbidden from '../../components/errors/Forbidden'
-import PageNotFound from '../../components/errors/PageNotFound'
 import { getRoom } from '../../server-communication/httpServer'
 import { connectToRoom, registerNewMessageListener } from '../../server-communication/socketServer'
 import sendMessage from '../../helpers/sendMessage'
@@ -42,18 +39,6 @@ class RoomContainer extends React.Component {
         this.setState({ error: response })
     }
 
-    renderError() {
-        const { status } = this.state.error;
-        if (status === 403) {
-            return <Forbidden msg='User not allowed' />
-        }
-        else if (status === 404) {
-            return <PageNotFound />
-        }
-
-        return <div>Unexpected Error</div>
-    }
-
     onSendMessageButtonClick = (formValues) => {
         const { message } = formValues
         if (!message || message.trim().length === 0) {
@@ -69,25 +54,20 @@ class RoomContainer extends React.Component {
     }
 
     onSendMessageFailure = ({ response }) => {
+        //TODO: Message send failure should be addressed using separate state field
+        //As of now, if any error occurs, it will simply be treated as a "room-error"
+        //and appropriate message shown (e.g. "Room not found" or "Forbidden")
+        //which is misleading and inappropriate
         this.setState({ error: response })
     }
 
     render() {
         const { room, error } = this.state;
-        if (room) {
-            return <RoomView room={room} onSendMessageButtonClick={this.onSendMessageButtonClick} />;
-        }
-
-        if (error) {
-            return this.renderError()
-        }
-
-        return (
-            <div className='centered-content'>
-                <h2>Please wait while your Room is loading...</h2>
-                <Spinner size='lg' animation='border' />
-            </div>
-        );
+        return <RoomView
+            error={error}
+            room={room}
+            onSendMessageButtonClick={this.onSendMessageButtonClick}
+        />;
     }
 }
 
