@@ -11,6 +11,7 @@ import RoomAndRoomListWrapperContainer from '../../containers/RoomAndRoomListWra
 
 import Room from '../../components-beta/Room'
 import RoomList from '../../components-beta/RoomList'
+import Register from '../../components-beta/Register'
 
 import './App.scss';
 
@@ -27,6 +28,7 @@ const App = (props) => {
                 <Route exact path="/rooms/:id?" component={RoomAndRoomListWrapperContainer} />
                 <Route exact path="/login" component={LoginContainer} />
                 <Route exact path="/register" component={RegisterContainer} />
+                <Route exact path="/test/register" component={Register} />
                 <Route exact path="/test/rooms/:roomId" component={Room} />
                 <Route exact path="/test/rooms" component={RoomList} />
                 <Route exact path="*" component={PageNotFound} />
