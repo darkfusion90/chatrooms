@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Alert, Container } from 'react-bootstrap';
 
-import LoginForm from '../../components/forms/LoginForm/'
+import { LoginForm } from './components'
 import { DismissibleAlert } from '../standalone'
 
 import './Login-Style.scss'
