@@ -16,6 +16,9 @@ const renderLoadingRoom = () => {
 }
 
 const renderErrorScreen = (error) => {
+    //TODO:
+    //Make components like <RoomNotFound room-{room} />
+    //Use <PageNotFound />, etc inside those components providing appropriate messages
     switch (error.status) {
         case 403:
             return <Forbidden msg='User not allowed' />
