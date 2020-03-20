@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form, FormControl, FormGroup } from 'react-bootstrap'
 import { Field, reduxForm } from 'redux-form'
 
-import ToggleablePasswordField from '../../ToggleablePasswordField'
+import { ToggleablePasswordField } from '../../../standalone'
 import validate from './validate'
 
 const getFormControlProps = (formProps) => {
