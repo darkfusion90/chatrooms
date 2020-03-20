@@ -5,12 +5,14 @@ import { Container, Button, Form } from 'react-bootstrap';
 import { TextInputWordWrap } from '../../../standalone'
 import './ChatMessageForm-Style.scss'
 
+const renderMessageField = (formProps) => {
+    return (
+        <TextInputWordWrap {...formProps} />
+    );
+}
+
 const ChatMessageFormView = (props) => {
-    const renderMessageField = (formProps) => {
-        return (
-            <TextInputWordWrap {...formProps} />
-        );
-    }
+    console.log('render chat message form view: ', props)
 
     const { onFormSubmit, formId } = props
 
