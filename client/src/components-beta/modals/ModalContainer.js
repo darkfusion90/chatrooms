@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import CreateRoomModal from './CreateRoomModal/'
 import JoinRoomModal from './JoinRoomModal/'
 import DeleteRoomModal from './DeleteRoomModal/'
-import LeaveRoomModal from './LeaveRoomModal'
+import LeaveRoomModal from './LeaveRoomModal/'
 
 const getModalComponentToShow = (modalName) => {
     switch (modalName) {
