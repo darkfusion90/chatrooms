@@ -12,7 +12,7 @@ class RoomContainer extends React.Component {
     }
 
     componentDidMount() {
-        const { roomId } = this.props.match.params;
+        const { roomId } = this.props;
         registerNewMessageListener(roomId, (data) => {
             console.log("new message: ", data)
             getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
