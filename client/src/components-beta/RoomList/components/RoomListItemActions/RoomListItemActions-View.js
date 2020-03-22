@@ -21,8 +21,7 @@ const RoomListItemActions = (props) => {
             <WithLink
                 to={`/test/rooms/${room.roomId}`}
                 component={Button}
-                content='Open Room'
-            />
+            >Open Room</WithLink>
         )
 
         return (
