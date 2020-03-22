@@ -1,0 +1,32 @@
+$hover-color: #ddeef6;
+$foreground-color: white;
+
+.header-navbar-container {
+    color: $foreground-color;
+    background-color: #23282d;
+    text-decoration: none;
+}
+
+.brand {
+    color: $foreground-color;
+    font-family: "Playball", cursive;
+    font-size: calc(0.7em + 1vw);
+}
+
+.header-text {
+    color: $foreground-color!important;
+    font-weight: bold;
+}
+
+.brand:hover,
+.brand:active,
+.brand:focus,
+.header-text:hover,
+.header-text:active,
+.header-text:focus {
+    color: $hover-color;
+    cursor: pointer;
+    /*outline: 0 prevents the appearance of a box around the element when clicked/focused*/
+    outline: 0;
+    text-decoration: none;
+}
