@@ -2,8 +2,6 @@ import React from 'react';
 import { Spinner } from 'react-bootstrap'
 
 import { ChatMessageForm, ChatWindow, RoomHeader } from './components'
-import Forbidden from '../../components/errors/Forbidden'
-import PageNotFound from '../../components/errors/PageNotFound'
 import './Room-Style.scss'
 
 const renderLoadingRoom = () => {
@@ -20,10 +18,6 @@ const renderErrorScreen = (error) => {
     //Make components like <RoomNotFound room-{room} />
     //Use <PageNotFound />, etc inside those components providing appropriate messages
     switch (error.status) {
-        case 403:
-            return <Forbidden msg='User not allowed' />
-        case 404:
-            return <PageNotFound />
         default:
             return <div>Unexpected Error</div>
     }
