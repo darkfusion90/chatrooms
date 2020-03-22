@@ -2,7 +2,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 export default (props) => {
-    const { to, shouldUseReplace, componentProps, content, component, ...rest } = props
+    const { to, shouldUseReplace, componentProps, component, ...rest } = props
     const Component = component
 
     const history = useHistory()
@@ -16,7 +16,7 @@ export default (props) => {
             {...componentProps}
             {...rest}
         >
-            {content}
+            {props.children}
         </Component>
     )
 }
