@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../components-beta/Header'
+import Header from '../../components/Header'
 
 const LayoutEnhancer = Component => {
     return (

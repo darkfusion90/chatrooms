@@ -1,7 +1,7 @@
 import React from 'react'
 
-import withLayout from '../../components-beta/hoc/WithLayout'
-import Register from '../../components-beta/Register'
+import withLayout from '../../components/hoc/WithLayout'
+import Register from '../../components/Register'
 
 const RouteRegister = (props) => {
     return withLayout(<Register {...props} />)

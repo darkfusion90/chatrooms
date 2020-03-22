@@ -1,9 +1,9 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap'
 
-import withLayout from '../../components-beta/hoc/WithLayout'
-import Room from '../../components-beta/Room'
-import RoomList from '../../components-beta/RoomList'
+import withLayout from '../../components/hoc/WithLayout'
+import Room from '../../components/Room'
+import RoomList from '../../components/RoomList'
 import './Route-Room-Style.scss'
 
 const getRoomListColProps = (roomId) => {
