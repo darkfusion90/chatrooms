@@ -1,5 +1,5 @@
-import { REGISTER } from '../constants/actionConstants';
-import { registerUser } from '../server-communication/httpServer'
+import { REGISTER } from '../../action-constants';
+import { registerUser } from '../../../server-communication/httpServer'
 
 
 export default (username, password, confirmPassword, onRequestRejected) => async (dispatch) => {

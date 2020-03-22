@@ -1,4 +1,4 @@
-import WithModalTrigger from './WithModalTrigger'
+import WithModalTrigger from './WithModalTrigger/'
 import WithLink from './WithLink'
 
 

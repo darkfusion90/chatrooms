@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RegisterView from './Register-View'
-import registerUser from '../../actions/registerUser';
+import { registerUser } from '../../redux/actions/user-actions';
 
 class RegisterContainer extends React.Component {
 

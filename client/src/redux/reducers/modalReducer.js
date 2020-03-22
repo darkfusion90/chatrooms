@@ -1,4 +1,4 @@
-import { SHOW_MODAL, HIDE_MODAL } from '../constants/actionConstants'
+import { SHOW_MODAL, HIDE_MODAL } from '../action-constants'
 
 const INITIAL_STATE = {
     isModalOpen: false,

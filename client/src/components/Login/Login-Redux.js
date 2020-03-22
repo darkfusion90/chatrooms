@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoginView from './Login-View'
-import loginUser from '../../actions/loginUser';
+import { loginUser } from '../../redux/actions/user-actions'
 
 class LoginRedux extends React.Component {
     onFormSubmit = (formValues) => {

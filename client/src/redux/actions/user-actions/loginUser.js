@@ -1,6 +1,5 @@
-import { loginUser } from '../server-communication/httpServer'
-
-import { LOGIN } from '../constants/actionConstants'
+import { LOGIN } from '../../action-constants'
+import { loginUser } from '../../../server-communication/httpServer'
 
 const loginAction = (user) => {
     return {

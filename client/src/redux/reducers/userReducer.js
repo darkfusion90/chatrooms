@@ -1,4 +1,4 @@
-import { LOGIN, UPDATE_USER, LOGOUT, REGISTER } from '../constants/actionConstants';
+import { LOGIN, UPDATE_USER, LOGOUT, REGISTER } from '../action-constants';
 
 const INITIAL_STATE = {
     isLoggedIn: false,

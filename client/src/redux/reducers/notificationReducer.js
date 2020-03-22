@@ -1,4 +1,4 @@
-import { CREATE_NOTIFICATION } from "../constants/actionConstants";
+import { CREATE_NOTIFICATION } from '../action-constants';
 
 const INITIAL_STATE = { length: 0, data: {} }
 

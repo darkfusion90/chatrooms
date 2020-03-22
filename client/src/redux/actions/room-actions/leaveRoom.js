@@ -1,5 +1,5 @@
-import { leaveRoom } from '../server-communication/httpServer'
-import { LEAVE_ROOM } from '../constants/actionConstants'
+import { leaveRoom } from '../../../server-communication/httpServer'
+import { LEAVE_ROOM } from '../../action-constants'
 
 const getMemberDocOfUser = (room, userId) => {
     for (let i = 0; i < room.members.length; i++) {

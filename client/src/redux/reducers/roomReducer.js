@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import { DELETE_ROOM, FETCH_PUBLIC_ROOMS, LEAVE_ROOM } from '../constants/actionConstants';
+import { DELETE_ROOM, FETCH_PUBLIC_ROOMS, LEAVE_ROOM } from '../action-constants';
 
 export default (state = {}, action) => {
     switch (action.type) {

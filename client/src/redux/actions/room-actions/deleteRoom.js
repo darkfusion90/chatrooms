@@ -1,5 +1,5 @@
-import { deleteRoom } from '../server-communication/httpServer'
-import { DELETE_ROOM } from '../constants/actionConstants'
+import { deleteRoom } from '../../../server-communication/httpServer'
+import { DELETE_ROOM } from '../../action-constants'
 
 export default (roomId, onSuccess, onFailure) => async dispatch => {
     deleteRoom(roomId).then(_ => {

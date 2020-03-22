@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 
 import DeleteRoomModalView from './DeleteRoomModal-View'
 
-import hideModalAction from '../../../actions/hideModal';
-import deleteRoomAction from '../../../actions/deleteRoom'
+import { hideModal as hideModalAction } from '../../../redux/actions/modal-actions';
+import { deleteRoom as deleteRoomAction } from '../../../redux/actions/room-actions'
 import delay from '../../../helpers/delay'
 
 class DeleteRoomModalRedux extends React.Component {

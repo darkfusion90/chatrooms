@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import CreateRoomModalView from './CreateRoomModal-View'
-import createRoom from '../../../actions/createRoom';
-import hideModal from '../../../actions/hideModal';
+import { createRoom } from '../../../redux/actions/room-actions';
+import { hideModal } from '../../../redux/actions/modal-actions';
 
 class CreateRoomModalRedux extends React.Component {
     onFormSubmit = ({ roomName, roomType }) => {

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AppContainer from './App-Container'
-import connectToServerAction from '../../actions/connectToServer';
-import updateUserAction from '../../actions/updateUser';
+import { connectToServer as connectToServerAction } from '../../redux/actions/server-actions'
+import { updateUser as updateUserAction } from '../../redux/actions/user-actions';
 
 const AppRedux = ({ connectToServer, updateUser }) => {
     return (

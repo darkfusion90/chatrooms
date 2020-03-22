@@ -1,4 +1,4 @@
-import { SHOW_MODAL } from '../constants/actionConstants'
+import { SHOW_MODAL } from '../../action-constants'
 
 export default (modalName, modalProps) => {
     return {

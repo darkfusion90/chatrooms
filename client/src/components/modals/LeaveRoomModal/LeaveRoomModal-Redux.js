@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LeaveRoomModalView from './LeaveRoomModal-View'
-import hideModalAction from '../../../actions/hideModal';
-import leaveRoomAction from '../../../actions/leaveRoom';
+import { hideModal as hideModalAction } from '../../../redux/actions/modal-actions';
+import { leaveRoom as leaveRoomAction } from '../../../redux/actions/room-actions';
 
 const LeaveRoomModalRedux = ({ modalProps: { room }, ...otherProps }) => {
     const onLeaveRoomButtonClick = () => {

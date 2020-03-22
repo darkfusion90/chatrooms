@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import RoomList from './RoomList-View'
 import { RoomListControlsHeader } from './components'
-import fetchPublicRooms from '../../actions/fetchPublicRooms'
-import setRoomListSortTechnique from '../../actions/setRoomListSortTechnique'
+import { fetchPublicRooms } from '../../redux/actions/room-actions'
+import { setRoomListSortTechnique } from '../../redux/actions/room-list-sort-technique-actions'
 import { sort as roomSortingTechniques } from './utils'
 
 import loggerInit from '../../helpers/logger'

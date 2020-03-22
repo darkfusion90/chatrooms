@@ -1,6 +1,5 @@
-import {connectToServer} from '../server-communication/socketServer'
-
-import { CONNECT_TO_SERVER } from '../constants/actionConstants'
+import { connectToServer } from '../../../server-communication/socketServer'
+import { CONNECT_TO_SERVER } from '../../action-constants'
 
 export default (onConnectionFailed) => async (dispatch) => {
     /*

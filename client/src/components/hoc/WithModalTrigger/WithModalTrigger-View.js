@@ -1,9 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import showModal from '../../actions/showModal'
-
-const ModalTriggerEnhancer = (props) => {
+const WithModalTriggerView = (props) => {
     const { showModal, modalName, modalProps, content, componentProps, component, ...rest } = props
     const Component = component
     return (
@@ -13,5 +10,5 @@ const ModalTriggerEnhancer = (props) => {
     )
 }
 
-export default connect(null, { showModal })(ModalTriggerEnhancer)
+export default WithModalTriggerView
 

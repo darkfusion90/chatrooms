@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button'
 
-import ModalTrigger from '../modals/ModalTrigger'
+import { WithModalTrigger } from '../hoc'
 import './LandingPage-Style.scss';
 
 
@@ -12,12 +12,12 @@ const LandingPage = () => {
                 <p>Welcome to ChatRooms!</p>
 
                 <div className="buttons-container">
-                    <ModalTrigger
+                    <WithModalTrigger
                         component={Button}
                         content='Create Room'
                         modalName='CreateRoom'
                     />
-                    <ModalTrigger
+                    <WithModalTrigger
                         component={Button}
                         componentProps={{ variant: 'outline-primary' }}
                         content='Join Room By Id'

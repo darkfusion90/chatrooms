@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import JoinRoomModalView from './JoinRoomModal-View'
-import tryJoiningRoom from '../../../actions/tryJoiningRoom';
-import hideModal from '../../../actions/hideModal'
+import { hideModal } from '../../../redux/actions/modal-actions'
 
 import delay from '../../../helpers/delay'
 
@@ -29,4 +28,4 @@ const mapStateToProps = (state) => {
     return { isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'JoinRoom' }
 }
 
-export default connect(mapStateToProps, { tryJoiningRoom, hideModal })(JoinRoomModalRedux);
+export default connect(mapStateToProps, { hideModal })(JoinRoomModalRedux);

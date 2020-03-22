@@ -1,6 +1,6 @@
-import { UPDATE_USER } from '../constants/actionConstants'
+import { UPDATE_USER } from '../../action-constants'
 
-import { getCurrentUser, checkLoginStatus } from '../server-communication/httpServer'
+import { getCurrentUser, checkLoginStatus } from '../../../server-communication/httpServer'
 
 
 const actionUpdateUser = (isLoggedIn, user) => {
