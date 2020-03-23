@@ -12,7 +12,8 @@ const RoomHeader = ({ room, className }) => {
         const ActionLeaveRoom = (
             <WithModalTrigger
                 component={FontAwesomeIcon}
-                componentProps={{ icon: faSignOutAlt, className: 'cursor-pointer' }}
+                icon={faSignOutAlt}
+                className='cursor-pointer'
                 modalName='LeaveRoom'
                 modalProps={{ room }}
             />
@@ -28,7 +29,8 @@ const RoomHeader = ({ room, className }) => {
         const ActionCloseRoomWindow = (
             <WithLink
                 component={FontAwesomeIcon}
-                componentProps={{ icon: faWindowClose, className: 'cursor-pointer' }}
+                icon={faWindowClose}
+                className='cursor-pointer'
                 to='/rooms'
             />
         )
