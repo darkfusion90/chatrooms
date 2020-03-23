@@ -4,13 +4,13 @@ import { Button, Row, Col } from 'react-bootstrap';
 const ICON_POS_LEFT = 0;
 const ICON_POS_RIGHT = 1;
 
-const ButtonWithLeadingIcon = ({ buttonProps, icon, iconPos, content }) => {
+const IconButton = ({ icon, iconPos, children, ...rest }) => {
     return (
-        <Button {...buttonProps}>
+        <Button {...rest}>
             <Row>
                 {iconPos === ICON_POS_LEFT ? <Col>{icon}</Col> : null}
                 <Col style={{ paddingLeft: 0, whiteSpace: 'nowrap' }}>
-                    {content}
+                    {children}
                 </Col>
                 {iconPos === ICON_POS_RIGHT ? <Col>{icon}</Col> : null}
             </Row>
@@ -19,4 +19,4 @@ const ButtonWithLeadingIcon = ({ buttonProps, icon, iconPos, content }) => {
 }
 
 export { ICON_POS_RIGHT, ICON_POS_LEFT }
-export default ButtonWithLeadingIcon;
+export default IconButton;
