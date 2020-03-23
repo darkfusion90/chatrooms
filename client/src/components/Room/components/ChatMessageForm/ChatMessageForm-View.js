@@ -12,8 +12,6 @@ const renderMessageField = (formProps) => {
 }
 
 const ChatMessageFormView = (props) => {
-    console.log('render chat message form view: ', props)
-
     const { onFormSubmit, formId } = props
 
     return (
