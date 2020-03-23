@@ -23,19 +23,15 @@ class RoomContainer extends React.Component {
     componentDidUpdate() {
         const { room } = this.state
         if (room) {
-            connectToRoom(room.roomId, function (err) {
-                console.log('room connect callback: ', err)
-            })
+            connectToRoom(room.roomId, () => { })
         }
     }
 
     onRoomFetchSuccess = (response) => {
-        console.log('success room fetch: ', response)
         this.setState({ room: response.data, error: null })
     }
 
     onRoomFetchFail = ({ response }) => {
-        console.log('fail room fetch: ', response)
         this.setState({ error: response })
     }
 
