@@ -13,66 +13,64 @@ const PROGRESS_FAIL = 3;
 const iconButtonConfig = {
     [PROGRESS_PENDING]: {
         icon: <Spinner animation='border' size='sm' />,
-        buttonProps: {
-            variant: 'info',
-            disabled: true,
-            style: {
-                cursor: 'not-allowed'
-            }
+        variant: 'info',
+        disabled: true,
+        style: {
+            cursor: 'not-allowed'
         }
     },
     [PROGRESS_SUCCESS]: {
         icon: <FontAwesomeIcon icon={faCheckCircle} />,
-        buttonProps: {
-            variant: 'success',
-            disabled: true,
-            style: {
-                cursor: 'not-allowed'
-            }
+        variant: 'success',
+        disabled: true,
+        style: {
+            cursor: 'not-allowed'
+
         }
     },
     [PROGRESS_FAIL]: {
         icon: <FontAwesomeIcon icon={faTimesCircle} />,
-        buttonProps: {
-            variant: 'danger',
-            disabled: true,
-            style: {
-                cursor: 'not-allowed'
-            }
+        variant: 'danger',
+        disabled: true,
+        style: {
+            cursor: 'not-allowed'
         }
     }
 }
 
-const ProgressButton = ({ progress, buttonProps, ...otherProps }) => {
+const ProgressButton = ({
+    progress,
+    propsProgressInitial,
+    propsProgressPending,
+    propsProgressSuccess,
+    propsProgressFailure,
+    ...otherProps
+}) => {
     if (progress === PROGRESS_INITIAL) {
-        return <Button {...buttonProps}>{otherProps.labelProgressInitial}</Button>
+        const { label } = propsProgressInitial
+        return <Button {...propsProgressInitial} {...otherProps}>{label}</Button>
     }
 
-    const getProgressLabel = () => {
-        const {
-            labelProgressInitial,
-            labelProgressPending,
-            labelProgressSuccess,
-            labelProgressFail,
-        } = otherProps
-
-        //eslint-disable-next-line
+    const mapProgressToProps = () => {
         switch (progress) {
-            case PROGRESS_INITIAL: return labelProgressInitial;
-            case PROGRESS_PENDING: return labelProgressPending;
-            case PROGRESS_SUCCESS: return labelProgressSuccess;
-            case PROGRESS_FAIL: return labelProgressFail;
+            case PROGRESS_INITIAL: return propsProgressInitial;
+            case PROGRESS_PENDING: return propsProgressPending;
+            case PROGRESS_SUCCESS: return propsProgressSuccess;
+            case PROGRESS_FAIL: return propsProgressFailure;
+            default: return {}
         }
     }
 
-    const { icon, ...restConfig } = iconButtonConfig[progress]
+    const progressProps = mapProgressToProps()
     return (
         <IconButton
-            icon={icon}
-            buttonProps={{ ...restConfig.buttonProps, ...buttonProps }}
             iconPos={ICON_POS_LEFT}
-            content={getProgressLabel()}
-        />
+            {...iconButtonConfig[progress]}
+            {...progressProps}
+            {...otherProps}
+        >
+            {progressProps.label}
+        </IconButton>
     )
 }
 
