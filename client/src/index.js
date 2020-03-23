@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import reducers from './reducers'
-import AppContainer from './containers/AppContainer';
-import ModalContainer from './containers/ModalContainer';
+import reducers from './redux/reducers'
+import App from './components/App'
+import ModalContainer from './components/modals/ModalContainer'
 
 const composeEnhanchers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhanchers(
@@ -14,7 +14,7 @@ const store = createStore(reducers, composeEnhanchers(
 
 ReactDOM.render(
     <Provider store={store}>
-        <AppContainer />
+        <App />
         <ModalContainer />
     </Provider>,
     document.querySelector("#root")

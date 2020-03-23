@@ -2,23 +2,23 @@ import React from 'react';
 
 import Modal from 'react-bootstrap/Modal';
 
-const GenericModal = (props) => {
+const GenericModal = ({ visible, hideModal, header, content, actions }) => {
     return (
         <Modal
-            show={props.visible}
-            onHide={props.hideModal}
+            show={visible}
+            onHide={hideModal}
             centered
         >
-            <Modal.Header closeButton onHide={props.hideModal}>
+            <Modal.Header closeButton onHide={hideModal}>
                 <Modal.Title>
-                    {props.header}
+                    {header}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {props.content}
+                {content}
             </Modal.Body>
             <Modal.Footer>
-                {props.actions}
+                {actions}
             </Modal.Footer>
         </Modal>
     )

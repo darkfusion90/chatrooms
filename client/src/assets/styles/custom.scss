@@ -31,6 +31,10 @@ $text-area-bgcolor: #fff;
     cursor: pointer;
 }
 
+.cursor-not-allowed:hover {
+    cursor: not-allowed;
+}
+
 .room-page-sub-header {
     height: 40px;
     min-height: 40px;
