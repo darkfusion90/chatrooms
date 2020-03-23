@@ -12,7 +12,7 @@ class CreateRoomModalRedux extends React.Component {
     }
 
     render() {
-        const { isModalVisible, hideModal, hideAlert, alertProps } = this.props
+        const { createRoomFormData, isModalVisible, hideModal, hideAlert, alertProps } = this.props
 
         return (
             <CreateRoomModalView
@@ -20,6 +20,7 @@ class CreateRoomModalRedux extends React.Component {
                 alertProps={alertProps}
                 hideAlert={hideAlert}
                 hideModal={hideModal}
+                createRoomFormData={createRoomFormData}
                 onFormSubmit={this.onFormSubmit}
             />
         );
@@ -27,7 +28,10 @@ class CreateRoomModalRedux extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return { isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'CreateRoom' }
+    return {
+        isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'CreateRoom',
+        createRoomFormData: state.form['createRoomForm']
+    }
 }
 
 export default connect(

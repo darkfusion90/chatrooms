@@ -6,17 +6,30 @@ import { CreateRoomForm } from './components'
 
 import { DismissibleAlert } from '../../standalone'
 
-const CreateRoomModalView = ({ isModalVisible, alertProps, hideAlert, hideModal, onFormSubmit }) => {
+const CreateRoomModalView = ({
+    isModalVisible,
+    alertProps,
+    hideAlert,
+    hideModal,
+    createRoomFormData,
+    onFormSubmit
+}) => {
     const hideAlertAndModal = () => {
         hideAlert()
         hideModal()
     }
 
     const getModalActions = () => {
+        const hasErrors = createRoomFormData && createRoomFormData.syncErrors
         return (
             <>
                 <Button variant='secondary' onClick={hideAlertAndModal}>Cancel</Button>
-                <Button form='create-room-form' type='submit'>Create Room</Button>
+                <Button
+                    form='create-room-form'
+                    type='submit'
+                    disabled={hasErrors}
+                    className={`cursor-${hasErrors ? 'not-allowed' : 'pointer'}`}
+                >CreateRoom</Button>
             </>
         );
     }
