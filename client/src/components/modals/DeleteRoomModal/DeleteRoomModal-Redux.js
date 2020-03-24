@@ -5,7 +5,6 @@ import DeleteRoomModalView from './DeleteRoomModal-View'
 
 import { hideModal as hideModalAction } from '../../../redux/actions/modal-actions';
 import { deleteRoom as deleteRoomAction } from '../../../redux/actions/room-actions'
-import delay from '../../../helpers/delay'
 
 class DeleteRoomModalRedux extends React.Component {
     onDeleteRoomFormSubmit = () => {
@@ -13,11 +12,12 @@ class DeleteRoomModalRedux extends React.Component {
             onDeleteRoomPending,
             onDeleteRoomSuccess,
             onDeleteRoomFail,
-            modalProps: room
+            deleteRoom,
+            modalProps: { room }
         } = this.props
 
         onDeleteRoomPending()
-        delay(room.roomId, onDeleteRoomSuccess, onDeleteRoomFail)
+        deleteRoom(room.roomId, onDeleteRoomSuccess, onDeleteRoomFail)
     }
 
     render() {
@@ -53,5 +53,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    { hideModal: hideModalAction, deleteModal: deleteRoomAction }
+    { hideModal: hideModalAction, deleteRoom: deleteRoomAction }
 )(DeleteRoomModalRedux);
