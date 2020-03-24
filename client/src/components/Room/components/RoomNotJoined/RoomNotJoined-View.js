@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { ButtonGroup, Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadCry } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,8 +15,10 @@ const RoomNotJoinedView = ({ room }) => {
             <p>You are not a member of this room</p>
             <p>To access, you must {possibleActionText}</p>
             <ButtonGroup>
-                {isPrivateRoom ? null : <JoinRoomButton roomId={room.roomId} />}
+                {isPrivateRoom ? <div>Send a request</div> : <div>Join Room</div>}
             </ButtonGroup>
         </Container>
     )
 }
+    
+export default RoomNotJoinedView
