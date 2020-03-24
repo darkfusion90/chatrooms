@@ -1,7 +1,8 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap'
 
-import { ChatMessageForm, ChatWindow, RoomHeader } from './components'
+import { ChatMessageForm, ChatWindow, RoomHeader, RoomNotJoined } from './components'
+import isRoomMember from './utils/isRoomMember'
 import './Room-Style.scss'
 
 const renderLoadingRoom = () => {
@@ -23,9 +24,9 @@ const renderErrorScreen = (error) => {
     }
 }
 
-const renderRoom = (room, onSendMessageButtonClick) => {
+const renderRoomContent = (room, onSendMessageButtonClick) => {
     return (
-        <div className='d-flex flex-column room-content-container'>
+        <>
             <RoomHeader room={room} className='room-content-header' />
             <div className='room-content-body'>
                 <ChatWindow room={room} />
@@ -33,17 +34,28 @@ const renderRoom = (room, onSendMessageButtonClick) => {
             <div className='room-content-footer'>
                 <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
             </div>
+        </>
+    )
+}
+
+const renderRoom = (room, currentUser, onSendMessageButtonClick) => {
+    return (
+        <div className='d-flex flex-column room-content-container'>
+            {renderRoomContent(room, currentUser, onSendMessageButtonClick)}
         </div>
     );
 }
 
 const Room = (props) => {
-    const { error, room, onSendMessageButtonClick } = props
+    const { error, room, currentUser, onSendMessageButtonClick } = props
 
     if (error) {
         return renderErrorScreen(error)
     } else if (!room) {
+        console.log('no room')
         return renderLoadingRoom()
+    } else if (!isRoomMember(room, currentUser && currentUser._id)) {
+        return <RoomNotJoined room={room} />
     } else {
         return renderRoom(room, onSendMessageButtonClick)
     }
