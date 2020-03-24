@@ -33,13 +33,12 @@ class RoomListItemActionsRedux extends React.Component {
 
     render() {
         const currentUserMemberReference = this.getMemberReferenceOfCurrentUser()
-        const props = {
-            isCurrentUserRoomMember: this.isCurrentUserRoomMember(currentUserMemberReference),
-            isCurrentUserRoomAdmin: this.isCurrentUserRoomAdmin(currentUserMemberReference),
-            room: this.props.room
-        }
         return (
-            <RoomListItemActions {...props} />
+            <RoomListItemActions
+                isCurrentUserRoomMember={this.isCurrentUserRoomMember(currentUserMemberReference)}
+                isCurrentUserRoomAdmin={this.isCurrentUserRoomAdmin(currentUserMemberReference)}
+                {...this.props}
+            />
         )
     }
 }
