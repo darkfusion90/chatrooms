@@ -1,3 +1,3 @@
-import CreateRoomModal from './CreateRoomModal-Container'
+import CreateRoomModal from './CreateRoomModal-Redux'
 
 export default CreateRoomModal
