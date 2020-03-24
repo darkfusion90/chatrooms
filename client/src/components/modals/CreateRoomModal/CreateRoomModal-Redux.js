@@ -1,30 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import CreateRoomModalView from './CreateRoomModal-View'
-import { createRoom } from '../../../redux/actions/room-actions';
-import { hideModal } from '../../../redux/actions/modal-actions';
+import CreateRoomModalContainer from './CreateRoomModal-Container'
+import { createRoom as createRoomAction } from '../../../redux/actions/room-actions';
+import { hideModal as hideModalAction } from '../../../redux/actions/modal-actions';
 
-class CreateRoomModalRedux extends React.Component {
-    onFormSubmit = ({ roomName, roomType }) => {
-        const { onCreateRoomSuccess, onCreateRoomFailure } = this.props
-        this.props.createRoom(roomName, roomType, onCreateRoomSuccess, onCreateRoomFailure);
-    }
-
-    render() {
-        const { createRoomFormData, isModalVisible, hideModal, hideAlert, alertProps } = this.props
-
-        return (
-            <CreateRoomModalView
-                isModalVisible={isModalVisible}
-                alertProps={alertProps}
-                hideAlert={hideAlert}
-                hideModal={hideModal}
-                createRoomFormData={createRoomFormData}
-                onFormSubmit={this.onFormSubmit}
-            />
-        );
-    }
+const CreateRoomModalRedux = (props) => {
+    return <CreateRoomModalContainer {...props} />
 }
 
 const mapStateToProps = (state) => {
@@ -36,6 +18,6 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    { createRoom, hideModal }
+    { createRoom: createRoomAction, hideModal: hideModalAction }
 )(CreateRoomModalRedux);
 
