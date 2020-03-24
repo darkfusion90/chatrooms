@@ -7,8 +7,9 @@ export default ({ component, children, room, ...rest }) => {
     return (
         <WithModalTrigger
             modalName='DeleteRoom'
-            modalProps={room}
+            modalProps={{ room }}
             component={component || Button}
+            variant='danger'
             {...rest}
         >
             {children}
