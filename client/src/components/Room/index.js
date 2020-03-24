@@ -1,3 +1,3 @@
-import Room from './Room-Container'
+import Room from './Room-Redux'
 
 export default Room
