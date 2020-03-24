@@ -3,17 +3,22 @@ import { Link } from 'react-router-dom';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 
 import { NotificationIcon, UserIcon } from './components'
+import { withoutNavigateProp } from '../standalone'
 import './Header-Style.scss'
 
 
 const RegisterButton = (
-    <Link to='/register' component={Button}>
+    <Link to='/register' component={(props) => withoutNavigateProp(props, Button)}>
         Register
     </Link>
 )
 
 const LoginButton = (
-    <Link to='/login' component={Button} variant='outline-primary' >
+    <Link
+        to='/login'
+        component={(props) => withoutNavigateProp(props, Button)}
+        variant='outline-primary'
+    >
         Login
     </Link>
 )
@@ -45,7 +50,13 @@ const HeaderView = ({ isUserRegistered, isUserLoggedIn }) => {
                 <Nav className='flex-row'>
                     <Container>
                         <Nav.Item className='mx-3'>
-                            <Link component={Nav.Link} to='/rooms' className='header-text'>Rooms</Link>
+                            <Link
+                                to='/rooms'
+                                component={(props) => withoutNavigateProp(props, Nav.Link)}
+                                className='header-text'
+                            >
+                                Rooms
+                            </Link>
                         </Nav.Item>
                         <Nav.Item className='mx-3 cursor-pointer'>
                             <NotificationIcon />
