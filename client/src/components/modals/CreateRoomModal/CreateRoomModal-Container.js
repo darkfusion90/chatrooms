@@ -1,37 +1,36 @@
 import React from 'react';
 
-import CreateRoomModalRedux from './CreateRoomModal-Redux'
+import CreateRoomModalView from './CreateRoomModal-View'
+import {
+    PROGRESS_INITIAL,
+    PROGRESS_PENDING,
+    PROGRESS_SUCCESS,
+    PROGRESS_FAIL
+} from '../../standalone/ProgressButton'
 
 class CreateRoomModalContainer extends React.Component {
-    state = { alert: { show: false, variant: null, body: null } }
+    state = { createRoomProgress: PROGRESS_INITIAL }
 
-    showAlert = (variant, body) => {
-        this.setState({ alert: { show: true, variant, body } })
-    }
-
-    hideAlert = () => {
-        this.setState({ alert: { show: false } })
+    onCreateRoomPending = () => {
+        this.setState({ createRoomProgress: PROGRESS_PENDING })
     }
 
     onCreateRoomSuccess = () => {
-        this.showAlert('success', "Your room was successfully created");
+        this.setState({ createRoomProgress: PROGRESS_SUCCESS })
     }
 
     onCreateRoomFailure = () => {
-        this.showAlert('danger', "Oops! Your room couldn't be created");
+        this.setState({ createRoomProgress: PROGRESS_FAIL })
+    }
+
+    onFormSubmit = ({ roomName, roomType }) => {
+        this.onCreateRoomPending()
+        const { createRoom } = this.props
+        createRoom(roomName, roomType, this.onCreateRoomSuccess, this.onCreateRoomFailure)
     }
 
     render() {
-        const { alert } = this.state
-
-        return (
-            <CreateRoomModalRedux
-                alertProps={alert}
-                hideAlert={this.hideAlert}
-                onCreateRoomSuccess={this.onCreateRoomSuccess}
-                onCreateRoomFailure={this.onCreateRoomFailure}
-            />
-        );
+        return <CreateRoomModalView onFormSubmit={this.onFormSubmit} {...this.state} {...this.props} />
     }
 }
 
