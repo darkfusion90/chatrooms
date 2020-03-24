@@ -59,9 +59,11 @@ class RoomContainer extends React.Component {
 
     render() {
         const { room, error } = this.state;
+        const { currentUser } = this.props
         return <RoomView
             error={error}
             room={room}
+            currentUser={currentUser}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
         />;
     }
