@@ -3,11 +3,11 @@ import { Button, Row, Col } from 'react-bootstrap';
 
 import { DeleteRoomForm } from './components'
 import GenericModal from '../GenericModal';
-import ProgressButton, {
-    PROGRESS_INITIAL,
+import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
+import { DeleteRoomButton } from '../../standalone/RoomActionButtons'
 
 const DeleteRoomModalView = ({
     deleteRoomProgress,
@@ -19,24 +19,19 @@ const DeleteRoomModalView = ({
 }) => {
 
     const renderDeleteButton = () => {
-        let buttonProps = {}
-        if (deleteRoomProgress === PROGRESS_INITIAL) {
-            buttonProps = { type: 'submit', 'form': 'delete-room-form', variant: 'danger' }
-        }
-
         const syncErrors = deleteRoomFormData ? deleteRoomFormData.syncErrors : null
         const hasErrors = syncErrors && syncErrors.roomName
 
-        buttonProps = { ...buttonProps, 'disabled': hasErrors }
-
         return (
-            <ProgressButton
+            <DeleteRoomButton
                 progress={deleteRoomProgress}
-                labelProgressInitial='Delete Room'
-                labelProgressPending='Deleting Room...'
-                labelProgressSuccess='Room Deleted'
-                labelProgressFail='Room Deletion Failed'
-                buttonProps={buttonProps}
+                propsProgressInitial={{
+                    type: 'submit',
+                    'form': 'delete-room-form',
+                    variant: 'danger',
+                    disabled: hasErrors,
+                    className: `cursor-${hasErrors ? 'not-allowed' : 'pointer'}`
+                }}
             />
         )
     }
