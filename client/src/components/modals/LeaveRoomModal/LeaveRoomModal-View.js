@@ -2,40 +2,33 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 
 import GenericModal from '../GenericModal';
-import ProgressButton, {
-    PROGRESS_INITIAL,
+import { LeaveRoomButton } from '../../standalone/RoomActionButtons'
+import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
 
-const LeaveRoomModalView = ({ room, isModalVisible, hideModal, onLeaveRoomButtonClick, leaveRoomProgress }) => {
-    console.log('room: ', room)
+const LeaveRoomModalView = ({
+    room,
+    isModalVisible,
+    hideModal,
+    onLeaveRoomButtonClick,
+    leaveRoomProgress
+}) => {
+
     const getModalContent = () => {
-        console.log('room content context: ', room)
-        const roomName = room.name
-        console.log('room name: ', roomName)
-        return (
-            <p>Are you sure you want to leave the room{' '}
-                <strong>{roomName}</strong>
-                ?
-            </p>
-        )
+        const roomName = <strong>{room ? room.name : '<unknown>'}</strong>
+        return <p>Are you sure you want to leave the room {roomName}?</p>
     }
 
     const renderLeaveRoomButton = () => {
-        let buttonProps = {}
-        if (leaveRoomProgress === PROGRESS_INITIAL) {
-            buttonProps = { variant: 'danger', onClick: onLeaveRoomButtonClick }
-        }
-
         return (
-            <ProgressButton
+            <LeaveRoomButton
                 progress={leaveRoomProgress}
-                labelProgressInitial='Leave Room'
-                labelProgressPending='Leaving Room...'
-                labelProgressSuccess='Left Room'
-                labelProgressFail='Error Leaving Room'
-                buttonProps={buttonProps}
+                propsProgressInitial={{
+                    variant: 'danger',
+                    onClick: onLeaveRoomButtonClick
+                }}
             />
         )
     }
