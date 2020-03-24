@@ -9,6 +9,7 @@ export default ({ component, children, room, ...rest }) => {
             modalName='LeaveRoom'
             modalProps={room}
             component={component || Button}
+            variant='danger'
             {...rest}
         >
             {children}
