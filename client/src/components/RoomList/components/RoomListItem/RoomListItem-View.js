@@ -1,20 +1,46 @@
 import React from 'react';
-import { Card, ListGroupItem } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Container, ListGroupItem } from 'react-bootstrap';
 
-const RoomListItem = ({ title, content, footer }) => {
+import RoomListItemActions from '../RoomListItemActions'
+import convertISODateToReadableString from '../../../../helpers/convertISODateToReadableString'
+
+const RoomListItem = ({
+    room,
+    onJoinRoomButtonClick,
+    joinRoomProgress,
+    ...props
+}) => {
+
+    if (!room) return null
+
+    const getTitle = () => {
+        return <Link to={`/rooms/${room.roomId}`}>{room.name}</Link>
+    }
+
+    const getSubtitle = () => {
+        const roomOwner = room.createdBy
+        const roomCreatedBy = roomOwner ? roomOwner.username : '<unknown>'
+        const roomCreatedAt = convertISODateToReadableString(room.createdAt)
+
+        return <span>Created {roomCreatedAt} by {roomCreatedBy}</span>
+    }
+
     return (
         <ListGroupItem className='px-0'>
-            <Card className='border-0 mx-0 px-0'>
-                <Card.Body>
-                    <Card.Title>
-                        {title}
-                    </Card.Title>
-                    {content}
-                </Card.Body>
-                {
-                    footer ? <Card.Footer>{footer}</Card.Footer> : ''
-                }
-            </Card>
+            <Container fluid className='d-flex flex-row justify-content-between'>
+                <div>
+                    <h5>{getTitle()}</h5>
+                    {getSubtitle()}
+                </div>
+                <div>
+                    <RoomListItemActions
+                        room={room}
+                        onJoinRoomButtonClick={onJoinRoomButtonClick}
+                        joinRoomProgress={joinRoomProgress}
+                    />
+                </div>
+            </Container>
         </ListGroupItem>
     )
 }
