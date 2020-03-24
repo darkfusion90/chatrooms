@@ -20,7 +20,7 @@ const ChatWindow = (props) => {
     }
 
     return (
-        <ListGroup className='chat-container pre-scrollable' variant="flush">
+        <ListGroup className='chat-window pre-scrollable' variant="flush">
             {renderMessages()}
         </ListGroup>
     )
