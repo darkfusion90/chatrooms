@@ -1,2 +1,3 @@
-import RoomListItem from './RoomListItem-Container'
+import RoomListItem from './RoomListItem-Redux'
+
 export default RoomListItem
