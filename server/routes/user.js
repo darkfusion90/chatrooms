@@ -2,6 +2,7 @@ const httpStatusCodes = require('../constants/httpStatusCodes')
 const { genericHandlerCallback } = require('./routeUtils')
 const { createRegisteredUser, registerUser, getUser, updateUser, deleteUser } = require('../controllers/users')
 const registerUserFormValidator = require('../utils/registerUserFormValidator')
+const updateSessionExpiryRegisteredUser = require('../utils/updateSessionExpiryRegisteredUser')
 
 const get = (req, res) => {
     let userId;
@@ -57,6 +58,7 @@ const registerUserCallback = (err, user, req, res) => {
     else if (user) {
         req.session.userId = user._id
         req.session.isRegistered = user.isRegistered
+        req.session.cookie.expires = updateSessionExpiryRegisteredUser(req.session.cookie.expires)
         req.session.save()
         res.json(user)
     } else {

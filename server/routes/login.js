@@ -2,6 +2,8 @@ const passport = require('../config/passportConfig')
 const { getUser } = require('../controllers/users')
 const { genericHandlerCallback } = require('./routeUtils')
 const httpStatusCodes = require('../constants/httpStatusCodes')
+const updateSessionExpiryRegisteredUser = require('../utils/updateSessionExpiryRegisteredUser')
+
 const logger = require('../utils/logger')('[Router: Login] ')
 
 const login = (user, req, res) => {
@@ -12,6 +14,7 @@ const login = (user, req, res) => {
         else {
             logger.debug('UserId before update: ', req.session.userId)
             req.session.userId = user._id
+            req.session.cookie.expires = updateSessionExpiryRegisteredUser(req.session.cookie.expires)
             req.session.save()
             res.json(user)
             logger.debug('UserId updated to: ', req.session.userId)
