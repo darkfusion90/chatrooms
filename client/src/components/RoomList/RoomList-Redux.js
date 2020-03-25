@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 
 import RoomList from './RoomList-View'
-import { RoomListControlsHeader } from './components'
 import { fetchPublicRooms } from '../../redux/actions/room-actions'
 import { setRoomListSortTechnique } from '../../redux/actions/room-list-sort-technique-actions'
 import { sort as roomSortingTechniques } from './utils'
@@ -44,13 +43,12 @@ class RoomListContainer extends React.Component {
     }
 
     render() {
-        const { rooms } = this.props
         return (
-            <>
-                {rooms && rooms.length !== 0 &&
-                    <RoomListControlsHeader onSortFormSubmit={this.onSortFormSubmit} />}
-                <RoomList rooms={this.sortRoomList()} />
-            </>
+            <RoomList
+                rooms={this.sortRoomList()}
+                onSortFormSubmit={this.onSortFormSubmit}
+
+            />
         )
     }
 }

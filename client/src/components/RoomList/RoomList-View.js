@@ -1,21 +1,26 @@
 import React from 'react'
-import ListGroup from 'react-bootstrap/ListGroup'
+import { Container, ListGroup } from 'react-bootstrap'
 
-import { EmptyRoomList, RoomListItem } from './components/'
+import { EmptyRoomList, RoomListControlsHeader, RoomListItem } from './components/'
 
 const renderRoomList = (rooms) => {
     return rooms.map((room) => <RoomListItem room={room} key={room.roomId} />)
 }
 
-const RoomList = ({ rooms }) => {
+const RoomList = ({ rooms, onSortFormSubmit }) => {
     if (!rooms || rooms.length === 0) {
         return <EmptyRoomList />
     }
 
+    //TODO: Add custom sort style where users can drag a room up and down 
+    //according to their convenience
     return (
-        <ListGroup variant='flush' className='mx-0'>
-            {renderRoomList(rooms)}
-        </ListGroup>
+        <Container fluid>
+            <RoomListControlsHeader onSortFormSubmit={onSortFormSubmit} />
+            <ListGroup variant='flush' className='mx-0 mt-3'>
+                {renderRoomList(rooms)}
+            </ListGroup>
+        </Container>
     )
 }
 
