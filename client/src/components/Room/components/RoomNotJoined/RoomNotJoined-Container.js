@@ -9,7 +9,7 @@ import {
 import RoomNotJoinedView from './RoomNotJoined-View'
 
 class RoomNotJoinedContainer extends React.Component {
-    state = { joinRoomStatus: PROGRESS_INITIAL }
+    state = { joinRoomProgress: PROGRESS_INITIAL }
 
     onJoinRoomButtonClick = () => {
         this.onJoinRoomPending()
@@ -19,23 +19,23 @@ class RoomNotJoinedContainer extends React.Component {
     }
 
     onJoinRoomPending = () => {
-        this.setState({ joinRoomStatus: PROGRESS_PENDING })
+        this.setState({ joinRoomProgress: PROGRESS_PENDING })
     }
 
     onJoinRoomSuccess = () => {
-        this.setState({ joinRoomStatus: PROGRESS_SUCCESS })
+        this.setState({ joinRoomProgress: PROGRESS_SUCCESS })
     }
 
     onJoinRoomFail = () => {
-        this.setState({ joinRoomStatus: PROGRESS_FAIL })
+        this.setState({ joinRoomProgress: PROGRESS_FAIL })
     }
 
     render() {
         return (
             <RoomNotJoinedView
+                onJoinRoomButtonClick={this.onJoinRoomButtonClick}
                 {...this.props}
                 {...this.state}
-                onJoinRoomButtonClick={this.onJoinRoomButtonClick}
             />
         )
     }
