@@ -7,11 +7,7 @@ import {
 import RoomNotJoinedContainer from './RoomNotJoined-Container'
 
 const RoomNotJoinedRedux = (props) => {
-    return (
-        <RoomNotJoinedContainer
-            joinRoom={props.joinRoom}
-        />
-    )
+    return <RoomNotJoinedContainer {...props} />
 }
 
 export default connect(null, { joinRoom })(RoomNotJoinedRedux)
