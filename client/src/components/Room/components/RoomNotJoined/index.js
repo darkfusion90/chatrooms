@@ -1,3 +1,3 @@
-import RoomNotJoined from './RoomNotJoined-View'
+import RoomNotJoined from './RoomNotJoined-Redux'
 
 export default RoomNotJoined
