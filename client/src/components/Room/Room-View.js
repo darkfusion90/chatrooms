@@ -52,7 +52,6 @@ const Room = (props) => {
     if (error) {
         return renderErrorScreen(error)
     } else if (!room) {
-        console.log('no room')
         return renderLoadingRoom()
     } else if (!isRoomMember(room, currentUser && currentUser._id)) {
         return <RoomNotJoined room={room} />
