@@ -4,7 +4,6 @@ export default (room, queryUserId) => {
     }
 
     const memberDocIndex = room.members.findIndex(member => {
-        console.log(member)
         return member.user && member.user._id === queryUserId
     })
 
