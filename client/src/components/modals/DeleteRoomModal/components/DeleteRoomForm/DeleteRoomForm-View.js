@@ -11,7 +11,7 @@ const renderRoomNameField = ({ input, label, ...otherFormProps }) => {
     );
 }
 
-const DeleteRoomFormView = ({ deleteRoomFormData, onFormSubmit, validate }) => {
+const DeleteRoomFormView = ({ onFormSubmit, validate }) => {
     return (
         <Form noValidate id='delete-room-form' onSubmit={onFormSubmit} >
             <Field

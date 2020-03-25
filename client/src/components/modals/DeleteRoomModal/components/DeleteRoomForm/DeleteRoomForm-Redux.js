@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux'
 import { reduxForm } from 'redux-form'
 
 import DeleteRoomFormView from './DeleteRoomForm-View'
@@ -31,12 +30,6 @@ class DeleteRoomFormRedux extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return { deleteRoomForm: state.form['delete-room-form'] }
-}
-
-const WithFormDataInReduxStore = connect(mapStateToProps)(DeleteRoomFormRedux)
-
 export default reduxForm({
     form: 'delete-room-form'
-})(WithFormDataInReduxStore)
+})(DeleteRoomFormRedux)
