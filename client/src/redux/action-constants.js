@@ -1,6 +1,7 @@
 export const CONNECT_TO_SERVER = "CONNECT_TO_SERVER";
 
 export const FETCH_PUBLIC_ROOMS = 'FETCH_PUBLIC_ROOMS'
+export const FETCH_ROOM = 'FETCH_ROOM'
 export const CREATE_ROOM = "CREATE_ROOM";
 export const DELETE_ROOM = 'DELETE_ROOM'
 export const JOIN_ROOM = "JOIN_ROOM";
