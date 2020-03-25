@@ -1,34 +1,27 @@
 import React from 'react';
 
 import RoomView from './Room-View';
-import { getRoom } from '../../server-communication/httpServer'
 import { connectToRoom, registerNewMessageListener } from '../../server-communication/socketServer'
 import sendMessage from '../../helpers/sendMessage'
 
 class RoomContainer extends React.Component {
-    state = {
-        room: null,
-        error: null
-    }
+    state = { error: null }
 
     componentDidMount() {
-        const { roomId } = this.props;
+        const { fetchRoom, roomId } = this.props;
+        console.log('roomId: ', roomId)
         registerNewMessageListener(roomId, (data) => {
             console.log("new message: ", data)
-            getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
+            fetchRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
         })
-        getRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
+        fetchRoom(roomId, () => { }, this.onRoomFetchFail)
     }
 
     componentDidUpdate() {
-        const { room } = this.state
+        const { room } = this.props
         if (room) {
             connectToRoom(room.roomId, () => { })
         }
-    }
-
-    onRoomFetchSuccess = (response) => {
-        this.setState({ room: response.data, error: null })
     }
 
     onRoomFetchFail = ({ response }) => {
@@ -58,13 +51,13 @@ class RoomContainer extends React.Component {
     }
 
     render() {
-        const { room, error } = this.state;
-        const { currentUser } = this.props
+        const { currentUser, room } = this.props
+
         return <RoomView
-            error={error}
-            room={room}
             currentUser={currentUser}
+            room={room}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
+            {...this.state}
         />;
     }
 }
