@@ -44,7 +44,7 @@ const RouteRooms = (props) => {
     const roomId = props.match.params.id
 
     const content = (
-        <Container fluid className='pl-sm-0 pl-md-0 pr-0 room-page-container'>
+        <Container fluid className='pl-0 pr-0 room-page-container'>
             <Row className='mx-0 no-gutters h-100'>
                 {renderRoomListCol(roomId)}
                 {renderRoomCol(roomId)}
