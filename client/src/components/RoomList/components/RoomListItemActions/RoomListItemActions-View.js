@@ -6,7 +6,13 @@ import { DeleteRoomModalTrigger } from '../../../standalone/RoomModalTriggers'
 import { JoinRoomButton } from '../../../standalone/RoomActionButtons'
 
 const getJoinRoomAction = (joinRoomProgress, onClick) => {
-    return <JoinRoomButton progress={joinRoomProgress} onClick={onClick} />
+    return <JoinRoomButton
+        progress={joinRoomProgress}
+        propsProgressInitial={{
+            label: 'Join',
+            onClick
+        }}
+    />
 }
 
 const getDeleteRoomAction = (room) => {
