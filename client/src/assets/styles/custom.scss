@@ -24,7 +24,7 @@ $text-area-bgcolor: #fff;
 }
 
 .subtitle {
-    color: #666;
+    color: #586069;
 }
 
 .cursor-pointer:hover {
@@ -33,6 +33,10 @@ $text-area-bgcolor: #fff;
 
 .cursor-not-allowed:hover {
     cursor: not-allowed;
+}
+
+.no-highlight-around-element {
+   box-shadow: none!important;
 }
 
 .room-page-sub-header {
