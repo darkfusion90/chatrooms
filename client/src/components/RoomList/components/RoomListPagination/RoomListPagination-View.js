@@ -2,6 +2,10 @@ import React from 'react';
 import { Container, Pagination } from 'react-bootstrap'
 
 import { TooltipWrapper } from '../../../standalone'
+import {
+    getPaginationOffsets,
+    MAX_PAGE_NUMBERS_DISPLAYED
+} from './utils'
 
 const RoomListPaginationView = ({
     totalRooms,
@@ -32,18 +36,38 @@ const RoomListPaginationView = ({
         setCurrentPageNumber(totalPages)
     }
 
-    const renderPaginationItems = () => {
+    const getPaginationItems = () => {
         const paginationItems = []
+
         for (let pageIndex = 1; pageIndex <= totalPages; pageIndex++) {
             paginationItems.push(
                 <Pagination.Item
                     active={currentPageNumber === pageIndex}
                     key={pageIndex}
+                    id={pageIndex}
                     onClick={() => onPaginationItemClick(pageIndex)}
                 >
                     {pageIndex}
                 </Pagination.Item>
             )
+        }
+
+        if (paginationItems.length > MAX_PAGE_NUMBERS_DISPLAYED) {
+            const {
+                leftOffset,
+                rightOffset
+            } = getPaginationOffsets(currentPageNumber, paginationItems.length)
+
+            const rightEllipsis = [rightOffset < paginationItems.length ?
+                <Pagination.Ellipsis key='ellipsis-right' /> : null]
+            const leftEllipsis = [leftOffset > 0 ?
+                <Pagination.Ellipsis key='ellipsis-left' /> : null]
+
+            return [
+                ...leftEllipsis,
+                ...paginationItems.slice(leftOffset, rightOffset + 1),
+                ...rightEllipsis
+            ]
         }
 
         return paginationItems
@@ -65,7 +89,7 @@ const RoomListPaginationView = ({
                     id='pagination-prev'
                 />
 
-                {renderPaginationItems()}
+                {getPaginationItems()}
 
                 <TooltipWrapper
                     triggerComponent={<Pagination.Next onClick={onPaginationNextClick} />}
