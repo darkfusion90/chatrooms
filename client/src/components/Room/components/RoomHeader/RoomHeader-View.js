@@ -66,8 +66,8 @@ const RoomHeader = ({ room, className }) => {
     return (
         <Container fluid className={`room-page-sub-header ${className}`}>
             <div className='d-flex align-items-center h-100'>
-                <div className='room-name-container'>
-                    <strong>{room.name}</strong>
+                <div className='room-name-container text-overflow-ellipses'>
+                    {room.name}
                 </div>
                 <div className='room-actions-container'>
                     <div className='d-flex justify-content-around'>
