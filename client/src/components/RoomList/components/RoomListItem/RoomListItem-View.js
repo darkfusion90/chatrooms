@@ -29,9 +29,9 @@ const RoomListItem = ({
     return (
         <ListGroupItem className='px-0'>
             <Container fluid className='d-flex flex-row justify-content-between'>
-                <div>
-                    <h5>{getTitle()}</h5>
-                    {getSubtitle()}
+                <div className='text-overflow-ellipses'>
+                    <h5 className='max-width-100 text-overflow-ellipses'>{getTitle()}</h5>
+                    <span className='max-width-100'>{getSubtitle()}</span>
                 </div>
                 <div>
                     <RoomListItemActions
