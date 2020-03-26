@@ -62,7 +62,9 @@ const DeleteRoomModalView = ({
                     />
                 </Col>
                 <Col>
-                    To delete the room <strong>{roomName}</strong> type in the name of the room above
+                    <p className='word-wrap-break-word'>
+                        To delete the room <strong>{roomName}</strong> type in the name of the room above
+                    </p>
                 </Col>
             </Row>
         )

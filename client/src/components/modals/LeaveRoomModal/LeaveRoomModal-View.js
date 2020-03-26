@@ -18,7 +18,9 @@ const LeaveRoomModalView = ({
 
     const getModalContent = () => {
         const roomName = <strong>{room ? room.name : '<unknown>'}</strong>
-        return <p>Are you sure you want to leave the room {roomName}?</p>
+        return <p className='word-wrap-break-word'>
+            Are you sure you want to leave the room {roomName}?
+        </p>
     }
 
     const renderLeaveRoomButton = () => {
