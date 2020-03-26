@@ -23,7 +23,11 @@ const RoomListItem = ({
         const roomCreatedBy = roomOwner ? roomOwner.username : '<unknown>'
         const roomCreatedAt = convertISODateToReadableString(room.createdAt)
 
-        return <span>Created {roomCreatedAt} by {roomCreatedBy}</span>
+        return (
+            <span className='max-width-100 subtitle'>
+                Created {roomCreatedAt} by {roomCreatedBy}
+            </span>
+        )
     }
 
     return (
@@ -31,7 +35,7 @@ const RoomListItem = ({
             <Container fluid className='d-flex flex-row justify-content-between'>
                 <div className='text-overflow-ellipses'>
                     <h5 className='max-width-100 text-overflow-ellipses'>{getTitle()}</h5>
-                    <span className='max-width-100'>{getSubtitle()}</span>
+                    {getSubtitle()}
                 </div>
                 <div>
                     <RoomListItemActions
