@@ -6,13 +6,13 @@ import roomReducer from './roomReducer';
 import notificationReducer from './notificationReducer';
 import userReducer from './userReducer';
 import modalReducer from './modalReducer';
-import roomListSortTechniqueReducer from './roomListSortTechniqueReducer'
+import roomListDisplaySettingsReducer from './roomListDisplaySettingsReducer'
 
 export default combineReducers({
     user: userReducer,
     serverConnection: serverReducer,
     rooms: roomReducer,
-    roomListSortTechnique: roomListSortTechniqueReducer,
+    roomListDisplaySettings: roomListDisplaySettingsReducer,
     notifications: notificationReducer,
     form: formReducer,
     modal: modalReducer
