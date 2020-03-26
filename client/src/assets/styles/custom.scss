@@ -36,7 +36,7 @@ $text-area-bgcolor: #fff;
 }
 
 .no-highlight-around-element {
-   box-shadow: none!important;
+    box-shadow: none !important;
 }
 
 .room-page-sub-header {
@@ -44,4 +44,18 @@ $text-area-bgcolor: #fff;
     min-height: 40px;
     max-height: 40px;
     border-bottom: 1px solid #eee;
+}
+
+.text-overflow-ellipses {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.max-width-100{
+    max-width: 100%;
+}
+
+.word-wrap-break-word{
+    word-wrap: break-word;
 }
