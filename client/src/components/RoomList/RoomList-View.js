@@ -1,4 +1,5 @@
 import React from 'react'
+import isEmpty from 'is-empty'
 import { Container, ListGroup } from 'react-bootstrap'
 
 import {
@@ -11,17 +12,27 @@ import {
 
 const RoomList = ({
     roomsToDisplay,
+    isSearchResult,
     onSortFormSubmit,
+    onSearchFieldInputChange,
     setCurrentPageNumber,
     ...otherProps
 }) => {
-    if (!roomsToDisplay || roomsToDisplay.length === 0) {
-        return <EmptyRoomList />
-    }
 
-    
-    const renderRoomList = (roomsToDisplay) => {
-        return roomsToDisplay.map((room) => <RoomListItem room={room} key={room.roomId} />)
+    const renderRoomList = () => {
+        if (isEmpty(roomsToDisplay)) {
+            return <EmptyRoomList isSearchResult={isSearchResult}/>
+        }
+
+        return (
+            <ListGroup variant='flush' className='mx-0 mt-3'>
+                {
+                    roomsToDisplay.map((room) => {
+                        return <RoomListItem room={room} key={room.roomId} />
+                    })
+                }
+            </ListGroup>
+        )
     }
 
     const updatePageNumber = (pageNumber) => {
@@ -32,11 +43,16 @@ const RoomList = ({
     //according to their convenience
     return (
         <Container fluid className='pb-5 mb-5' >
-            <RoomListControlsHeader onSortFormSubmit={onSortFormSubmit} />
-            <ListGroup variant='flush' className='mx-0 mt-3'>
-                {renderRoomList(roomsToDisplay)}
-            </ListGroup>
-            <RoomListPagination {...otherProps} setCurrentPageNumber={updatePageNumber} />
+            <RoomListControlsHeader
+                onSortFormSubmit={onSortFormSubmit}
+                onSearchFieldInputChange={onSearchFieldInputChange}
+            />
+            {renderRoomList()}
+            {
+                !isEmpty(roomsToDisplay)
+                    ? <RoomListPagination {...otherProps} setCurrentPageNumber={updatePageNumber} />
+                    : null
+            }
         </Container>
     )
 }
