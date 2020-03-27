@@ -33,7 +33,7 @@ class RoomContainer extends React.Component {
         if (!message || message.trim().length === 0) {
             return null
         } else {
-            const { room } = this.state
+            const { room } = this.props
             sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
         }
     }
