@@ -1,6 +1,6 @@
-function UnauthorizedError(message) {
+function UnauthorizedError(reason) {
     this.name = 'UnauthorizedError'
-    this.message = message || ''
+    this.reason = reason || ''
 }
 
 UnauthorizedError.prototype = Object.create(Error.prototype)
