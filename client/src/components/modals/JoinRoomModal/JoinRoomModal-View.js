@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 
 import GenericModal from '../GenericModal'
 import { JoinRoomForm } from './components'
-import { JoinRoomButton } from '../../standalone/RoomActionButtons'
+import { JoinRoomButton, SendRoomJoinRequestButton } from '../../standalone/RoomActionButtons'
 
 const JoinRoomModalView = ({
     isModalVisible,
@@ -13,18 +13,32 @@ const JoinRoomModalView = ({
     joinRoomProgress
 }) => {
     const getModalActions = () => {
-        const getJoinRoomButton = () => {
-            const hasErrors = joinRoomFormData && joinRoomFormData.syncErrors
+        const getRoomActionButton = () => {
+            const asyncErrors = joinRoomFormData && joinRoomFormData.asyncErrors
+            const hasErrors = joinRoomFormData && (
+                joinRoomFormData.syncErrors || asyncErrors || joinRoomFormData.asyncValidating
+            )
+
+            const roomActionButtonProps = {
+                type: 'submit',
+                form: 'join-room-form',
+                disabled: hasErrors,
+                className: `cursor-${hasErrors ? 'not-allowed' : 'pointer'}`
+            }
+            console.log('asyncErrors: ', asyncErrors)
+            if (asyncErrors && asyncErrors.roomId.isPrivateRoomError) {
+                return (
+                    <SendRoomJoinRequestButton
+                        progress={joinRoomProgress}
+                        propsProgressInitial={roomActionButtonProps}
+                    />
+                )
+            }
 
             return (
                 <JoinRoomButton
                     progress={joinRoomProgress}
-                    propsProgressInitial={{
-                        type: 'submit',
-                        form: 'join-room-form',
-                        disabled: hasErrors,
-                        className: `cursor-${hasErrors ? 'not-allowed' : 'pointer'}`
-                    }}
+                    propsProgressInitial={roomActionButtonProps}
                 />
             )
         }
@@ -34,7 +48,7 @@ const JoinRoomModalView = ({
                 <Button onClick={hideModal} variant='outline-secondary'>
                     Cancel
                 </Button>
-                {getJoinRoomButton()}
+                {getRoomActionButton()}
             </>
         );
     }
