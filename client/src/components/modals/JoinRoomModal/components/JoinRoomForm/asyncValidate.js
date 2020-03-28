@@ -16,18 +16,14 @@ const getErrorFromResponse = (response) => {
     }
 }
 
-export default (values, userId) => {
-    console.log('userId: ', userId)
+export default (values) => {
     const promise = new Promise((resolve, reject) => {
         if (isEmpty(values.roomId)) {
             return reject(createError('No rooms matching that roomId'))
         }
 
         getRoom(values.roomId)
-            .then(response => {
-                console.log(response)
-                resolve(response)
-            })
+            .then(resolve)
             .catch(({ response }) => {
                 reject(getErrorFromResponse(response))
             })
