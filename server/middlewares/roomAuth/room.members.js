@@ -1,5 +1,7 @@
 const { getRoomByRoomId } = require('../../controllers/rooms')
-const { ensureIsRoomMember, ensureIsRoomAdmin, isPrivateRoom, roomAuthFailedError } = require('./helper')
+const UnauthorizedError = require('../../errors/Unauthorized')
+const { REASON } = require('../../constants/apiResponseConstants')
+const { ensureIsRoomMember, ensureIsRoomAdmin, isPrivateRoom } = require('./helper')
 
 const handleDeleteRoomMemberAuth = (room, memberId, userId, next) => {
     const isUserAttemptingSelfDelete = () => {
@@ -22,7 +24,7 @@ const handleDeleteRoomMemberAuth = (room, memberId, userId, next) => {
 
 const handlePostRoomMemberAuth = (room, next) => {
     if (isPrivateRoom(room)) {
-        next(roomAuthFailedError)
+        next(new UnauthorizedError(REASON.NOT_A_ROOM_ADMIN))
     } else {
         next()
     }

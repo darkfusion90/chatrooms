@@ -1,13 +1,11 @@
 const UnauthorizedError = require('../../errors/Unauthorized')
-
-const errMsg = 'You do not have the required permission(s) to perform this operation'
-const roomAuthFailedError = new UnauthorizedError(errMsg)
+const { REASON } = require('../../constants/apiResponseConstants')
 
 const ensureIsRoomAdmin = (userId, room, next) => {
     if (room.isAdmin(userId)) {
         next()
     } else {
-        next(roomAuthFailedError)
+        next(new UnauthorizedError(REASON.NOT_A_ROOM_ADMIN))
     }
 }
 
@@ -15,7 +13,7 @@ const ensureIsRoomMember = (userId, room, next) => {
     if (room.isMember(userId)) {
         next()
     } else {
-        next(roomAuthFailedError)
+        next(new UnauthorizedError(REASON.NOT_A_ROOM_MEMBER))
     }
 }
 
@@ -26,6 +24,5 @@ const isPrivateRoom = (room) => {
 module.exports = {
     ensureIsRoomAdmin,
     ensureIsRoomMember,
-    isPrivateRoom,
-    roomAuthFailedError
+    isPrivateRoom
 }
