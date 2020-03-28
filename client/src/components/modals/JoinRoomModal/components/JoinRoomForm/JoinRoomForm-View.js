@@ -3,6 +3,7 @@ import isEmpty from 'is-empty'
 import { Field } from 'redux-form'
 import { Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
 
+//TODO: See this and implement -> https://github.com/redux-form/redux-form/issues/3944
 const renderJoinRoomField = ({ input, label, meta, ...formProps }) => {
     const { touched, error, pristine, asyncValidating } = meta
     const hasErrors = (error && error.isAsyncValidationError) || (touched && error)
