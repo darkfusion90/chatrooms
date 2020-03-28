@@ -10,9 +10,11 @@ const JoinRoomModalRedux = (props) => {
 }
 
 const mapStateToProps = (state) => {
+    const { user } = state
     return {
         isModalVisible: state.modal.isModalOpen && state.modal.modalName === 'JoinRoom',
-        joinRoomFormData: state.form['joinRoomForm']
+        joinRoomFormData: state.form['joinRoomForm'],
+        currentUserId: user && user.user && user.user._id
     }
 }
 
