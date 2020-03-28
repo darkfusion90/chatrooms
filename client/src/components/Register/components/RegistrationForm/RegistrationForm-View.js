@@ -4,8 +4,6 @@ import { Field } from 'redux-form';
 
 import { USERNAME_TAKEN_ERROR_MESSAGE } from './asyncValidate';
 import { ToggleablePasswordField } from '../../../standalone'
-import './RegistrationForm-Style.scss'
-
 
 const isAsyncValidationError = (error) => {
     return error === USERNAME_TAKEN_ERROR_MESSAGE
@@ -18,7 +16,7 @@ const getPropsForFormControl = (formProps) => {
     return {
         ...formProps,
         ...formProps.input,
-        className: asyncValidating ? 'loading' : '',
+        className: asyncValidating ? 'input-loading' : '',
         isInvalid: hasErrors,
         isValid: !asyncValidating && !pristine && !hasErrors
     }

@@ -59,3 +59,10 @@ $text-area-bgcolor: #fff;
 .word-wrap-break-word{
     word-wrap: break-word;
 }
+
+.input-loading {
+    background-image: url("../svg/input-loading.svg");
+    background-size: 3vw 3vw;
+    background-position: right center;
+    background-repeat: no-repeat;
+}
