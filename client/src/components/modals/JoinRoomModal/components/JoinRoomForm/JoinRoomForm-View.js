@@ -4,26 +4,26 @@ import { Field } from 'redux-form'
 import { Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap'
 
 const renderJoinRoomField = ({ input, label, meta, ...formProps }) => {
-    const { touched, error, pristine } = meta
-    const hasErrors = touched && error
+    const { touched, error, pristine, asyncValidating } = meta
+    const hasErrors = (error && error.isAsyncValidationError) || (touched && error)
+    const errorReason = error && (error.isAsyncValidationError ? error.reason : error)
 
     return (
         <FormGroup controlId='join-room'>
             <FormLabel>{label}</FormLabel>
             <FormControl
-                isValid={(!pristine && !hasErrors)}
+                className={asyncValidating ? 'input-loading' : ''}
+                isValid={(!asyncValidating && !pristine && !hasErrors)}
                 isInvalid={hasErrors}
                 {...input}
                 {...formProps}
             />
-            <FormControl.Feedback type='invalid'>{error}</FormControl.Feedback>
+            <FormControl.Feedback type='invalid'>{errorReason}</FormControl.Feedback>
         </FormGroup>
     )
 }
 
-const ensureNotEmpty = value => {
-    return isEmpty(value) ? 'Room Id is required' : undefined
-}
+const ensureNotEmpty = (roomId) => isEmpty(roomId) ? 'RoomId is required' : undefined
 
 const JoinRoomFormView = ({ onFormSubmit }) => {
     return (
