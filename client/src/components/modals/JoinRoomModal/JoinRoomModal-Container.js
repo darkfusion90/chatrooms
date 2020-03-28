@@ -8,10 +8,35 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-
+import { getRoom } from '../../../server-communication/httpServer'
+import isRoomMember from '../../../helpers/isRoomMember'
 
 class JoinRoomModalContainer extends React.Component {
-    state = { joinRoomProgress: PROGRESS_INITIAL }
+    state = {
+        joinRoomProgress: PROGRESS_INITIAL,
+        roomAlreadyJoinedError: null
+    }
+
+    componentDidUpdate() {
+        if (this.state.roomAlreadyJoinedError) {
+            return
+        }
+
+        const { joinRoomFormData, currentUserId } = this.props
+        const form = joinRoomFormData ? joinRoomFormData : {}
+        const formHasErrors = form.syncErrors || form.asyncErrors || form.asyncValidating
+
+        if (!formHasErrors) {
+            const roomId = form.values && form.values.roomId
+
+            getRoom(roomId).then(response => {
+                const room = response.data
+                if (isRoomMember(room, currentUserId)) {
+                    this.setState({ roomAlreadyJoinedError: 'You are already a member of this room' })
+                }
+            }).catch()
+        }
+    }
 
     onJoinRoomPending = () => {
         this.setState({ joinRoomProgress: PROGRESS_PENDING })
@@ -27,7 +52,6 @@ class JoinRoomModalContainer extends React.Component {
 
     onJoinRoomFormSubmit = ({ roomId }) => {
         this.onJoinRoomPending()
-        console.log('to join: ', roomId)
         this.props.joinRoom(roomId, this.onJoinRoomSuccess, this.onJoinRoomFailure)
     }
 

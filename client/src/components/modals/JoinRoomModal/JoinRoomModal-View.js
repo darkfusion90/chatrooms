@@ -6,6 +6,7 @@ import { JoinRoomForm } from './components'
 import { JoinRoomButton, SendRoomJoinRequestButton } from '../../standalone/RoomActionButtons'
 
 const JoinRoomModalView = ({
+    roomAlreadyJoinedError,
     isModalVisible,
     hideModal,
     onFormSubmit,
@@ -15,17 +16,17 @@ const JoinRoomModalView = ({
     const getModalActions = () => {
         const getRoomActionButton = () => {
             const asyncErrors = joinRoomFormData && joinRoomFormData.asyncErrors
-            const hasErrors = joinRoomFormData && (
+            const formErrors = joinRoomFormData && (
                 joinRoomFormData.syncErrors || asyncErrors || joinRoomFormData.asyncValidating
             )
-
+            const hasErrors = formErrors || roomAlreadyJoinedError
             const roomActionButtonProps = {
                 type: 'submit',
                 form: 'join-room-form',
                 disabled: hasErrors,
                 className: `cursor-${hasErrors ? 'not-allowed' : 'pointer'}`
             }
-            console.log('asyncErrors: ', asyncErrors)
+
             if (asyncErrors && asyncErrors.roomId.isPrivateRoomError) {
                 return (
                     <SendRoomJoinRequestButton
@@ -54,7 +55,10 @@ const JoinRoomModalView = ({
     }
 
     const getModalContent = () => {
-        return <JoinRoomForm onFormSubmit={onFormSubmit} />
+        return <JoinRoomForm
+            onFormSubmit={onFormSubmit}
+            roomAlreadyJoinedError={roomAlreadyJoinedError}
+        />
     }
 
     return (
