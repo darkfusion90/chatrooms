@@ -1,8 +1,38 @@
 import React from 'react';
 import { Field } from 'redux-form'
-import { Form, FormGroup, FormControl, Alert } from 'react-bootstrap';
+import { Alert, Form, FormGroup, FormControl, InputGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons'
 
+import { TooltipWrapper } from '../../../../standalone'
 import './CreateRoomForm-Style.scss';
+
+
+const renderRadioOptionHelp = (radioOption) => {
+    const createHelp = (tooltipProps) => {
+        const helpIcon = <FontAwesomeIcon icon={faQuestionCircle} />
+        return <TooltipWrapper triggerComponent={helpIcon} {...tooltipProps} />
+    }
+
+    //eslint-disable-next-line
+    switch (radioOption) {
+        case 'private':
+            return createHelp({
+                id: 'private-room-opt',
+                label: 'Private rooms require permission to join and are not listed publicly'
+            })
+        case 'unlisted':
+            return createHelp({
+                id: 'private-room-opt',
+                label: 'Unlisted rooms can be joined by anyone but are not listed publicly'
+            })
+        case 'public':
+            return createHelp({
+                id: 'private-room-opt',
+                label: 'Public rooms are listed publicly and can be joined by anyone'
+            })
+    }
+}
 
 const renderRadioButtonGroup = (formProps) => {
     const { input, meta } = formProps;
@@ -17,13 +47,18 @@ const renderRadioButtonGroup = (formProps) => {
     const radioInputs = radioOptions.map(option => {
         return (
             <Form.Group controlId={`roomType-${option.value}`} key={option.value}>
-                <Form.Check
-                    {...input}
-                    {...option}
-                    type="radio"
-                    isInvalid={hasErrors}
-                    isValid={impureFormNoErrors}
-                />
+                <InputGroup>
+                    <Form.Check
+                        {...input}
+                        {...option}
+                        type="radio"
+                        isInvalid={hasErrors}
+                        isValid={impureFormNoErrors}
+                    />
+                    <InputGroup.Append>
+                        {renderRadioOptionHelp(option.value)}
+                    </InputGroup.Append>
+                </InputGroup>
             </Form.Group>
         )
     })
@@ -36,7 +71,6 @@ const renderRadioButtonGroup = (formProps) => {
         </Form.Group>
     );
 }
-
 
 const renderRoomNameField = (formProps) => {
     const { input, meta } = formProps;
