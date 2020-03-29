@@ -6,7 +6,8 @@ import { fetchPublicRooms } from '../../redux/actions/room-actions'
 import {
     setSortTechnique,
     setCurrentPageNumber,
-    setSearchQuery
+    setSearchQuery,
+    setItemsPerPage
 } from '../../redux/actions/room-list-display-settings-actions'
 import { sort as roomSortingTechniques } from './utils'
 
@@ -44,8 +45,9 @@ class RoomListContainer extends React.Component {
         }
     }
 
-    onSortFormSubmit = (formValues) => {
-        this.props.setSortTechnique(formValues.sortBy)
+    onDisplayControlsFormSubmit = ({sortBy, itemsPerPage}) => {
+        this.props.setSortTechnique(sortBy)
+        this.props.setItemsPerPage(itemsPerPage)
     }
 
     onSearchFieldInputChange = (e) => {
@@ -102,7 +104,7 @@ class RoomListContainer extends React.Component {
                 totalRooms={rooms}
                 roomsToDisplay={paginatedRooms}
                 isSearchResult={!isEmpty(searchQuery)}
-                onSortFormSubmit={this.onSortFormSubmit}
+                onDisplayControlsFormSubmit={this.onDisplayControlsFormSubmit}
                 onSearchFieldInputChange={this.onSearchFieldInputChange}
                 setCurrentPageNumber={setCurrentPageNumber}
                 {...roomListDisplaySettings}
@@ -118,7 +120,12 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    { fetchPublicRooms, setSortTechnique, setCurrentPageNumber, setSearchQuery }
-)(RoomListContainer);
+const mapDispatchToProps = ({
+    fetchPublicRooms,
+    setSortTechnique,
+    setCurrentPageNumber,
+    setSearchQuery,
+    setItemsPerPage
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomListContainer);
