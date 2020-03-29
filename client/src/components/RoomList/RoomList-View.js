@@ -13,7 +13,7 @@ import {
 const RoomList = ({
     roomsToDisplay,
     isSearchResult,
-    onSortFormSubmit,
+    onDisplayControlsFormSubmit,
     onSearchFieldInputChange,
     setCurrentPageNumber,
     ...otherProps
@@ -21,7 +21,7 @@ const RoomList = ({
 
     const renderRoomList = () => {
         if (isEmpty(roomsToDisplay)) {
-            return <EmptyRoomList isSearchResult={isSearchResult}/>
+            return <EmptyRoomList isSearchResult={isSearchResult} />
         }
 
         return (
@@ -44,7 +44,7 @@ const RoomList = ({
     return (
         <Container fluid className='pb-5 mb-5' >
             <RoomListControlsHeader
-                onSortFormSubmit={onSortFormSubmit}
+                onDisplayControlsFormSubmit={onDisplayControlsFormSubmit}
                 onSearchFieldInputChange={onSearchFieldInputChange}
             />
             {renderRoomList()}
