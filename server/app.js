@@ -55,6 +55,10 @@ app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, route
 app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, routes.rooms.members.post)
 app.delete('/api/rooms/:roomId/members/:memberId', roomAuth.roomMembersAuth, routes.rooms.members._delete)
 
+app.get('/api/user/:userId/room_invitations/:invitationId?', routes.roomInvitations.get)
+app.post('/api/user/:userId/room_invitations/', routes.roomInvitations.post)
+app.delete('/api/room_invitations/:invitationId', routes.roomInvitations._delete)
+
 app.get('/api/user/:userId?', routes.user.get)
 app.post('/api/user', routes.user.post)
 app.patch('/api/user/:userId', ensureAuthenticated, routes.user.patch)
