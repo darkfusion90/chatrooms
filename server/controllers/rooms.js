@@ -1,10 +1,9 @@
-const Room = require('../models/Room')
+const { Room } = require('../models/Room')
 const messagesController = require('./messages')
 const { createRoomMember, deleteRoomMember, MEMBER_TYPE_ADMIN } = require('./roomMemberController')
 const uniqueIdGenerator = require('../utils/uniqueIdGenerator')
 
 const DEFAULT_PROJECTIONS = {
-    '_id': 0,
     '__v': 0
 }
 
