@@ -1,18 +1,21 @@
 const mongoose = require('mongoose')
-const { UserSchema } = require('./User')
-const { RoomSchema } = require('./Room')
 
-const RoomInvitationSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const RoomInvitationSchema = new Schema({
     invitee: {
-        type: UserSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     inviter: {
-        type: UserSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
     },
     room: {
-        type: RoomSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'Room',
         required: true
     }
 })
