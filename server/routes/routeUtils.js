@@ -19,9 +19,7 @@ const determineResponseMeta = (err, resource) => {
     return responseMeta
 }
 
-genericHandlerCallback = (err, resource, response) => {
+exports.genericHandlerCallback = (err, resource, response) => {
     const { statusCode, data } = determineResponseMeta(err, resource)
     response.status(statusCode).json(data)
 }
-
-module.exports = { genericHandlerCallback }
