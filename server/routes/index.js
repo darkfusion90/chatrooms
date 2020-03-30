@@ -4,6 +4,7 @@ const login = require('./login')
 const logout = require('./logout')
 const register = require('./register')
 const rooms = require('./rooms')
+const roomInvitations = require('./roomInvitations')
 const user = require('./user')
 
 const logger = require('../utils/logger')('[Routes: index]')
@@ -18,4 +19,12 @@ const index = (_, res) => {
     }
 }
 
-module.exports = { index, login, logout, register, rooms, user }
+module.exports = {
+    index,
+    login,
+    logout,
+    register,
+    rooms,
+    user,
+    roomInvitations
+}
