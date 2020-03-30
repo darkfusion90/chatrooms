@@ -5,11 +5,20 @@ import { reduxForm, Field } from 'redux-form'
 const FORM_ID = 'rooms-sort-form'
 
 const sortOptionsRadioButtonProps = [
-    { label: 'By name (ascending)', value: 'name-asc', id: 1 },
-    { label: 'By name (descending)', value: 'name-des', id: 2 },
-    { label: 'By date of creation (oldest first)', value: 'date-asc', id: 3 },
-    { label: 'By date of creation (newest first)', value: 'date-des', id: 4 }
+    { label: 'By name (ascending)', value: 'name-asc', id: 'sort-by-name-asc' },
+    { label: 'By name (descending)', value: 'name-des', id: 'sort-by-name-des' },
+    { label: 'By date of creation (oldest first)', value: 'date-asc', id: 'sort-by-date-asc' },
+    { label: 'By date of creation (newest first)', value: 'date-des', id: 'sort-by-date-des' }
 ]
+
+const filterOptionsRadioButtonProps = [
+    { label: 'All Rooms', value: 'no-filter', id: 'filter-none' },
+    { label: 'Joined Rooms', value: 'is-member', id: 'filter-member' },
+    { label: 'Rooms Not Joined', value: 'is-not-Member', id: 'filter-not-member' },
+    { label: 'Rooms Created By Me', value: 'user-created', id: 'filter-user-created' },
+    { label: 'Rooms Not Created By Me', value: 'user-not-created', id: 'filter-user-not-created' }
+]
+
 
 class RoomListControlsForm extends React.Component {
     renderRadioButton = ({ input, ...formProps }) => {
@@ -17,16 +26,15 @@ class RoomListControlsForm extends React.Component {
     }
 
     renderSortOptions() {
-        const sortOptionRadioButtons = sortOptionsRadioButtonProps.map(({ id, ...checkboxProps }) => {
+        const sortOptionRadioButtons = sortOptionsRadioButtonProps.map(({ id, ...radioButtonProps }) => {
             return (
                 <Field
                     component={this.renderRadioButton}
                     type='radio'
                     name='sortBy'
                     key={id}
-                    checked={id === 1}
                     required
-                    {...checkboxProps}
+                    {...radioButtonProps}
                 />
             )
         })
@@ -63,6 +71,29 @@ class RoomListControlsForm extends React.Component {
         )
     }
 
+    renderDisplayFilters() {
+        const renderDisplayFilterRadioButtons = () => {
+            return filterOptionsRadioButtonProps.map(({ id, ...radioButtonProps }) => {
+                return (
+                    <Field
+                        component={this.renderRadioButton}
+                        type='radio'
+                        name='displayFilter'
+                        key={id}
+                        {...radioButtonProps}
+                    />
+                )
+            })
+        }
+
+        return (
+            <FormGroup controlId='display-filter' >
+                <Form.Label>Filter Rooms: </Form.Label>
+                {renderDisplayFilterRadioButtons()}
+            </FormGroup>
+        )
+    }
+
     render() {
         const { handleSubmit, onFormSubmit } = this.props
 
@@ -71,6 +102,8 @@ class RoomListControlsForm extends React.Component {
                 {this.renderSortOptions()}
                 <hr />
                 {this.renderPaginationControls()}
+                <hr />
+                {this.renderDisplayFilters()}
                 <Container fluid className='text-right'>
                     <Button size='sm' variant='outline-primary' type='submit' form={FORM_ID}>
                         Done
@@ -83,6 +116,6 @@ class RoomListControlsForm extends React.Component {
 
 export default reduxForm({
     form: FORM_ID,
-    initialValues: { sortBy: 'name-asc', itemsPerPage: 10 },
+    initialValues: { sortBy: 'name-asc', itemsPerPage: 10, displayFilter: 'no-filter' },
     destroyOnUnmount: false
 })(RoomListControlsForm);
