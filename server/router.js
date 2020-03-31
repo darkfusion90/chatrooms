@@ -55,12 +55,24 @@ const bindRoomInvitationRoutes = (app) => {
  * 
  * @param {Express} app The express application to bind all the routes to
  */
+const bindNotificationRoutes = (app) => {
+    const { notifications } = routes
+    app.get('/api/notifications/:notificationId', notifications.get)
+    app.patch('/api/notifications/:notificationId', notifications.patch)
+    app.get('/api/user/:userId/notifications', notifications.get)
+}
+
+/**
+ * 
+ * @param {Express} app The express application to bind all the routes to
+ */
 const router = (app) => {
     app.get('/', routes.index)
 
     bindRoomRoutes(app)
     bindUserRoutes(app)
     bindRoomInvitationRoutes(app)
+    bindNotificationRoutes(app)
 
     app.post('/api/login/', routes.login)
     app.post('/api/logout/', routes.logout)
