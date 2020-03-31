@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { RoomJoinRequestSchema } = require('./RoomJoinRequest')
+const { RoomInvitationSchema } = require('./RoomInvitation')
 
 const Schema = mongoose.Schema
 
@@ -14,7 +14,10 @@ const NotificationSchema = new Schema({
         enum: ['pending', 'reviewed'],
         default: 'pending'
     },
-    roomJoinRequest: RoomJoinRequestSchema,
+    roomInvitation: {
+        type: RoomInvitationSchema,
+        unique: false
+    },
 })
 
 const Notification = mongoose.model('Notification', NotificationSchema)
