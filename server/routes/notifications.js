@@ -8,13 +8,13 @@ const {
 const { genericHandlerCallback } = require('./routeUtils')
 
 const get = (req, res) => {
-    const { userId, notificationId } = req.params
+    const { notificationId } = req.params
     const callback = (err, notif) => genericHandlerCallback(err, notif, res)
 
     if (notificationId) {
         getNotification(notificationId, callback)
     } else {
-        getNotificationsMatchingUser(userId, callback)
+        getNotificationsMatchingUser(req.session.userId, callback)
     }
 }
 
@@ -30,7 +30,7 @@ const patch = (req, res) => {
     const { status } = req.body
     if (status) {
         updateNotificationStatus(notificationId, status, callback)
-    }else{
+    } else {
         getNotification(notificationId, callback)
     }
 }

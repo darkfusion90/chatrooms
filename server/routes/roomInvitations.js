@@ -8,8 +8,8 @@ const {
 const {
     createInvitation,
     deleteInvitation,
-    getInvitationOfInvitee,
-    getAllInvitationsOfInvitee
+    getInvitation,
+    getAllInvitationsOfUser
 } = require('../controllers/roomInvitations')
 const { createNotification } = require('../controllers/notifications')
 const { getRoomByRoomId } = require('../controllers/rooms')
@@ -17,23 +17,13 @@ const { genericHandlerCallback } = require('./routeUtils')
 
 
 exports.get = (req, res) => {
-    const {
-        userId,
-        invitationId
-    } = req.params
+    const callback = (err, invitation) => genericHandlerCallback(err, invitation, res)
 
+    const { invitationId } = req.params
     if (invitationId) {
-        getInvitationOfInvitee(
-            invitationId,
-            userId,
-            (err, invitation) => genericHandlerCallback(err, invitation, res)
-        )
+        getInvitation(invitationId, callback)
     } else {
-        console.log('userId: ', userId)
-        getAllInvitationsOfInvitee(
-            userId,
-            (err, invitation) => genericHandlerCallback(err, invitation, res)
-        )
+        getAllInvitationsOfUser(req.session.userId, callback)
     }
 }
 
