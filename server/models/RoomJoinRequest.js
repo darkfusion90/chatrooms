@@ -15,4 +15,4 @@ const RoomJoinRequestSchema = new mongoose.Schema({
 
 const RoomJoinRequest = mongoose.model('RoomJoinRequest', RoomJoinRequestSchema)
 
-module.exports = RoomJoinRequest
+module.exports = { RoomJoinRequestSchema, RoomJoinRequest }

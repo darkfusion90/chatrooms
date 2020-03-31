@@ -22,4 +22,4 @@ const RoomInvitationSchema = new Schema({
 
 const RoomInvitation = mongoose.model('RoomInvitation', RoomInvitationSchema)
 
-module.exports = RoomInvitation
+module.exports = { RoomInvitationSchema, RoomInvitation }
