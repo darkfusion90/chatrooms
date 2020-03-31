@@ -1,4 +1,4 @@
-const RoomInvitation = require('../models/RoomInvitation')
+const { RoomInvitation } = require('../models/RoomInvitation')
 const isFunction = require('../utils/isFunction')
 
 exports.createInvitation = (invitee, inviter, room, callback) => {
