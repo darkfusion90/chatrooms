@@ -6,6 +6,7 @@ const register = require('./register')
 const rooms = require('./rooms')
 const roomInvitations = require('./roomInvitations')
 const user = require('./user')
+const notifications = require('./notifications')
 
 const logger = require('../utils/logger')('[Routes: index]')
 
@@ -26,5 +27,6 @@ module.exports = {
     register,
     rooms,
     user,
-    roomInvitations
+    roomInvitations,
+    notifications
 }
