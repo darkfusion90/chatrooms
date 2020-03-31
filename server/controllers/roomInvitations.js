@@ -14,9 +14,9 @@ exports.createInvitation = (invitee, inviter, room, callback) => {
     return promise
 }
 
-exports.getInvitationOfInvitee = (invitationId, invitee, callback) => {
+exports.getInvitation = (invitationId, callback) => {
     const promise = new Promise((resolve, reject) => {
-        RoomInvitation.findOne({ _id: invitationId, invitee })
+        RoomInvitation.findById(invitationId)
             .then(resolve)
             .catch(reject)
     })
@@ -28,9 +28,9 @@ exports.getInvitationOfInvitee = (invitationId, invitee, callback) => {
     return promise
 }
 
-exports.getAllInvitationsOfInvitee = (invitee, callback) => {
+exports.getAllInvitationsOfUser = (user, callback) => {
     const promise = new Promise((resolve, reject) => {
-        RoomInvitation.find({ invitee })
+        RoomInvitation.find({ invitee: user })
             .then(resolve)
             .catch(reject)
     })
