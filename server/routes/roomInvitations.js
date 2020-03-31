@@ -11,6 +11,7 @@ const {
     getInvitationOfInvitee,
     getAllInvitationsOfInvitee
 } = require('../controllers/roomInvitations')
+const { createNotification } = require('../controllers/notifications')
 const { getRoomByRoomId } = require('../controllers/rooms')
 const { genericHandlerCallback } = require('./routeUtils')
 
@@ -28,7 +29,7 @@ exports.get = (req, res) => {
             (err, invitation) => genericHandlerCallback(err, invitation, res)
         )
     } else {
-        console.log('userId: ',userId )
+        console.log('userId: ', userId)
         getAllInvitationsOfInvitee(
             userId,
             (err, invitation) => genericHandlerCallback(err, invitation, res)
@@ -39,26 +40,28 @@ exports.get = (req, res) => {
 exports.post = (req, res) => {
     const { hasErrors, errors } = validatePost(req.body)
     if (hasErrors) {
-        res.status(BAD_REQUEST).json(errors)
+        return res.status(BAD_REQUEST).json(errors)
     }
 
     const { invitee, roomId } = req.body
-    const inviter = req.params.userId
+    const inviter = req.session.userId
 
     getRoomByRoomId(roomId, (err, room) => {
         if (err) {
-            genericHandlerCallback(err, room, res)
+            return genericHandlerCallback(err, room, res)
         }
         if (!room) {
-            res.status(RESOURCE_NOT_FOUND).json({ room: 'Room not found' })
+            return res.status(RESOURCE_NOT_FOUND).json({ room: 'Room not found' })
         }
-        console.log('room: ', room._id)
-        createInvitation(
-            invitee,
-            inviter,
-            room._id,
-            (err, invitation) => genericHandlerCallback(err, invitation, res)
-        )
+
+        createInvitation(invitee, inviter, room._id, (err, invitation) => {
+            if (err || !invitation) return genericHandlerCallback(err, invitation, res)
+
+            createNotification(invitee, {
+                type: 'room_invitation',
+                payload: invitation
+            }, (err, _) => genericHandlerCallback(err, invitation, res))
+        })
     })
 }
 
