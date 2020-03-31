@@ -57,9 +57,9 @@ const bindRoomInvitationRoutes = (app) => {
  */
 const bindNotificationRoutes = (app) => {
     const { notifications } = routes
-    app.get('/api/notifications/:notificationId', notifications.get)
+    
+    app.get('/api/notifications/:notificationId?', notifications.get)
     app.patch('/api/notifications/:notificationId', notifications.patch)
-    app.get('/api/user/:userId/notifications', notifications.get)
 }
 
 /**
