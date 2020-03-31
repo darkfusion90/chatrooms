@@ -23,3 +23,15 @@ exports.getNotification = (notificationId, callback) => {
     }, callback)
 }
 
+exports.getNotificationsMatchingUser = (user, callback) => {
+    return createPromiseCallbackFunction((resolve, reject) => {
+        Notification.find({ user }).then(resolve).catch(reject)
+    }, callback)
+}
+
+exports.updateNotificationStatus = (notificationId, status, callback) => {
+    return createPromiseCallbackFunction((resolve, reject) => {
+        Notification.findByIdAndUpdate(notificationId, { status }, { returnOriginal: false })
+            .then(resolve).catch(reject)
+    }, callback)
+}
