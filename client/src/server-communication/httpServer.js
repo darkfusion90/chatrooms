@@ -61,3 +61,7 @@ export const getRoomMessage = (roomId, messageId, onRequestFulfilled, onRequestR
 export const addMessageToRoom = (roomId, message, onRequestFulfilled, onRequestRejected) => {
     return axios.post(`/api/rooms/${roomId}/messages`, { message }).then(onRequestFulfilled, onRequestRejected)
 }
+
+export const getAllNotifications = (onRequestFulfilled, onRequestRejected) => {
+    return axios.get('/api/notifications').then(onRequestFulfilled, onRequestRejected)
+}
