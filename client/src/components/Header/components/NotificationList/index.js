@@ -1,3 +1,3 @@
-import NotificationList from "./NotificationList-View";
+import NotificationList from './NotificationList-View';
 
 export default NotificationList
