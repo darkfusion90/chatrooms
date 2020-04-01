@@ -20,9 +20,12 @@ const RoomHeader = ({ room, className }) => {
         )
 
         const ActionInviteUser = (
-            <FontAwesomeIcon
+            <WithModalTrigger
+                component={FontAwesomeIcon}
                 icon={faPlus}
                 className='cursor-pointer'
+                modalName='InviteUser'
+                modalProps={{ room }}
             />
         )
 
