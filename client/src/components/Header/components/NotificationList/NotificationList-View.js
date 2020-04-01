@@ -1,8 +1,9 @@
 import React from 'react';
+import { ListGroup } from 'react-bootstrap'
 
 import NotificationListItem from '../NotificationListItem';
 
-const NotificationListView= ({ notifications }) => {
+const NotificationListView = ({ notifications }) => {
     const getNotificationData = () => {
         if (notifications.length === 0) {
             return "You don't have any notifications"
@@ -16,9 +17,9 @@ const NotificationListView= ({ notifications }) => {
     }
 
     return (
-        <div>
+        <ListGroup variant='flush'>
             {getNotificationData()}
-        </div>
+        </ListGroup>
     )
 }
 
