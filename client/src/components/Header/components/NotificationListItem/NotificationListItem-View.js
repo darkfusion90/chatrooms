@@ -1,25 +1,35 @@
 import React from 'react';
-import DropdownItem from 'react-bootstrap/DropdownItem';
+import { ListGroupItem } from 'react-bootstrap'
 
-const CustomItem = React.forwardRef(({ children, className, style }, ref) => (
-    <div
-        ref={ref}
-        className={className}
-        style={style}
-    >
-        {children}
-    </div>
-))
+import './NotificationListItem-Style.scss'
+import { getNotificationTitle } from './utils'
 
-const NotificationListItemView = (props) => {
-    console.log("item. title: " + props.notification.title)
+const renderNotificationContent = (notification) => {
+    const { roomInvitation } = notification
+    if (roomInvitation) {
+        const { inviter, room } = roomInvitation
+        const inviterUsername = inviter && inviter.username
+        const roomName = room && room.name
+
+        return (
+            <p className='mb-0'>
+                <em>{inviterUsername}</em>{' '}
+                invited you to join the room{' '}
+                <em>{roomName}</em>
+            </p>
+        )
+    }
+}
+
+const NotificationListItemView = ({ notification }) => {
+    const title = getNotificationTitle(notification)
+    const readClass = notification.status === 'reviewed' ? 'read' : 'unread'
+
     return (
-        <>
-            <DropdownItem as={CustomItem}>
-                {props.notification.content}
-            </DropdownItem>
-            <hr />
-        </>
+        <ListGroupItem className={`my-1 notification-item ${readClass}`}>
+            <h6 className='mb-1 mt-0'>{title}</h6>
+            {renderNotificationContent(notification)}
+        </ListGroupItem>
     );
 }
 
