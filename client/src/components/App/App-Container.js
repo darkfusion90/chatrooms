@@ -9,14 +9,13 @@ class AppContainer extends React.Component {
     }
 
     componentDidMount() {
-        const { connectToServer, updateUser } = this.props
-
-        connectToServer(this.onServerDisconnected);
+        this.props.connectToServer(this.onServerDisconnected);
         onServerDisconnected(this.onServerDisconnected);
         onServerConnected(this.onServerConnected);
-        updateUser()
+        this.props.updateUser()
+        this.props.fetchAllNotifications()
     }
-
+    
     onServerConnected = () => {
         this.setState({ serverConnectionFailed: false })
     }
