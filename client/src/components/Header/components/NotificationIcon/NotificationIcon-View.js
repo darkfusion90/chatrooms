@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faIdBadge } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { Dropdown } from '../../../standalone'
 import NotificationList from '../NotificationList'
@@ -8,14 +8,24 @@ import './NotificationIcon-Style.scss'
 
 const NotificationIconView = ({ notifications }) => {
     const getNotificationIcon = () => {
-        const badgeVisibility = notifications.length > 0 ? 'visible' : 'hidden'
+        const hasNotifications = notifications.length > 0
+        const badgeVisibility = hasNotifications ? 'visible' : 'hidden'
+        const bellActivity = hasNotifications ? 'active' : 'inactive'
+
         return (
-            <FontAwesomeIcon icon={faBell} size="lg">
+            <div className='notification-icon-container'>
                 <FontAwesomeIcon
-                    icon={faIdBadge}
+                    icon={faBell}
+                    size='lg'
+                    className={`notification-bell-icon ${bellActivity}`}
+                />
+                <FontAwesomeIcon
+                    icon={faCircle}
+                    size='xs'
+                    color='red'
                     className={`notification-badge ${badgeVisibility}`}
                 />
-            </FontAwesomeIcon>
+            </div>
         );
     }
 
