@@ -5,6 +5,7 @@ import CreateRoomModal from './CreateRoomModal/'
 import JoinRoomModal from './JoinRoomModal/'
 import DeleteRoomModal from './DeleteRoomModal/'
 import LeaveRoomModal from './LeaveRoomModal/'
+import InviteUserModal from './InviteUserModal'
 
 const getModalComponentToShow = (modalName) => {
     switch (modalName) {
@@ -16,6 +17,8 @@ const getModalComponentToShow = (modalName) => {
             return <DeleteRoomModal />
         case 'LeaveRoom':
             return <LeaveRoomModal />
+        case 'InviteUser':
+            return <InviteUserModal />
         default:
             return null
     }
