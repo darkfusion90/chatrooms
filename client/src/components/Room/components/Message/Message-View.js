@@ -26,11 +26,11 @@ const Message = (props) => {
         <Container className={`message float-${align}`}>
             {align === 'left' && messageArrow}
             {
-                <p style={{ color }}>
+                <p style={{ color }} className='mb-0'>
                     <strong>{messageAuthor}</strong>
                 </p>
             }
-            <p>{message.data}</p>
+            <p className='mb-0'>{message.data}</p>
             {align === 'right' && messageArrow}
         </Container>
     )
