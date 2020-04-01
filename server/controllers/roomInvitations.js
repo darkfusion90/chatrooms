@@ -1,6 +1,31 @@
 const { RoomInvitation } = require('../models/RoomInvitation')
 const isFunction = require('../utils/isFunction')
 
+const POPULATE_CONFIG = {
+    room: {
+        path: 'room',
+        model: 'Room',
+        select: 'name roomId'
+    },
+    inviter: {
+        path: 'inviter',
+        model: 'User',
+        select: 'username isRegistered'
+    },
+    invitee: {
+        path: 'invitee',
+        model: 'User',
+        select: 'username isRegistered'
+    }
+}
+
+function populateQuery(query) {
+    if (query) {
+        const { room, invitee, inviter } = POPULATE_CONFIG
+        return query.populate(room).populate(invitee).populate(inviter)
+    }
+}
+
 exports.createInvitation = (invitee, inviter, room, callback) => {
     const promise = new Promise((resolve, reject) => {
         const roomInvitation = new RoomInvitation({ invitee, inviter, room })
@@ -16,9 +41,8 @@ exports.createInvitation = (invitee, inviter, room, callback) => {
 
 exports.getInvitation = (invitationId, callback) => {
     const promise = new Promise((resolve, reject) => {
-        RoomInvitation.findById(invitationId)
-            .then(resolve)
-            .catch(reject)
+        const query = RoomInvitation.findById(invitationId)
+        populateQuery(query).then(resolve).catch(reject)
     })
 
     if (isFunction(callback)) {
@@ -30,9 +54,8 @@ exports.getInvitation = (invitationId, callback) => {
 
 exports.getAllInvitationsOfUser = (user, callback) => {
     const promise = new Promise((resolve, reject) => {
-        RoomInvitation.find({ invitee: user })
-            .then(resolve)
-            .catch(reject)
+        const query = RoomInvitation.find({ invitee: user })
+        populateQuery(query).then(resolve).catch(reject)
     })
 
     if (isFunction(callback)) {
@@ -44,7 +67,8 @@ exports.getAllInvitationsOfUser = (user, callback) => {
 
 exports.deleteInvitation = (invitationId, callback) => {
     const promise = new Promise((resolve, reject) => {
-        RoomInvitation.findById(invitationId).then(resolve).catch(reject)
+        const query = RoomInvitation.findById(invitationId)
+        populateQuery(query).then(resolve).catch(reject)
     })
 
     if (isFunction(callback)) {
