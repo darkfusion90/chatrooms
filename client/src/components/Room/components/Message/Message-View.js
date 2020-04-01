@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListGroup, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 
 import './Message-Style.scss'
 
@@ -14,7 +14,7 @@ const Message = (props) => {
     }
 
     const renderMessageArrow = () => {
-        const borderAttr = `15px solid ${color}`
+        const borderAttr = `15px solid #0c5460`
         const style = align === 'left' ? { borderRight: borderAttr } : { borderLeft: borderAttr }
 
         return <p className={`msg-box-arrow ${align}`} style={style} />
@@ -23,20 +23,16 @@ const Message = (props) => {
     const messageAuthor = getMessageAuthor()
     const messageArrow = renderMessageArrow()
     return (
-        <ListGroup.Item key={message.id} style={{ border: "none" }}>
-            <Container className={`message float-${align}`} style={{ backgroundColor: color }}>
-                {align === 'left' && messageArrow}
-                {
-                    messageAuthor &&
-                    <p>
-                        <strong>{messageAuthor}</strong>
-                    </p>
-                }
-                <p>{message.data}</p>
-                {align === 'right' && messageArrow}
-            </Container>
-
-        </ListGroup.Item>
+        <Container className={`message float-${align}`}>
+            {align === 'left' && messageArrow}
+            {
+                <p style={{ color }}>
+                    <strong>{messageAuthor}</strong>
+                </p>
+            }
+            <p>{message.data}</p>
+            {align === 'right' && messageArrow}
+        </Container>
     )
 }
 
