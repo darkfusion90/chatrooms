@@ -1,3 +1,3 @@
-import createNotification from './createNotification'
+import fetchAllNotifications from './fetchAllNotifications'
 
-export { createNotification }
+export { fetchAllNotifications }

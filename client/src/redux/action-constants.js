@@ -8,6 +8,7 @@ export const JOIN_ROOM = "JOIN_ROOM";
 export const LEAVE_ROOM = "LEAVE_ROOM";
 
 export const CREATE_NOTIFICATION = "CREATE_NOTIFICATION";
+export const FETCH_ALL_NOTIFICATIONS = "FETCH_ALL_NOTIFICATIONS"
 
 export const UPDATE_USER = "UPDATE_USER";
 export const LOGIN = "LOGIN"

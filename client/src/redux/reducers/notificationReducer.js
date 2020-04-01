@@ -1,19 +1,17 @@
-import { CREATE_NOTIFICATION } from '../action-constants';
+import _ from 'lodash'
+import { FETCH_ALL_NOTIFICATIONS } from '../action-constants';
 
 const INITIAL_STATE = { length: 0, data: {} }
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case CREATE_NOTIFICATION:
-            const { id, ...metadata } = action.payload;
-            console.log('id: ' + id + "\nmetadata:");
-            console.log(metadata)
+        case FETCH_ALL_NOTIFICATIONS:
+            const data = action.payload
             return {
                 ...state,
-                length: state.length + 1,
-                data: { ...state.data, [id]: metadata }
-            };
-
+                length: data.length,
+                data: _.mapKeys(data, '_id')
+            }
         default:
             return state;
     }
