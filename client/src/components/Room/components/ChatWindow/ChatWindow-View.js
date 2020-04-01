@@ -8,14 +8,24 @@ const ChatWindow = (props) => {
     const { room, colorsAssignedToMessageAuthors } = props
 
     const renderMessages = () => {
+        let prevMessageAuthor;
         return room.messages.map(message => {
             const messageAuthor = message.author && message.author._id
-            return <Message
-                color={colorsAssignedToMessageAuthors[messageAuthor]}
-                roomId={room.roomId}
-                message={message}
-                key={message && message._id}
-            />
+            const paddingTop = messageAuthor === prevMessageAuthor ? 'pt-0' : ''
+            prevMessageAuthor = messageAuthor
+
+            return (
+                <ListGroup.Item
+                    key={message && message._id}
+                    className={`border-0 ${paddingTop} pb-1`}
+                >
+                    <Message
+                        color={colorsAssignedToMessageAuthors[messageAuthor]}
+                        roomId={room.roomId}
+                        message={message}
+                    />
+                </ListGroup.Item>
+            )
         })
     }
 
