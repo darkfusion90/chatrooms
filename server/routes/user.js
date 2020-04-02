@@ -1,20 +1,39 @@
-const httpStatusCodes = require('../constants/httpStatusCodes')
+const { isValidObjectId } = require('mongoose')
+const {
+    BAD_REQUEST,
+    INTERNAL_SERVER_ERROR
+} = require('../constants/httpStatusCodes')
 const { genericHandlerCallback } = require('./routeUtils')
-const { createRegisteredUser, registerUser, getUser, updateUser, deleteUser } = require('../controllers/users')
+const {
+    createRegisteredUser,
+    registerUser,
+    getUser,
+    getUserByUsername,
+    updateUser,
+    deleteUser
+} = require('../controllers/users')
 const registerUserFormValidator = require('../utils/registerUserFormValidator')
 const updateSessionExpiryRegisteredUser = require('../utils/updateSessionExpiryRegisteredUser')
 
 const get = (req, res) => {
-    let userId;
-    //In case of "/api/user/:id", the id passed in url will be used
-    //In case of "/api/user", the id will be taken from the session of the client
-    if (req.params.userId) {
-        userId = req.params.userId
+    const getUserId = () => {
+        //In case of "/api/user/:id", the id passed in url will be used
+        //In case of "/api/user", the id will be taken from the session of the client
+        const { userId: paramsUserId } = req.params
+        const { userId: sessionUserId } = req.session
+        return paramsUserId ? paramsUserId : sessionUserId
     }
-    else if (req.session.userId) {
-        userId = req.session.userId
+
+    const callback = (err, user) => genericHandlerCallback(err, user, res)
+    //NOTE: Don't change the comparison to boolean type comparison by ditching the === 'true part
+    //The query is received as string so a string comparison is necessary
+    if ((req.query.byUsername + '').toLowerCase() === 'true') {
+        return getUserByUsername(getUserId(), false, callback)
+    } else if (!isValidObjectId(getUserId())) {
+        return res.status(BAD_REQUEST).json({ userId: 'Parameter \'userId\' must be of type ObjectId' })
     }
-    getUser(userId, (err, user) => genericHandlerCallback(err, user, res))
+
+    return getUser(getUserId(), callback)
 }
 
 const patch = (req, res) => {
@@ -41,7 +60,7 @@ const handleRegisterUser = (req, res) => {
     const { errors, hasErrors } = registerUserFormValidator(req.body)
 
     if (hasErrors) {
-        res.status(httpStatusCodes.BAD_REQUEST).json(errors)
+        res.status(BAD_REQUEST).json(errors)
     }
     else if (!req.session.userId) {
         createRegisteredUser(req.body, (err, user) => registerUserCallback(err, user, req, res))
@@ -62,7 +81,7 @@ const registerUserCallback = (err, user, req, res) => {
         req.session.save()
         res.json(user)
     } else {
-        res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+        res.status(INTERNAL_SERVER_ERROR).json({})
     }
 }
 
