@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonGroup } from 'react-bootstrap'
 
 import {
     CreateRoomModalTrigger,
@@ -9,18 +10,18 @@ import './LandingPage-Style.scss';
 
 const LandingPage = () => {
     return (
-        <div className="landing-page compensate-header">
-            <div className="inner-wrapper">
-                <p>Welcome to ChatRooms!</p>
+        <div className='landing-page compensate-header w-100'>
+            <div className='d-flex flex-column align-items-center'>
+                <p className='welcome-msg'>Welcome to ChatRooms!</p>
 
-                <div className="buttons-container">
+                <ButtonGroup>
                     <CreateRoomModalTrigger>
                         Create Room
                     </CreateRoomModalTrigger>
                     <JoinRoomModalTrigger variant='outline-primary'>
                         Join Room By Id
                     </JoinRoomModalTrigger>
-                </div>
+                </ButtonGroup>
             </div>
         </div>
     );
