@@ -14,6 +14,11 @@ export const getUser = (userId, onRequestFulfilled, onRequestRejected) => {
     return axios.get(`/api/user/${userId}`).then(onRequestFulfilled, onRequestRejected)
 }
 
+export const getUserByUsername = (username, onRequestFulfilled, onRequestRejected) => {
+    return axios.get(`/api/user/${username}/?byUsername=true`)
+        .then(onRequestFulfilled, onRequestRejected)
+}
+
 export const getCurrentUser = (onRequestFulfilled, onRequestRejected) => {
     return axios.get('/api/user/').then(onRequestFulfilled, onRequestRejected)
 }
@@ -64,4 +69,11 @@ export const addMessageToRoom = (roomId, message, onRequestFulfilled, onRequestR
 
 export const getAllNotifications = (onRequestFulfilled, onRequestRejected) => {
     return axios.get('/api/notifications').then(onRequestFulfilled, onRequestRejected)
+}
+
+export const sendRoomInvitation = (inviteeUserId, roomId, onRequestFulfilled, onRequestRejected) => {
+    return axios.post(
+        '/api/room_invitations',
+        { invitee: inviteeUserId, room: roomId }
+    ).then(onRequestFulfilled).catch(onRequestRejected)
 }
