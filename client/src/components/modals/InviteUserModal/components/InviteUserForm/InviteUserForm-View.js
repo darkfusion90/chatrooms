@@ -16,7 +16,7 @@ const InviteUserFormView = ({ onFormSubmit }) => {
         <Form id='invite-user-form' onSubmit={onFormSubmit} >
             <Field
                 component={renderRoomNameField}
-                name='invitee-username'
+                name='inviteeUsername'
                 label='Invitee Username:'
                 placeholder='Enter username of user to be invited'
                 required
