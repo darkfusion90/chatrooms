@@ -7,7 +7,7 @@ $text-area-bgcolor: #fff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 75%;
+    height: 90vh;
 }
 
 .centered-content {
@@ -16,7 +16,7 @@ $text-area-bgcolor: #fff;
 
 .compensate-header {
     @extend %centered-content-flex-container;
-    padding-top: 15.4vw;
+    padding-top: 50px;
 }
 
 .title {
