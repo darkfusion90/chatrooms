@@ -1,3 +1,4 @@
 import InviteUserForm from './InviteUserForm'
+import MatchingUserList from './MatchingUserList'
 
-export { InviteUserForm }
+export { InviteUserForm, MatchingUserList }
