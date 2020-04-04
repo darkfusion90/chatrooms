@@ -15,7 +15,19 @@ class AppContainer extends React.Component {
         this.props.updateUser()
         this.props.fetchAllNotifications()
     }
-    
+
+    componentDidUpdate(prevProps) {
+        const prevUser = prevProps.user
+        const currentUser = this.props.user
+        //Prevent infinite re-rendering by checking if the user is same as before
+        //If same, don't fetch the notifications
+        if ((prevUser && prevUser._id) === (currentUser && currentUser._id)) {
+            return
+        }
+
+        this.props.fetchAllNotifications()
+    }
+
     onServerConnected = () => {
         this.setState({ serverConnectionFailed: false })
     }
