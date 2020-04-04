@@ -78,6 +78,8 @@ const router = (app) => {
     app.post('/api/logout/', routes.logout)
     app.post('/api/register/', routes.register)
 
+    app.get('/api/search', routes.search.get)
+
     app.get('*', routes.index)
 }
 
