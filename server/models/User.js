@@ -28,7 +28,8 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-UserSchema.index({ 'expiresAt': 1 }, { expireAfterSeconds: 0 })
+UserSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+UserSchema.index({ username: 'text' })
 
 function duplicateKeyErrorHandler(err, _, next) {
     if (err.name === 'MongoError' && err.code === 11000) {
