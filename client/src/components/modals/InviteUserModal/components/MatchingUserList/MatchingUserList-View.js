@@ -31,9 +31,9 @@ const EmptyUserList = ({ queryUsername }) => {
     const { text, icon } = getContent()
     return (
         //subtitle className is to utilize lighter text (and icon) color in subtitles
-        <div className='username-list-container overflow-scroll subtitle d-flex flex-column align-items-center justify-content-center'>
+        <div className='username-list-container subtitle d-flex flex-column align-items-center justify-content-center'>
             <FontAwesomeIcon icon={icon} size='lg' />
-            <p className='overflow-auto'>{text}</p>
+            <p className='max-height-100 min-width-0'>{text}</p>
         </div>
     )
 }
