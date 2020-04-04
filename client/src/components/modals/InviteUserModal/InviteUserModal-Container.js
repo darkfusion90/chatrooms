@@ -8,7 +8,7 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import { searchUsers } from '../../../server-communication/httpServer';
+import { searchUsers, getUserByUsername, sendRoomInvitation } from '../../../server-communication/httpServer';
 
 class InviteUserModalContainer extends React.Component {
     state = {
@@ -53,6 +53,12 @@ class InviteUserModalContainer extends React.Component {
 
     onInviteUserFormSubmit = ({ inviteeUsername }) => {
         this.onInviteUserPending()
+        getUserByUsername(inviteeUsername)
+            .then((response) => {
+                const user = response.data
+                const { room } = this.props.modalProps
+                sendRoomInvitation(user._id, room.roomId, this.onInviteUserSuccess, this.onInviteUserFailure)
+            }).catch(this.onInviteUserFailure)
     }
 
     getUsernameFromInviteUserForm = (inviteUserForm) => {
