@@ -1,14 +1,18 @@
 import React from 'react';
-import { Button } from 'react-bootstrap'
+import { Button, Container } from 'react-bootstrap'
 
 import GenericModal from '../GenericModal'
-import { InviteUserForm } from './components'
+import { InviteUserForm, MatchingUserList } from './components'
 import { InviteUserButton } from '../../standalone/RoomActionButtons'
+
 
 const InviteUserModalView = ({
     isModalVisible,
     hideModal,
     onFormSubmit,
+    matchingUsers,
+    queryUsername,
+    selectUsername,
     inviteUserProgress
 }) => {
     const getModalActions = () => {
@@ -35,7 +39,17 @@ const InviteUserModalView = ({
     }
 
     const getModalContent = () => {
-        return <InviteUserForm onFormSubmit={onFormSubmit} />
+        return (
+            <Container>
+                <InviteUserForm onFormSubmit={onFormSubmit} />
+                <hr />
+                <MatchingUserList
+                    userList={matchingUsers}
+                    queryUsername={queryUsername}
+                    onItemClick={(username) => selectUsername(username)}
+                />
+            </Container>
+        )
     }
 
     return (
