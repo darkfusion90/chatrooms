@@ -1,4 +1,5 @@
 import React from 'react';
+import isEmpty from 'is-empty'
 
 import InviteUserModalView from './InviteUserModal-View'
 import {
@@ -7,34 +8,65 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import delay from '../../../helpers/delay'
+import { searchUsers } from '../../../server-communication/httpServer';
 
 class InviteUserModalContainer extends React.Component {
     state = {
-        inviteUserProgress: PROGRESS_INITIAL
+        inviteUserProgress: PROGRESS_INITIAL,
+        matchingUsers: []
+    }
+
+    async componentDidUpdate(prevProps) {
+        const currentUsername = this.getUsernameFromInviteUserForm(this.props.inviteUserForm)
+        const prevUsername = this.getUsernameFromInviteUserForm(prevProps.inviteUserForm)
+        if (prevUsername === currentUsername) {
+            return
+        }
+
+        if (isEmpty(currentUsername)) {
+            this.setState({ matchingUsers: [] })
+        }
+
+        let matchingUsers;
+        try {
+            matchingUsers = await searchUsers(currentUsername)
+        } catch{
+            matchingUsers = { data: { payload: [] } }
+        } finally {
+            this.setState({ matchingUsers: matchingUsers.data.payload })
+        }
     }
 
     onInviteUserPending = () => {
         this.setState({ inviteUserProgress: PROGRESS_PENDING })
     }
 
-    onInviteUserSuccess = () => {
+    onInviteUserSuccess = ({ data }) => {
+        console.log('user: ', data)
         this.setState({ inviteUserProgress: PROGRESS_SUCCESS })
     }
 
-    onInviteUserFailure = () => {
+    onInviteUserFailure = ({ response }) => {
+        console.log('fail user: ', response)
         this.setState({ inviteUserProgress: PROGRESS_FAIL })
     }
 
-    onInviteUserFormSubmit = () => {
+    onInviteUserFormSubmit = ({ inviteeUsername }) => {
         this.onInviteUserPending()
-        delay('SomeValue', this.onInviteUserSuccess, this.onInviteUserFailure)
+    }
+
+    getUsernameFromInviteUserForm = (inviteUserForm) => {
+        const formValues = inviteUserForm && inviteUserForm.values
+        const username = formValues && formValues.inviteeUsername
+        return username ? username.trim() : username
     }
 
     render() {
+        const queryUsername = this.getUsernameFromInviteUserForm(this.props.inviteUserForm)
         return (
             <InviteUserModalView
                 onFormSubmit={this.onInviteUserFormSubmit}
+                queryUsername={queryUsername}
                 {...this.props}
                 {...this.state}
             />
