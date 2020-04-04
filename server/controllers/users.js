@@ -127,6 +127,11 @@ function getUserByUsername(username, isFromPassportAuth, callback) {
     User.findOne({ username: username }, projections, callback)
 }
 
+function searchUsers(username, callback) {
+    const caseInsensitiveRegex = new RegExp(username, 'i')
+    User.find({ username: { $regex: caseInsensitiveRegex } }, PROJECTIONS, callback)
+}
+
 function updateUser(userId, data, callback) {
     const updatableFields = ['username', 'password']
     const toUpdate = getUpdatableFieldsFromData(data, updatableFields)
@@ -154,5 +159,6 @@ module.exports = {
     updateUser,
     deleteUser,
     filterUsingProjections,
-    updateUserDocumentExpirationDate
+    updateUserDocumentExpirationDate,
+    searchUsers
 }
