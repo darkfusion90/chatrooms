@@ -79,6 +79,6 @@ export const getAllNotifications = (onRequestFulfilled, onRequestRejected) => {
 export const sendRoomInvitation = (inviteeUserId, roomId, onRequestFulfilled, onRequestRejected) => {
     return axios.post(
         '/api/room_invitations',
-        { invitee: inviteeUserId, room: roomId }
+        { invitee: inviteeUserId, roomId }
     ).then(onRequestFulfilled).catch(onRequestRejected)
 }
