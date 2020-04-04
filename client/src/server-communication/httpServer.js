@@ -23,6 +23,11 @@ export const getCurrentUser = (onRequestFulfilled, onRequestRejected) => {
     return axios.get('/api/user/').then(onRequestFulfilled, onRequestRejected)
 }
 
+export const searchUsers = (username, onRequestFulfilled, onRequestRejected) => {
+    return axios.get(`/api/search?category=user&query=${username}`)
+        .then(onRequestFulfilled, onRequestRejected)
+}
+
 export const checkLoginStatus = (onRequestFulfilled, onRequestRejected) => {
     return axios.get('/api/user/status/login').then(onRequestFulfilled, onRequestRejected)
 }
