@@ -1,5 +1,11 @@
+.notification-item:focus,
+.notification-item:hover {
+    background-color: #ededed;
+    cursor: pointer;
+}
+
 .notification-item.unread {
-    border-left: 2px solid green!important;
+    border-left: 2px solid green !important;
 }
 
 .notification-item.read {
