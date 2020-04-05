@@ -16,11 +16,11 @@ const getContent = (invitation) => {
     )
 }
 
-const RoomInvitationNotificationItem = ({ invitation }) => {
+const RoomInvitationNotificationItem = ({ invitation, notificationId }) => {
     return (
         <WithModalTrigger
             modalName='ReviewRoomInvitation'
-            modalProps={{ invitation }}
+            modalProps={{ invitation, notificationId }}
             component={({ children, ...props }) => <div {...props}>{children}</div>}
         >
             <h6 className='mb-1 mt-0'>Room Invitation</h6>
