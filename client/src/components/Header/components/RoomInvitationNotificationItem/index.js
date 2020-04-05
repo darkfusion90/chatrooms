@@ -1,0 +1,3 @@
+import RoomInvitationNotificationItem from './RoomInvitationNotificationItem-View'
+
+export default RoomInvitationNotificationItem
