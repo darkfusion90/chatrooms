@@ -10,10 +10,8 @@ const NotificationListView = ({ notifications }) => {
             return "You don't have any notifications"
         }
 
-        const notificationIdList = Object.keys(notifications.data)
-        return notificationIdList.map(id => {
-            const notification = notifications.data[id]
-            return <NotificationListItem key={id} notification={notification} />
+        return notifications.map(notification => {
+            return <NotificationListItem key={notification._id} notification={notification} />
         })
     }
 
