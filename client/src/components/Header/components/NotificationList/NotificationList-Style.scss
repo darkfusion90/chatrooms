@@ -1,0 +1,9 @@
+.notification-list {
+    max-height: 60vh;
+    overflow: hidden;
+}
+
+.notification-list:focus,
+.notification-list:hover {
+    overflow-y: scroll;
+}
