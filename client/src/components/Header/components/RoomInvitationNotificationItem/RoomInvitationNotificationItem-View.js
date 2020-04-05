@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { WithModalTrigger } from '../../../hoc'
+
 const getContent = (invitation) => {
     const { inviter, room } = invitation
     const inviterUsername = inviter && inviter.username
@@ -16,10 +18,14 @@ const getContent = (invitation) => {
 
 const RoomInvitationNotificationItem = ({ invitation }) => {
     return (
-        <>
+        <WithModalTrigger
+            modalName='ReviewRoomInvitation'
+            modalProps={{ invitation }}
+            component={({ children, ...props }) => <div {...props}>{children}</div>}
+        >
             <h6 className='mb-1 mt-0'>Room Invitation</h6>
             {getContent(invitation)}
-        </>
+        </WithModalTrigger>
     )
 }
 
