@@ -1,3 +1,4 @@
 import fetchAllNotifications from './fetchAllNotifications'
+import markNotificationAsReviewed from './markNotificationAsReviewed'
 
-export { fetchAllNotifications }
+export { fetchAllNotifications, markNotificationAsReviewed }
