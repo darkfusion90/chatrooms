@@ -4,6 +4,7 @@ import JoinRoomButton from './JoinRoomButton'
 import LeaveRoomButton from './LeaveRoomButton'
 import SendRoomJoinRequestButton from './SendRoomJoinRequestButton'
 import InviteUserButton from './InviteUserButton'
+import AcceptRoomInvitationButton from './AcceptRoomInvitationButton'
 
 export {
     CreateRoomButton,
@@ -11,5 +12,6 @@ export {
     JoinRoomButton,
     LeaveRoomButton,
     SendRoomJoinRequestButton,
-    InviteUserButton
+    InviteUserButton,
+    AcceptRoomInvitationButton
 }
