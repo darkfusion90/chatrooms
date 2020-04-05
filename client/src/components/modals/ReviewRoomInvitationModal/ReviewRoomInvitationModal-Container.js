@@ -18,6 +18,11 @@ class ReviewRoomInvitationModalContainer extends React.Component {
 
     onAcceptInvitationSuccess = () => {
         this.setState({ acceptInvitationProgress: PROGRESS_SUCCESS })
+        const {
+            markNotificationAsReviewed,
+            modalProps: { notificationId }
+        } = this.props
+        markNotificationAsReviewed(notificationId)
     }
 
     onAcceptInvitationFail = () => {
@@ -30,15 +35,26 @@ class ReviewRoomInvitationModalContainer extends React.Component {
     }
 
     onIgnoreInvitationButtonClick = () => {
-        //TODO: Set corresponding notification (from modalProps) to status "reviewed"
-        this.props.hideModal()
+        const {
+            hideModal,
+            markNotificationAsReviewed,
+            modalProps: { notificationId }
+        } = this.props
+
+        markNotificationAsReviewed(notificationId)
+        hideModal()
     }
 
     render() {
+        const isTaskCompleted = [
+            PROGRESS_SUCCESS, PROGRESS_FAIL
+        ].includes(this.state.acceptInvitationProgress)
+
         return (
             <ReviewRoomInvitationModalView
                 onIgnoreButtonClick={this.onIgnoreInvitationButtonClick}
                 onAcceptButtonClick={this.onAcceptInvitationButtonClick}
+                isTaskCompleted={isTaskCompleted}
                 {...this.props}
                 {...this.state}
             />
