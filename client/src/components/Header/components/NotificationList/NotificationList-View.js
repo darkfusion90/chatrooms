@@ -2,6 +2,7 @@ import React from 'react';
 import { ListGroup } from 'react-bootstrap'
 
 import NotificationListItem from '../NotificationListItem';
+import './NotificationList-Style.scss'
 
 const NotificationListView = ({ notifications }) => {
     const getNotificationData = () => {
@@ -17,7 +18,7 @@ const NotificationListView = ({ notifications }) => {
     }
 
     return (
-        <ListGroup variant='flush'>
+        <ListGroup variant='flush' className='notification-list'>
             {getNotificationData()}
         </ListGroup>
     )
