@@ -9,6 +9,7 @@ const ReviewRoomInvitationModalView = ({
     modalProps: { invitation },
     isModalVisible,
     hideModal,
+    isTaskCompleted,
     onIgnoreButtonClick,
     onAcceptButtonClick
 }) => {
@@ -28,11 +29,13 @@ const ReviewRoomInvitationModalView = ({
     }
 
     const getActions = () => {
-        console.log("progress: ", acceptInvitationProgress)
         return (
             <>
-                <Button variant='outline-secondary' onClick={onIgnoreButtonClick}>
-                    Ignore
+                <Button
+                    variant='outline-secondary'
+                    onClick={isTaskCompleted ? hideModal : onIgnoreButtonClick}
+                >
+                    {isTaskCompleted ? 'Go Back' : 'Ignore'}
                 </Button>
                 <AcceptRoomInvitationButton
                     progress={acceptInvitationProgress}
