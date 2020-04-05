@@ -1,32 +1,15 @@
 import React from 'react';
 
-import ProgressButton from '../ProgressButton'
+import RoomActionButton from './RoomActionButton'
 
-const  InviteUserButton = ({
-    progress,
-    propsProgressInitial,
-    propsProgressPending,
-    propsProgressSuccess,
-    propsProgressFailure,
-    ...rest
-}) => {
-
-    const constructProps = () => {
-        const propsInit = propsProgressInitial && { ...propsProgressInitial }
-        const propsPending = propsProgressPending && { ...propsProgressPending }
-        const propsSuccess = propsProgressSuccess && { ...propsProgressSuccess }
-        const propsFailure = propsProgressFailure && { ...propsProgressFailure }
-        return (
-            {
-                propsProgressInitial: { label: 'Send Invitation', ...propsInit },
-                propsProgressPending: { label: 'Sending Invitation...', ...propsPending },
-                propsProgressSuccess: { label: 'Invitation Sent', ...propsSuccess },
-                propsProgressFailure: { label: 'Error Sending Invitation', ...propsFailure }
-            }
-        )
+const InviteUserButton = (props) => {
+    const defaultProps = {
+        initial: { label: 'Send Invitation' },
+        pending: { label: 'Sending Invitation...' },
+        success: { label: 'Invitation Sent' },
+        fail: { label: 'Error Sending Invitation' }
     }
-
-    return <ProgressButton progress={progress} {...constructProps()} {...rest} />
+    return <RoomActionButton  defaultProps={defaultProps} {...props} />
 }
 
-export default  InviteUserButton;
+export default InviteUserButton;

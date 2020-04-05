@@ -1,32 +1,15 @@
 import React from 'react';
 
-import ProgressButton from '../ProgressButton'
+import RoomActionButton from './RoomActionButton'
 
-const LeaveRoomButton = ({
-    progress,
-    propsProgressInitial,
-    propsProgressPending,
-    propsProgressSuccess,
-    propsProgressFailure,
-    ...rest
-}) => {
-
-    const constructProps = () => {
-        const propsInit = propsProgressInitial && { ...propsProgressInitial }
-        const propsPending = propsProgressPending && { ...propsProgressPending }
-        const propsSuccess = propsProgressSuccess && { ...propsProgressSuccess }
-        const propsFailure = propsProgressFailure && { ...propsProgressFailure }
-        return (
-            {
-                propsProgressInitial: { label: 'Send Join Request', ...propsInit },
-                propsProgressPending: { label: 'Sending Request...', ...propsPending },
-                propsProgressSuccess: { label: 'Room Join Request Sent', ...propsSuccess },
-                propsProgressFailure: { label: 'Error Sending Request', ...propsFailure }
-            }
-        )
+const SendRoomJoinRequestButton = (props) => {
+    const defaultProps = {
+        initial: { label: 'Send Join Request' },
+        pending: { label: 'Sending Request...' },
+        success: { label: 'Request Sent' },
+        fail: { label: 'Error Sending Request' },
     }
-
-    return <ProgressButton progress={progress} {...constructProps()} {...rest} />
+    return <RoomActionButton  defaultProps={defaultProps} {...props} />
 }
 
-export default LeaveRoomButton;
+export default SendRoomJoinRequestButton;

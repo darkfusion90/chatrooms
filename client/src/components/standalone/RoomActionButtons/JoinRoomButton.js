@@ -1,32 +1,15 @@
 import React from 'react';
 
-import ProgressButton from '../ProgressButton'
+import RoomActionButton from './RoomActionButton'
 
-const JoinRoomButton = ({
-    progress,
-    propsProgressInitial,
-    propsProgressPending,
-    propsProgressSuccess,
-    propsProgressFailure,
-    ...rest
-}) => {
-
-    const constructProps = () => {
-        const propsInit = propsProgressInitial && { ...propsProgressInitial }
-        const propsPending = propsProgressPending && { ...propsProgressPending }
-        const propsSuccess = propsProgressSuccess && { ...propsProgressSuccess }
-        const propsFailure = propsProgressFailure && { ...propsProgressFailure }
-        return (
-            {
-                propsProgressInitial: { label: 'Join Room', ...propsInit },
-                propsProgressPending: { label: 'Joining Room...', ...propsPending },
-                propsProgressSuccess: { label: 'Room Joined', ...propsSuccess },
-                propsProgressFailure: { label: 'Error Joining Room', ...propsFailure }
-            }
-        )
+const JoinRoomButton = (props) => {
+    const defaultProps = {
+        initial: { label: 'Join Room', },
+        pending: { label: 'Joining Room...' },
+        success: { label: 'Room Joined' },
+        fail: { label: 'Error Joining Room' }
     }
-
-    return <ProgressButton progress={progress} {...constructProps()} {...rest} />
+    return <RoomActionButton  defaultProps={defaultProps} {...props} />
 }
 
 export default JoinRoomButton;
