@@ -5,17 +5,15 @@ import RoomInvitationNotificationItem from '../RoomInvitationNotificationItem'
 import './NotificationListItem-Style.scss'
 
 const renderNotificationContent = (notification) => {
-    const { roomInvitation } = notification
+    const { roomInvitation, _id } = notification
     if (roomInvitation) {
-        return <RoomInvitationNotificationItem invitation={roomInvitation} />
+        return <RoomInvitationNotificationItem invitation={roomInvitation} notificationId={_id} />
     }
 }
 
 const NotificationListItemView = ({ notification }) => {
-    const readClass = notification.status === 'reviewed' ? 'read' : 'unread'
-
     return (
-        <ListGroupItem className={`m-0 notification-item ${readClass}`}>
+        <ListGroupItem className='m-0 notification-item'>
             {renderNotificationContent(notification)}
         </ListGroupItem>
     );
