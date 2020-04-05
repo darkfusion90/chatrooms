@@ -1,13 +1,6 @@
 .notification-item:focus,
 .notification-item:hover {
-    background-color: #ededed;
+    background-color: #007bff;
+    color: white;
     cursor: pointer;
-}
-
-.notification-item.unread {
-    border-left: 2px solid green !important;
-}
-
-.notification-item.read {
-    border: none;
 }
