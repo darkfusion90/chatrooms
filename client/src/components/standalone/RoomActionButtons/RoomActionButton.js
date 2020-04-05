@@ -22,7 +22,7 @@ const RoomActionButton = ({
                 propsProgressInitial: { ...defaultProps.initial, ...propsInit },
                 propsProgressPending: { ...defaultProps.pending, ...propsPending },
                 propsProgressSuccess: { ...defaultProps.success, ...propsSuccess },
-                propsProgressFailure: { ...defaultProps.failure, ...propsFailure }
+                propsProgressFailure: { ...defaultProps.fail, ...propsFailure }
             }
         )
     }
