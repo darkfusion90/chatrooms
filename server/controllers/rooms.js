@@ -97,6 +97,19 @@ function getRoomByRoomId(roomId, callback) {
     return promise
 }
 
+function getRoomByDocId(_id, callback) {
+    const promise = new Promise((resolve, reject) => {
+        populateApplicableFields(Room.findById(_id), DEFAULT_PROJECTIONS)
+            .then(resolve).catch(reject)
+    })
+
+    if (callback && typeof callback === 'function') {
+        promise.then(res => callback(null, res)).catch(callback)
+    }
+
+    return promise
+}
+
 function updateRoomByRoomId(roomId, updates, callback) {
     const promise = new Promise((resolve, reject) => {
         const populated = populateApplicableFields(Room.findOneAndUpdate(
@@ -190,6 +203,7 @@ module.exports = {
     deleteRoom,
     updateRoomByRoomId,
     getRoomByRoomId,
+    getRoomByDocId,
     getAllPublicRooms,
     getRoomMessage,
     getAllMessagesInRoom,
