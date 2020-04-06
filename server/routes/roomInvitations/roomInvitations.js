@@ -4,16 +4,16 @@ const isEmpty = require('is-empty')
 const {
     BAD_REQUEST,
     RESOURCE_NOT_FOUND
-} = require('../constants/httpStatusCodes')
+} = require('../../constants/httpStatusCodes')
 const {
     createInvitation,
     deleteInvitation,
     getInvitation,
     getAllInvitationsOfUser
-} = require('../controllers/roomInvitations')
-const { createNotification } = require('../controllers/notifications')
-const { getRoomByRoomId } = require('../controllers/rooms')
-const { genericHandlerCallback } = require('./routeUtils')
+} = require('../../controllers/roomInvitations')
+const { createNotification } = require('../../controllers/notifications')
+const { getRoomByRoomId } = require('../../controllers/rooms')
+const { genericHandlerCallback } = require('../routeUtils')
 
 
 exports.get = (req, res) => {
