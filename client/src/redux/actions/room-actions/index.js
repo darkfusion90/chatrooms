@@ -4,6 +4,7 @@ import joinRoom from './joinRoom'
 import leaveRoom from './leaveRoom'
 import fetchPublicRooms from './fetchPublicRooms'
 import fetchRoom from './fetchRoom'
+import acceptRoomInvitation from './acceptRoomInvitation'
 
 export {
     createRoom,
@@ -11,5 +12,6 @@ export {
     joinRoom,
     leaveRoom,
     fetchPublicRooms,
-    fetchRoom
+    fetchRoom,
+    acceptRoomInvitation
 }
