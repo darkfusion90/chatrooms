@@ -49,6 +49,8 @@ const bindRoomInvitationRoutes = (app) => {
     app.get('/api/room_invitations/:invitationId?', roomInvitations.get)
     app.post('/api/room_invitations/', roomInvitations.post)
     app.delete('/api/room_invitations/:invitationId', roomInvitations._delete)
+
+    app.post('/api/room_invitations/:invitationId/accept', roomInvitations.accept.post)
 }
 
 /**
@@ -57,7 +59,7 @@ const bindRoomInvitationRoutes = (app) => {
  */
 const bindNotificationRoutes = (app) => {
     const { notifications } = routes
-    
+
     app.get('/api/notifications/:notificationId?', notifications.get)
     app.patch('/api/notifications/:notificationId', notifications.patch)
 }
