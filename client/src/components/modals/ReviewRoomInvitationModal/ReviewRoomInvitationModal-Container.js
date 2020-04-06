@@ -7,7 +7,6 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import delay from '../../../helpers/delay'
 
 class ReviewRoomInvitationModalContainer extends React.Component {
     state = { acceptInvitationProgress: PROGRESS_INITIAL }
@@ -31,7 +30,8 @@ class ReviewRoomInvitationModalContainer extends React.Component {
 
     onAcceptInvitationButtonClick = () => {
         this.onAcceptInvitationPending()
-        delay('any', this.onAcceptInvitationSuccess, this.onAcceptInvitationFail)
+        const { acceptRoomInvitation, modalProps: { invitation } } = this.props
+        acceptRoomInvitation(invitation._id, this.onAcceptInvitationSuccess, this.onAcceptInvitationFail)
     }
 
     onIgnoreInvitationButtonClick = () => {

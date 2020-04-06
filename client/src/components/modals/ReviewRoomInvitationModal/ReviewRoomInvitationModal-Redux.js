@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import ReviewRoomInvitationModalContainer from './ReviewRoomInvitationModal-Container'
 import { hideModal } from '../../../redux/actions/modal-actions'
 import { markNotificationAsReviewed } from '../../../redux/actions/notification-actions'
+import { acceptRoomInvitation } from '../../../redux/actions/room-actions'
 
 const ReviewRoomInvitationModalRedux = (props) => {
     return <ReviewRoomInvitationModalContainer {...props} />
@@ -19,5 +20,5 @@ const mapStateToProps = (state) => {
 
 export default connect(
     mapStateToProps,
-    { hideModal, markNotificationAsReviewed }
+    { hideModal, markNotificationAsReviewed, acceptRoomInvitation }
 )(ReviewRoomInvitationModalRedux);
