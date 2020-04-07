@@ -16,7 +16,7 @@ const {
 } = require('./middlewares')
 const passport = require('./config/passportConfig')
 
-require('./socket')(httpServer, sessionMiddleware)
+require('./socket').listen(httpServer, sessionMiddleware)
 const configRoutes = require('./router')
 
 if (process.env.NODE_ENV === 'production') {
