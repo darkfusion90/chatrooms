@@ -8,7 +8,4 @@ export default {
 
     MESSAGE_EVENT: 'event:message',
     NEW_MESSAGE: 'send_message',
-
-    USER_EVENT: 'event:user',
-    CHECK_USERNAME: 'check_username'
 }
