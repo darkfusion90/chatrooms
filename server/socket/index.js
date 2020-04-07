@@ -2,8 +2,11 @@ const socketio = require('socket.io')
 const roomEventHandler = require('./eventHandlers/roomEventHandler')
 const messageEventHandler = require('./eventHandlers/messageEventHandler')
 const events = require('../constants/socket_event_constants')
-const httpStatusCodes = require('../constants/httpStatusCodes')
-const { getUserByUsername } = require('../controllers/users')
+const {
+    addSocketIdOfUserId,
+    getSocketIdListOfUserId,
+    removeSocketIdOfUserId
+} = require('../controllers/socketIoSessions')
 
 function listen(server, sessionMiddleware) {
     const io = socketio.listen(server)
@@ -11,30 +14,21 @@ function listen(server, sessionMiddleware) {
         sessionMiddleware(socket.request, socket.request.res, next)
     })
 
-    io.on('connection', (client) => {
-        console.log("FROM SOCKET.IO, UserId: ", client.request.session.userId)
+    io.on('connection', async (client) => {
+        const { userId } = client.request.session
+        
+        console.log("From socket.io, userId: ", userId)
+        console.log('socket.io id: ', client.id)
+        console.log('SocketIdList: ', await getSocketIdListOfUserId(userId))
+        addSocketIdOfUserId(userId, client.id)
+
         client.on(events.ROOM_EVENT, (...args) => roomEventHandler(io, client, ...args))
         client.on(events.MESSAGE_EVENT, (...args) => messageEventHandler(io, client, ...args))
-
-        client.on(events.USER_EVENT, (subEvent, data, callback) => {
-            console.log('event: ', subEvent, '\n', data)
-            switch (subEvent) {
-                case events.CHECK_USERNAME:
-                    getUserByUsername(data, false, (err, user) => {
-                        if (err) {
-                            console.log(err)
-                            callback({ status: httpStatusCodes.INTERNAL_SERVER_ERROR })
-                        }
-                        else if (!user) {
-                            callback({ status: httpStatusCodes.RESOURCE_NOT_FOUND })
-                        }
-                        else {
-                            callback({ status: httpStatusCodes.OK, data: user })
-                        }
-                    })
-            }
+        client.on('disconnect', async () => {
+            const { userId } = client.request.session
+            removeSocketIdOfUserId(userId, client.id)
         })
     })
 }
 
-module.exports = listen
+module.exports = { listen }
