@@ -8,4 +8,7 @@ module.exports = {
 
     MESSAGE_EVENT: 'event:message',
     NEW_MESSAGE: 'send_message',
+
+    NOTIFICATION_EVENT: 'event:notification',
+    NEW_NOTIFICATION: 'new_notification'
 }
