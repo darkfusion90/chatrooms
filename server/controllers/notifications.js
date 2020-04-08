@@ -1,5 +1,6 @@
 const { Notification } = require('../models/Notification')
 const createPromiseCallbackFunction = require('../utils/promiseCallbackFunction')
+const socketIoHandler = require('../socket')
 
 
 const POPULATE_CONFIG = {
@@ -42,7 +43,12 @@ const getNotificationDoc = (user, meta) => {
 exports.createNotification = (user, meta, callback) => {
     return createPromiseCallbackFunction((resolve, reject) => {
         const notification = new Notification(getNotificationDoc(user, meta))
-        notification.save().then(resolve).catch(reject)
+        notification.save()
+            .then(notificationDoc => {
+                socketIoHandler.notifyUser(user)
+                resolve(notificationDoc)
+            })
+            .catch(reject)
     }, callback)
 }
 
