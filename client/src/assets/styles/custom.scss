@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 
 $text-area-bgcolor: #fff;
+$primary-color: #007bff;
 
 %centered-content-flex-container {
     display: flex;
@@ -52,15 +53,15 @@ $text-area-bgcolor: #fff;
     white-space: nowrap;
 }
 
-.max-width-100{
+.max-width-100 {
     max-width: 100%;
 }
 
-.max-height-100{
+.max-height-100 {
     max-height: 100%;
 }
 
-.word-wrap-break-word{
+.word-wrap-break-word {
     word-wrap: break-word;
 }
 
@@ -71,10 +72,10 @@ $text-area-bgcolor: #fff;
     background-repeat: no-repeat;
 }
 
-.word-break-all{
+.word-break-all {
     word-break: break-all;
 }
 
-.min-width-0{
+.min-width-0 {
     min-width: 0;
 }
