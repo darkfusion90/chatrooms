@@ -1,0 +1,15 @@
+$max-width-toast: 350px;
+$top-offset: 20%;
+$left-offset: 50%;
+
+/**
+ * Credits for centering absolute element using translate
+ * https://stackoverflow.com/a/25776315/9721712
+ */
+.toast-container {
+    position: absolute;
+    max-width: $max-width-toast;
+    top: $top-offset;
+    left: $left-offset;
+    transform: translate(-$left-offset, -$top-offset);
+}
