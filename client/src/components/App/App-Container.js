@@ -1,7 +1,11 @@
 import React from 'react';
 
 import AppView from './App-View'
-import { onServerConnected, onServerDisconnected } from '../../server-communication/socketServer'
+import {
+    onServerConnected,
+    onServerDisconnected,
+    onNewNotification
+} from '../../server-communication/socketServer'
 
 class AppContainer extends React.Component {
     state = {
@@ -12,6 +16,7 @@ class AppContainer extends React.Component {
         this.props.connectToServer(this.onServerDisconnected);
         onServerDisconnected(this.onServerDisconnected);
         onServerConnected(this.onServerConnected);
+        onNewNotification(this.onNewNotification)
         this.props.updateUser()
         this.props.fetchAllNotifications()
     }
@@ -37,9 +42,14 @@ class AppContainer extends React.Component {
         this.setState({ serverConnectionFailed: true })
     }
 
+    onNewNotification = () => {
+        this.props.showNewNotificationToast()
+        this.props.fetchAllNotifications()
+    }
+
     render() {
         return (
-            <AppView {...this.state} />
+            <AppView {...this.state} {...this.props} />
         );
     }
 }
