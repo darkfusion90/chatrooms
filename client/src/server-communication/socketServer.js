@@ -29,6 +29,16 @@ export const registerNewMessageListener = (roomId, callback) => {
     })
 }
 
+export const onNewNotification = (callback) => {
+    console.log('registered')
+    socket.on(events.NOTIFICATION_EVENT, (subEvent) => {
+        console.log('on notif event: ', subEvent)
+        if (subEvent === events.NEW_NOTIFICATION) {
+            callback()
+        }
+    })
+}
+
 export const joinRoom = (roomId, callback) => {
     return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
