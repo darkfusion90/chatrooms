@@ -7,6 +7,7 @@ import notificationReducer from './notificationReducer';
 import userReducer from './userReducer';
 import modalReducer from './modalReducer';
 import roomListDisplaySettingsReducer from './roomListDisplaySettingsReducer'
+import toastReducer from './toastReducer'
 
 export default combineReducers({
     user: userReducer,
@@ -15,5 +16,6 @@ export default combineReducers({
     roomListDisplaySettings: roomListDisplaySettingsReducer,
     notifications: notificationReducer,
     form: formReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    toast: toastReducer
 })
