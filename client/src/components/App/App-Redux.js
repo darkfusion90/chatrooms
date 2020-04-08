@@ -5,22 +5,17 @@ import AppContainer from './App-Container'
 import { connectToServer } from '../../redux/actions/server-actions'
 import { updateUser } from '../../redux/actions/user-actions';
 import { fetchAllNotifications } from '../../redux/actions/notification-actions'
+import { showNewNotificationToast } from '../../redux/actions/toast-actions'
 
-const AppRedux = ({ connectToServer, user, updateUser, fetchAllNotifications }) => {
-    return (
-        <AppContainer
-            connectToServer={connectToServer}
-            updateUser={updateUser}
-            fetchAllNotifications={fetchAllNotifications}
-            user={user}
-        />
-    )
+const AppRedux = (props) => {
+    return <AppContainer {...props} />
 }
 
 const mapDispatchToProps = {
     connectToServer,
     updateUser,
-    fetchAllNotifications
+    fetchAllNotifications,
+    showNewNotificationToast
 }
 
 const mapStateToProps = (state) => {
