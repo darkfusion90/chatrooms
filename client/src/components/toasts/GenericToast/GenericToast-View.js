@@ -12,7 +12,7 @@ const GenericToast = ({ header, body, onClose, show, ...props }) => {
         <Toast
             show={show}
             autohide={true}
-            delay={eightSeconds * 2100}
+            delay={eightSeconds}
             onClose={onToastClose}
             {...props}
         >
