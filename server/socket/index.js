@@ -8,27 +8,36 @@ const {
     removeSocketIdOfUserId
 } = require('../controllers/socketIoSessions')
 
-function listen(server, sessionMiddleware) {
-    const io = socketio.listen(server)
-    io.use(function (socket, next) {
-        sessionMiddleware(socket.request, socket.request.res, next)
-    })
+class SocketIoHandler {
+    setupSocketIo = (server, sessionMiddleware) => {
+        this.io = socketio.listen(server)
+        this.io.use((socket, next) => {
+            sessionMiddleware(socket.request, socket.request.res, next)
+        })
 
-    io.on('connection', async (client) => {
+        this.io.on('connection', this.onConnectionHandler)
+    }
+
+    onConnectionHandler = async (client) => {
         const { userId } = client.request.session
-        
-        console.log("From socket.io, userId: ", userId)
-        console.log('socket.io id: ', client.id)
-        console.log('SocketIdList: ', await getSocketIdListOfUserId(userId))
         addSocketIdOfUserId(userId, client.id)
 
-        client.on(events.ROOM_EVENT, (...args) => roomEventHandler(io, client, ...args))
-        client.on(events.MESSAGE_EVENT, (...args) => messageEventHandler(io, client, ...args))
-        client.on('disconnect', async () => {
-            const { userId } = client.request.session
-            removeSocketIdOfUserId(userId, client.id)
+        client.on(events.ROOM_EVENT, (...args) => roomEventHandler(this.io, client, ...args))
+        client.on(events.MESSAGE_EVENT, (...args) => messageEventHandler(this.io, client, ...args))
+        client.on('disconnect', () => this.onDisconnectHandler(client))
+    }
+
+    onDisconnectHandler = (client) => {
+        removeSocketIdOfUserId(client.request.session.userId, client.id)
+    }
+
+    notifyUser = async (userId) => {
+        const socketList = await getSocketIdListOfUserId(userId)
+        socketList.forEach(socketId => {
+            console.log('notifying on: ', socketId)
+            this.io.to(socketId).emit(events.NOTIFICATION_EVENT, events.NEW_NOTIFICATION)
         })
-    })
+    }
 }
 
-module.exports = { listen }
+module.exports = new SocketIoHandler()
