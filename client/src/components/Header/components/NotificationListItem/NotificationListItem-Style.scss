@@ -1,6 +1,8 @@
+@import "../../../../assets/styles/custom.scss";
+
 .notification-item:focus,
 .notification-item:hover {
-    background-color: #007bff;
+    background-color: $primary-color;
     color: white;
     cursor: pointer;
 }
