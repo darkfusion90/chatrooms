@@ -12,6 +12,10 @@ const NotificationIconView = ({ notifications }) => {
     const pendingNotifications = getPendingNotifications(notifications)
 
     const getNotificationIcon = () => {
+        const getNotificationBadgeContent = () => {
+            return pendingNotifications.length < 99 ? pendingNotifications.length : '99+'
+        }
+
         const hasNotifications = pendingNotifications.length > 0
         const badgeVisibility = hasNotifications ? 'visible' : 'hidden'
         const bellActivity = hasNotifications ? 'active' : 'inactive'
@@ -24,7 +28,7 @@ const NotificationIconView = ({ notifications }) => {
                     className={`fas notification-bell-icon ${bellActivity}`}
                 />
                 <span className={`notification-badge ${badgeVisibility} fa-layers-counter`}>
-                    {pendingNotifications.length}
+                    {getNotificationBadgeContent()}
                 </span>
             </div>
         );
