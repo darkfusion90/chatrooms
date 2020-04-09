@@ -14,6 +14,8 @@ const renderToast = (toast) => {
     }
 }
 
+//Credits for help in comparing activeToasts using useRef hook:
+//https://stackoverflow.com/a/55232908/9721712
 const ToastContainer = ({ activeToasts }) => {
     const prevActiveToastsRef = useRef(activeToasts)
     // eslint-disable-next-line no-unused-vars
