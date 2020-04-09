@@ -48,9 +48,7 @@ class AppContainer extends React.Component {
     }
 
     render() {
-        return (
-            <AppView {...this.state} {...this.props} />
-        );
+        return <AppView {...this.state} {...this.props} />
     }
 }
 
