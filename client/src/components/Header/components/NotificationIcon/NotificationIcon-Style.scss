@@ -7,7 +7,8 @@
 }
 
 .notification-bell-icon.active {
-    rotate: 15deg;
+    transform: rotate(15deg);
+    -webkit-transform: rotate(15deg);
 }
 
 .notification-bell-icon.inactive {
@@ -16,8 +17,9 @@
 
 .notification-badge {
     position: absolute;
-    right: -6px;
-    top: -3px;
+    font-size: 3em;
+    right: -9px;
+    top: -9px;
 }
 
 .notification-badge.hidden {
