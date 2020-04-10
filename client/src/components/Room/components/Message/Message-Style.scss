@@ -1,7 +1,7 @@
 .message {
     position: relative;
     color: white;
-    background-color: #0c5460;
+    background-color: green;
     width: auto;
     max-width: 60%;
     border-radius: 4px;
@@ -10,9 +10,17 @@
     overflow-wrap: break-word;
 }
 
+.message.msg-right{
+    border-top-right-radius: 0;
+}
+
+.message.msg-left{
+    border-top-left-radius: 0;
+}
+
 .msg-box-arrow {
     position: absolute;
-    top: 3px;
+    top: 0px;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
 }
