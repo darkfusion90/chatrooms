@@ -12,10 +12,12 @@
 
 .message.msg-right{
     border-top-right-radius: 0;
+    padding-left: 20px;
 }
 
 .message.msg-left{
     border-top-left-radius: 0;
+    padding-right: 20px;
 }
 
 .msg-box-arrow {
@@ -35,4 +37,26 @@
     left: -15px;
     border-right: 10px solid;
     border-left: none;
+}
+
+.msg-menu-icon{
+    position: absolute;
+    top: 3px;
+    visibility: hidden;
+    cursor: pointer;
+}
+
+.message:focus,
+.message:hover{
+    .msg-menu-icon{
+        visibility: visible;
+    }
+}
+
+.msg-menu-icon.msg-right{
+    left: 5px;
+}
+
+.msg-menu-icon.msg-left{
+    right: 5px;
 }
