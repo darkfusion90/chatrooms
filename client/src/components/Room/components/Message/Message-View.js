@@ -14,7 +14,7 @@ const Message = (props) => {
     }
 
     const renderMessageArrow = () => {
-        const borderAttr = `15px solid #0c5460`
+        const borderAttr = `15px solid green`
         const style = align === 'left' ? { borderRight: borderAttr } : { borderLeft: borderAttr }
 
         return <p className={`msg-box-arrow ${align}`} style={style} />
@@ -23,11 +23,11 @@ const Message = (props) => {
     const messageAuthor = getMessageAuthor()
     const messageArrow = renderMessageArrow()
     return (
-        <Container className={`message float-${align}`}>
+        <Container className={`message msg-${align} float-${align}`}>
             {align === 'left' && messageArrow}
             {
                 <p style={{ color }} className='mb-0'>
-                    <strong>{messageAuthor}</strong>
+                    {messageAuthor}
                 </p>
             }
             <p className='mb-0'>{message.data}</p>
