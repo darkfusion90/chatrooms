@@ -25,29 +25,7 @@ const RoomSchema = Schema({
         immutable: true,
         required: true,
     },
-    createdAt: { type: Date, default: Date.now },
-    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }],
-    members: [{ type: Schema.Types.ObjectId, ref: 'RoomMember' }]
+    createdAt: { type: Date, default: Date.now }
 })
-
-RoomSchema.methods.isMember = function (userId) {
-    let isRoomMember = false
-    this.members.forEach(member => {
-        if (member.user && member.user._id.equals(userId)) {
-            isRoomMember = true
-        }
-    })
-    return isRoomMember
-}
-
-RoomSchema.methods.isAdmin = function (userId) {
-    let isRoomAdmin = false
-    this.members.forEach(member => {
-        if (member.user && member.user._id.equals(userId) && member.memberType === 'admin') {
-            isRoomAdmin = true
-        }
-    })
-    return isRoomAdmin
-}
 
 module.exports = { RoomSchema, Room: mongoose.model("Room", RoomSchema) };
