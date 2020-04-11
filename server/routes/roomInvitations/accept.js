@@ -1,6 +1,6 @@
 const { addMemberToRoomByRoomId } = require('../../controllers/rooms')
 const { getInvitation } = require('../../controllers/roomInvitations')
-const { MEMBER_TYPE_PARTICIPANT } = require('../../controllers/roomMemberController')
+const { MEMBER_TYPE_PARTICIPANT } = require('../../controllers/roomMembers')
 const { genericHandlerCallback } = require('../routeUtils')
 
 const post = async (req, res) => {
