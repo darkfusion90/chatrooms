@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const MessageSchema = new mongoose.Schema({
+const MessageSchema = new Schema({
     author: {
-        type: String,
+        type: Schema.Types.String,
         required: true,
     },
     atRoom: {
-        type: String,
+        type: Schema.Types.String,
         required: true,
     },
     data: String
