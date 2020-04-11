@@ -1,14 +1,21 @@
 const httpStatusCodes = require('../../constants/httpStatusCodes')
-const { getRoomMessage, getAllMessagesInRoom, addMessageToRoom, deleteMessageFromRoom } = require('../../controllers/rooms')
+const {
+    getMessage,
+    getAllMessagesOfRoom,
+    createMessage,
+    deleteMessage
+} = require('../../controllers/messages')
 const { genericHandlerCallback } = require('../routeUtils')
 
 
 const get = (req, res) => {
+    const callback = (err, data) => genericHandlerCallback(err, data, res)
+
     const { roomId, messageId } = req.params
     if (messageId) {
-        return getRoomMessage(roomId, messageId, (err, message) => genericHandlerCallback(err, message, res))
+        return getMessage(messageId, roomId, callback)
     }
-    getAllMessagesInRoom(roomId, (err, messages) => genericHandlerCallback(err, messages, res))
+    getAllMessagesOfRoom(roomId, callback)
 }
 
 const post = (req, res) => {
@@ -18,11 +25,13 @@ const post = (req, res) => {
     if (!message) {
         return res.status(httpStatusCodes.BAD_REQUEST).json({ 'message': 'Field message is necessary' })
     }
-    addMessageToRoom(roomId, userId, message, (err, messageDoc) => genericHandlerCallback(err, messageDoc, res))
+
+    createMessage(userId, roomId, message, (err, messageDoc) => genericHandlerCallback(err, messageDoc, res))
 }
 
 const _delete = (req, res) => {
-    deleteMessageFromRoom(req.params.roomId, req.params.messageId, (err, room) => genericHandlerCallback(err, room, res))
+    const { roomId, messageId } = req.params
+    deleteMessage(messageId, roomId, (err, room) => genericHandlerCallback(err, room, res))
 }
 
 module.exports = { get, post, _delete }

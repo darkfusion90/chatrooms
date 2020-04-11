@@ -1,21 +1,24 @@
-const { MEMBER_TYPE_PARTICIPANT } = require('../../controllers/roomMemberController')
 const {
+    createRoomMember,
     getRoomMember,
-    getAllRoomMembersOfRoom,
-    addMemberToRoomByRoomId,
-    deleteRoomMemberFromRoom
-} = require('../../controllers/rooms')
+    getAllMembersOfRoom,
+    deleteRoomMember
+} = require('../../controllers/roomMembers')
+const { MEMBER_TYPE_PARTICIPANT } = require('../../constants/memberTypes')
 const { genericHandlerCallback } = require('../routeUtils')
 
+
 const get = (req, res) => {
+    const callback = (err, data) => genericHandlerCallback(err, data, res)
+
     const { roomId, memberId } = req.params
 
     if (memberId) {
-        getRoomMember(roomId, memberId, (err, roomMember) => genericHandlerCallback(err, roomMember, res))
+        getRoomMember(memberId, roomId, callback)
     } else {
-        getAllRoomMembersOfRoom(roomId, (err, roomMembers) => {
+        getAllMembersOfRoom(roomId, (err, roomMembers) => {
             const responseData = roomMembers ? { 'members': roomMembers } : roomMembers
-            genericHandlerCallback(err, responseData, res)
+            callback(err, responseData)
         })
     }
 }
@@ -24,24 +27,18 @@ const post = (req, res) => {
     const { roomId } = req.params
     const { userId } = req.session
 
-    const data = {
+    createRoomMember(
+        roomId,
         userId,
-        memberType: MEMBER_TYPE_PARTICIPANT
-    }
-
-    addMemberToRoomByRoomId(roomId, data, (err, room) => {
-        const responseData = room ? { members: room.members } : room
-        genericHandlerCallback(err, responseData, res)
-    })
+        MEMBER_TYPE_PARTICIPANT,
+        (err, data) => genericHandlerCallback(err, data, res)
+    )
 }
 
 const _delete = (req, res) => {
     const { roomId, memberId } = req.params
-    deleteRoomMemberFromRoom(roomId, memberId, (err, room) => {
-        console.log('room: ', room)
-        const responseData = room ? { members: room.members } : room
-        genericHandlerCallback(err, responseData, res)
-    })
+
+    deleteRoomMember(memberId, roomId, (err, data) => genericHandlerCallback(err, data, res))
 }
 
 module.exports = { get, post, _delete }
