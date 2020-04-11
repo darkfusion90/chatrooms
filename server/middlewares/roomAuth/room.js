@@ -1,4 +1,4 @@
-const { getRoomByRoomId } = require('../../controllers/rooms')
+const { getRoom } = require('../../controllers/rooms')
 const { ensureIsRoomAdmin, ensureIsRoomMember, isPrivateRoom } = require('./helper')
 
 const handleRoomGetAuth = (req, next, room) => {
@@ -12,11 +12,11 @@ const handleRoomGetAuth = (req, next, room) => {
 }
 
 const middleware = async (req, _, next) => {
-    getRoomByRoomId(req.params.roomId).then(room => {
+    getRoom(req.params.roomId).then(room => {
         if (!room) {
             return next()
         }
-        console.log(room.name)
+
         switch (req.method) {
             case 'GET':
                 return handleRoomGetAuth(req, next, room)

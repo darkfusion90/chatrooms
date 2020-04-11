@@ -1,4 +1,4 @@
-const { getRoomByRoomId } = require('../../controllers/rooms')
+const { getRoom } = require('../../controllers/rooms')
 const UnauthorizedError = require('../../errors/Unauthorized')
 const { REASON } = require('../../constants/apiResponseConstants')
 const { ensureIsRoomMember, ensureIsRoomAdmin, isPrivateRoom } = require('./helper')
@@ -34,7 +34,7 @@ const middleware = (req, _, next) => {
     const { userId } = req.session
     const { roomId, memberId } = req.params
 
-    getRoomByRoomId(roomId).then(room => {
+    getRoom(roomId).then(room => {
         if (!room) {
             return next()
         }
