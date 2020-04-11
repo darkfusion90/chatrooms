@@ -14,7 +14,7 @@ const RoomInvitationSchema = new Schema({
         required: true,
     },
     room: {
-        type: Schema.Types.ObjectId,
+        type: Schema.Types.String,
         ref: 'Room',
         required: true
     }
