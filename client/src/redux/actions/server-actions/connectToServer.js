@@ -1,4 +1,4 @@
-import { connectToServer } from '../../../server-communication/socketServer'
+import { connectToServer } from '../../../api/socketIo'
 import { CONNECT_TO_SERVER } from '../../action-constants'
 
 export default (onConnectionFailed) => async (dispatch) => {

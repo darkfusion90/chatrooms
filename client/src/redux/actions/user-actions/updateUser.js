@@ -1,6 +1,6 @@
 import { UPDATE_USER } from '../../action-constants'
 
-import { getCurrentUser, checkLoginStatus } from '../../../server-communication/httpServer'
+import { users } from '../../../api/http'
 
 
 const actionUpdateUser = (isLoggedIn, user) => {
@@ -17,11 +17,11 @@ const onGetCurrentUserSuccess = (userResponse, dispatch) => {
         dispatch(actionUpdateUser(isLoggedIn, user))
     }
 
-    checkLoginStatus(onCheckLoginStatusSuccess, ({ response }) => console.log('Check user status fail: ', response))
+    users.checkLoginStatus(onCheckLoginStatusSuccess, ({ response }) => console.log('Check user status fail: ', response))
 }
 
 export default () => async dispatch => {
-    getCurrentUser(
+    users.getCurrentUser(
         (response) => onGetCurrentUserSuccess(response, dispatch),
         ({ response }) => console.log('Get current user fail: ', response)
     )

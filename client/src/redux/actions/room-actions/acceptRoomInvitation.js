@@ -1,4 +1,4 @@
-import { acceptRoomInvitation } from '../../../server-communication/httpServer'
+import { roomInvitations } from '../../../api/http'
 import { UPDATE_ROOM } from '../../action-constants'
 
 export default (invitationId, onRequestFulfilled, onRequestRejected) => {
@@ -11,6 +11,6 @@ export default (invitationId, onRequestFulfilled, onRequestRejected) => {
             onRequestFulfilled(response)
         }
 
-        acceptRoomInvitation(invitationId, onSuccess, onRequestRejected)
+        roomInvitations.acceptRoomInvitation(invitationId, onSuccess, onRequestRejected)
     }
 }

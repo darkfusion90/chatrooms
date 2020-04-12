@@ -1,7 +1,7 @@
 import { LOGOUT } from '../../action-constants';
 
-import { logoutUser } from '../../../server-communication/httpServer'
+import { users } from '../../../api/http'
 
 export default () => async dispatch => {
-    logoutUser(() => dispatch({ type: LOGOUT }),({ response }) => console.log('Logout Failed: ', response));
+    users.logoutUser(() => dispatch({ type: LOGOUT }),({ response }) => console.log('Logout Failed: ', response));
 }

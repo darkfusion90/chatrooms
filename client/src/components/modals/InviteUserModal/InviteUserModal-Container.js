@@ -8,7 +8,7 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import { searchUsers, getUserByUsername, sendRoomInvitation } from '../../../server-communication/httpServer';
+import { users, roomInvitations } from '../../../api/http';
 
 class InviteUserModalContainer extends React.Component {
     state = {
@@ -29,7 +29,7 @@ class InviteUserModalContainer extends React.Component {
 
         let matchingUsers;
         try {
-            matchingUsers = await searchUsers(currentUsername)
+            matchingUsers = await users.searchUsers(currentUsername)
         } catch{
             matchingUsers = { data: { payload: [] } }
         } finally {
@@ -53,11 +53,13 @@ class InviteUserModalContainer extends React.Component {
 
     onInviteUserFormSubmit = ({ inviteeUsername }) => {
         this.onInviteUserPending()
-        getUserByUsername(inviteeUsername)
+        users.getUserByUsername(inviteeUsername)
             .then((response) => {
                 const user = response.data
                 const { room } = this.props.modalProps
-                sendRoomInvitation(user._id, room.roomId, this.onInviteUserSuccess, this.onInviteUserFailure)
+                roomInvitations.sendRoomInvitation(user._id, room.roomId)
+                    .then(this.onInviteUserSuccess, this.onInviteUserFailure)
+
             }).catch(this.onInviteUserFailure)
     }
 

@@ -1,5 +1,5 @@
 import { LOGIN } from '../../action-constants'
-import { loginUser } from '../../../server-communication/httpServer'
+import { users } from '../../../api/http'
 
 const loginAction = (user) => {
     return {
@@ -15,5 +15,5 @@ export default (username, password, onFailureCallback) => async (dispatch) => {
         dispatch(loginAction(response.data))
     }
 
-    loginUser(username, password, dispatchLoginAction, onFailureCallback);
+    users.loginUser(username, password, dispatchLoginAction, onFailureCallback);
 }

@@ -1,4 +1,4 @@
-import { getUserByUsername } from '../../../../server-communication/httpServer'
+import { users } from '../../../../api/http'
 
 export const USERNAME_TAKEN_ERROR_MESSAGE = 'That username is already taken'
 
@@ -7,6 +7,6 @@ export const checkUsernameExists = (values, _) => {
         const onUsernameFound = () => {
             reject({ 'username': USERNAME_TAKEN_ERROR_MESSAGE })
         }
-        getUserByUsername(values.username, onUsernameFound, resolve)
+        users.getUserByUsername(values.username, onUsernameFound, resolve)
     })
 }

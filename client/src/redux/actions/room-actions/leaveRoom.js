@@ -1,5 +1,5 @@
-import { leaveRoom } from '../../../server-communication/httpServer'
 import { LEAVE_ROOM } from '../../action-constants'
+import { rooms } from '../../../api/http'
 
 const getMemberDocOfUser = (room, userId) => {
     for (let i = 0; i < room.members.length; i++) {
@@ -22,7 +22,7 @@ export default (room, onSuccess, onFailure) => (dispatch, getState) => {
         return onFailure(new Error({ response: 'Not a room member' }))
     }
 
-    leaveRoom(room.roomId, memberDocOfUser._id).then(response => {
+    rooms.leaveRoom(room.roomId, memberDocOfUser._id).then(response => {
         dispatch({
             type: LEAVE_ROOM,
             payload: {

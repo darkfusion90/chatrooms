@@ -1,8 +1,8 @@
 import { FETCH_PUBLIC_ROOMS } from '../../action-constants'
-import { getAllRooms } from '../../../server-communication/httpServer'
+import { rooms } from '../../../api/http';
 
 export default (onFailure) => async dispatch => {
-    getAllRooms((response) => {
+    rooms.getAllRooms((response) => {
         dispatch({ type: FETCH_PUBLIC_ROOMS, payload: response.data })
     }, onFailure)
 }

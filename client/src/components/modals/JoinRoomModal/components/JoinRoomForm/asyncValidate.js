@@ -1,5 +1,5 @@
 import isEmpty from 'is-empty'
-import { getRoom } from '../../../../../server-communication/httpServer'
+import { rooms } from '../../../../../api/http'
 
 const createError = (reason, isPrivateRoomError) => {
     return { roomId: { reason, isAsyncValidationError: true, isPrivateRoomError } }
@@ -22,7 +22,7 @@ export default (values) => {
             return reject(createError('No rooms matching that roomId'))
         }
 
-        getRoom(values.roomId)
+        rooms.getRoom(values.roomId)
             .then(resolve)
             .catch(({ response }) => {
                 reject(getErrorFromResponse(response))

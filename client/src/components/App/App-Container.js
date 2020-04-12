@@ -5,7 +5,7 @@ import {
     onServerConnected,
     onServerDisconnected,
     onNewNotification
-} from '../../server-communication/socketServer'
+} from '../../api/socketIo'
 
 class AppContainer extends React.Component {
     state = {

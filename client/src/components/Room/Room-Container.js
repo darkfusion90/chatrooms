@@ -1,7 +1,7 @@
 import React from 'react';
 
 import RoomView from './Room-View';
-import { connectToRoom, registerNewMessageListener } from '../../server-communication/socketServer'
+import { connectToRoom, registerNewMessageListener } from '../../api/socketIo'
 import sendMessage from '../../helpers/sendMessage'
 
 class RoomContainer extends React.Component {

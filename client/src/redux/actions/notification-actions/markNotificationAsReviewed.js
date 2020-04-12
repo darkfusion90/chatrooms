@@ -1,6 +1,6 @@
 import {
-    markNotificationAsReviewed
-} from '../../../server-communication/httpServer'
+    notifications
+} from '../../../api/http'
 import { UPDATE_NOTIFICATION } from '../../action-constants'
 
 export default (notificationId) => async dispatch => {
@@ -12,5 +12,5 @@ export default (notificationId) => async dispatch => {
         })
     }
 
-    markNotificationAsReviewed(notificationId, onSuccess)
+    notifications.markNotificationAsReviewed(notificationId, onSuccess)
 }

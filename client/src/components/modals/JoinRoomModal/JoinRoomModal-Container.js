@@ -8,7 +8,7 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import { getRoom } from '../../../server-communication/httpServer'
+import { rooms } from '../../../api/http'
 import isRoomMember from '../../../helpers/isRoomMember'
 
 class JoinRoomModalContainer extends React.Component {
@@ -29,7 +29,7 @@ class JoinRoomModalContainer extends React.Component {
         if (!formHasErrors) {
             const roomId = form.values && form.values.roomId
 
-            getRoom(roomId).then(response => {
+            rooms.getRoom(roomId).then(response => {
                 const room = response.data
                 if (isRoomMember(room, currentUserId)) {
                     this.setState({ roomAlreadyJoinedError: 'You are already a member of this room' })

@@ -1,4 +1,4 @@
-import { getAllNotifications } from '../../../server-communication/httpServer'
+import { notifications } from '../../../api/http'
 import { FETCH_ALL_NOTIFICATIONS } from '../../action-constants'
 
 export default () => async dispatch => {
@@ -7,7 +7,7 @@ export default () => async dispatch => {
         dispatch({ type: FETCH_ALL_NOTIFICATIONS, payload: data })
     }
 
-    getAllNotifications(onFulfilled,
+    notifications.getAllNotifications(onFulfilled,
         ({ response }) => console.log('notification fetch failed: ', response)
     )
 }
