@@ -20,9 +20,8 @@ const getDeleteRoomAction = (room) => {
 }
 
 const getOpenRoomAction = (room) => {
-    const roomId = room.roomId ? room.roomId : ''
     return (
-        <Link to={`/rooms/${roomId}`} className='btn btn-outline-primary'>
+        <Link to={`/rooms/${room._id}`} className='btn btn-outline-primary'>
             Open
         </Link>
     )

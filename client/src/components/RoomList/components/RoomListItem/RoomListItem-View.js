@@ -8,14 +8,13 @@ import convertISODateToReadableString from '../../../../helpers/convertISODateTo
 const RoomListItem = ({
     room,
     onJoinRoomButtonClick,
-    joinRoomProgress,
-    ...props
+    joinRoomProgress
 }) => {
 
     if (!room) return null
 
     const getTitle = () => {
-        return <Link to={`/rooms/${room.roomId}`}>{room.name}</Link>
+        return <Link to={`/rooms/${room._id}`}>{room.name}</Link>
     }
 
     const getSubtitle = () => {
