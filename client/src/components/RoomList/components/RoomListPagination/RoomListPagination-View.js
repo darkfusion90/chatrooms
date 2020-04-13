@@ -8,13 +8,13 @@ import {
 } from './utils'
 
 const RoomListPaginationView = ({
-    totalRooms,
+    countTotalPublicRooms,
     itemsPerPage,
     currentPageNumber,
     setCurrentPageNumber,
 }) => {
 
-    const totalPages = Math.ceil(totalRooms.length / itemsPerPage)
+    const totalPages = Math.ceil(countTotalPublicRooms / itemsPerPage)
 
     const onPaginationItemClick = (itemNumber) => {
         setCurrentPageNumber(itemNumber)
