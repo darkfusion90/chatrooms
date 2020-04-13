@@ -8,6 +8,7 @@ const roomInvitations = require('./roomInvitations')
 const user = require('./user')
 const notifications = require('./notifications')
 const search = require('./search')
+const count = require('./count')
 
 const logger = require('../utils/logger')('[Routes: index]')
 
@@ -30,5 +31,6 @@ module.exports = {
     user,
     roomInvitations,
     notifications,
-    search
+    search,
+    count
 }

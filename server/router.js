@@ -82,6 +82,8 @@ const router = (app) => {
 
     app.get('/api/search', routes.search.get)
 
+    app.get('/api/count/:resource', routes.count.get)
+
     app.get('*', routes.index)
 }
 
