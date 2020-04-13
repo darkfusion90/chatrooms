@@ -1,20 +1,21 @@
-export const CONNECT_TO_SERVER = "CONNECT_TO_SERVER";
+export const CONNECT_TO_SERVER = 'CONNECT_TO_SERVER';
 
+export const SET_TOTAL_PUBLIC_ROOMS_COUNT = 'SET_TOTAL_PUBIC_ROOMS_COUNT'
 export const FETCH_PUBLIC_ROOMS = 'FETCH_PUBLIC_ROOMS'
 export const FETCH_ROOM = 'FETCH_ROOM'
-export const CREATE_ROOM = "CREATE_ROOM";
+export const CREATE_ROOM = 'CREATE_ROOM';
 export const DELETE_ROOM = 'DELETE_ROOM'
-export const JOIN_ROOM = "JOIN_ROOM";
-export const LEAVE_ROOM = "LEAVE_ROOM";
-export const UPDATE_ROOM = "UPDATE_ROOM"
+export const JOIN_ROOM = 'JOIN_ROOM';
+export const LEAVE_ROOM = 'LEAVE_ROOM';
+export const UPDATE_ROOM = 'UPDATE_ROOM'
 
-export const UPDATE_NOTIFICATION = "UPDATE_NOTIFICATION"
-export const FETCH_ALL_NOTIFICATIONS = "FETCH_ALL_NOTIFICATIONS"
+export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION'
+export const FETCH_ALL_NOTIFICATIONS = 'FETCH_ALL_NOTIFICATIONS'
 
-export const UPDATE_USER = "UPDATE_USER";
-export const LOGIN = "LOGIN"
-export const LOGOUT = "LOGOUT"
-export const REGISTER = "REGISTER"
+export const UPDATE_USER = 'UPDATE_USER';
+export const LOGIN = 'LOGIN'
+export const LOGOUT = 'LOGOUT'
+export const REGISTER = 'REGISTER'
 
 export const SHOW_MODAL = 'SHOW_MODAL'
 export const HIDE_MODAL = 'HIDE_MODAL'
