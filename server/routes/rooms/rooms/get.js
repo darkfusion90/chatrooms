@@ -13,7 +13,7 @@ const handleGetPublicRooms = (req, res, callback) => {
     const { limit, offset } = req.query
     getPublicRooms(Number.parseInt(limit), Number.parseInt(offset), (err, rooms) => {
         if (rooms) {
-            return res.json({ length: rooms.length, data: rooms })
+            return res.json(rooms)
         }
         callback(err, rooms)
     })
