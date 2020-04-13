@@ -5,8 +5,13 @@ export const getRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
     return axios.get(`/api/rooms/${roomId}`).then(onRequestFulfilled, onRequestRejected)
 }
 
-export const getAllRooms = (onRequestFulfilled, onRequestRejected) => {
-    return axios.get('/api/rooms').then(onRequestFulfilled, onRequestRejected)
+export const getRooms = (limit, offset, onRequestFulfilled, onRequestRejected) => {
+    return axios.get(`/api/rooms/?limit=${limit}&offset=${offset}`)
+        .then(onRequestFulfilled, onRequestRejected)
+}
+
+export const countTotalPublicRooms = (onRequestFulfilled, onRequestRejected) => {
+    return axios.get('/api/count/rooms', onRequestFulfilled, onRequestRejected)
 }
 
 export const createRoom = (roomName, roomType, onRequestFulfilled, onRequestRejected) => {
