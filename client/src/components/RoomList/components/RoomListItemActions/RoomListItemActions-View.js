@@ -41,7 +41,7 @@ const RoomListItemActions = (props) => {
 
     const getActionsForNonRoomMember = () => {
         const { joinRoomProgress, onJoinRoomButtonClick } = restProps
-        const onClick = () => onJoinRoomButtonClick(room ? room.roomId : '')
+        const onClick = () => onJoinRoomButtonClick(room ? room._id : '')
         return getJoinRoomAction(joinRoomProgress, onClick)
     }
 
