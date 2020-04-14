@@ -5,7 +5,8 @@ import _ from 'lodash'
 import RoomList from './RoomList-View'
 import {
     fetchPublicRooms,
-    updateTotalPublicRoomsCount
+    updateTotalPublicRoomsCount,
+    updateCurrentUserMemberRoles
 } from '../../redux/actions/room-actions'
 import {
     setSortTechnique,
@@ -22,21 +23,48 @@ class RoomListRedux extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { roomListDisplaySettings: prevDisplaySettings } = prevProps
-        const { roomListDisplaySettings: currentDisplaySettings } = this.props
-
-        if (!_.isEqual(prevDisplaySettings, currentDisplaySettings)) {
+        if (this.hasStoreChanged(prevProps)) {
             this.refreshStore()
         }
     }
 
+    hasStoreChanged = (prevProps) => {
+        const hasDisplaySettingsChanged = () => {
+            const { roomListDisplaySettings: prevDisplaySettings } = prevProps
+            const { roomListDisplaySettings: currentDisplaySettings } = this.props
+
+            return !_.isEqual(prevDisplaySettings, currentDisplaySettings)
+        }
+
+        const hasUserDataChanged = () => {
+            const { user: prevUser } = prevProps
+            const { user: currentUser } = this.props
+
+            return !_.isEqual(prevUser, currentUser)
+        }
+
+        const hasRoomsDataChanged = () => {
+            const { user: prevRooms } = prevProps
+            const { user: currentRooms } = this.props
+
+            return !_.isEqual(prevRooms, currentRooms)
+        }
+
+        return hasDisplaySettingsChanged() || hasUserDataChanged() || hasRoomsDataChanged()
+    }
+
     refreshStore = () => {
         this.props.updateTotalPublicRoomsCount()
-        this.props.fetchPublicRooms(this.onRoomFetchFail)
+        this.props.fetchPublicRooms(this.onRoomFetchSuccess, this.onRoomFetchFail)
     }
 
     onRoomFetchFail = ({ response }) => {
         console.log('RoomList fetch fail: ', response)
+    }
+
+    onRoomFetchSuccess = ({ data }) => {
+        console.log('success: ', data)
+        this.props.updateCurrentUserMemberRoles()
     }
 
     onDisplayControlsFormSubmit = ({ sortBy, itemsPerPage }) => {
@@ -79,20 +107,23 @@ class RoomListRedux extends React.Component {
 
 const mapStateToProps = (state) => {
     const {
-        rooms: { rooms, countTotalPublicRooms },
+        user,
+        rooms: { currentRooms, ...otherState },
         roomListDisplaySettings
     } = state
 
     return {
-        rooms: Object.values(rooms),
-        countTotalPublicRooms,
+        user,
         roomListDisplaySettings,
+        rooms: Object.values(currentRooms),
+        ...otherState
     }
 }
 
 const mapDispatchToProps = ({
     fetchPublicRooms,
     updateTotalPublicRoomsCount,
+    updateCurrentUserMemberRoles,
     setSortTechnique,
     setCurrentPageNumber,
     setSearchQuery,
