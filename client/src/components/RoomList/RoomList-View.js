@@ -11,7 +11,7 @@ import {
 
 
 const RoomList = ({
-    roomsToDisplay,
+    rooms,
     isSearchResult,
     onDisplayControlsFormSubmit,
     onSearchFieldInputChange,
@@ -20,15 +20,15 @@ const RoomList = ({
 }) => {
 
     const renderRoomList = () => {
-        if (isEmpty(roomsToDisplay)) {
+        if (isEmpty(rooms)) {
             return <EmptyRoomList isSearchResult={isSearchResult} />
         }
 
         return (
             <ListGroup variant='flush' className='mx-0 mt-3'>
                 {
-                    roomsToDisplay.map((room) => {
-                        return <RoomListItem room={room} key={room.roomId} />
+                    rooms.map((room) => {
+                        return <RoomListItem room={room} key={room._id} />
                     })
                 }
             </ListGroup>
@@ -37,6 +37,17 @@ const RoomList = ({
 
     const updatePageNumber = (pageNumber) => {
         setCurrentPageNumber(pageNumber)
+    }
+
+    const renderRoomListPagination = () => {
+        if (!isEmpty(rooms)) {
+            return (
+                <RoomListPagination
+                    setCurrentPageNumber={updatePageNumber}
+                    {...otherProps}
+                />
+            )
+        }
     }
 
     //TODO: Add custom sort style where users can drag a room up and down 
@@ -48,11 +59,7 @@ const RoomList = ({
                 onSearchFieldInputChange={onSearchFieldInputChange}
             />
             {renderRoomList()}
-            {
-                !isEmpty(roomsToDisplay)
-                    ? <RoomListPagination {...otherProps} setCurrentPageNumber={updatePageNumber} />
-                    : null
-            }
+            {renderRoomListPagination()}
         </Container>
     )
 }
