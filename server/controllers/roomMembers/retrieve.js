@@ -20,4 +20,15 @@ const getRoomMember = (memberId, roomId, callback) => {
     return executeQuery(query, callback)
 }
 
-module.exports = { getRoomMemberHavingUserId, getAllMembersOfRoom, getRoomMember }
+const searchUserInRoom = (roomId, userId, callback) => {
+    const query = RoomMember.find({ room: roomId, user: userId })
+
+    return executeQuery(query, callback)
+}
+
+module.exports = {
+    getRoomMemberHavingUserId,
+    getAllMembersOfRoom,
+    getRoomMember,
+    searchUserInRoom
+}
