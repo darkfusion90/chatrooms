@@ -8,7 +8,7 @@ import {
     PROGRESS_SUCCESS,
     PROGRESS_FAIL
 } from '../../standalone/ProgressButton'
-import { users, roomInvitations } from '../../../api/http';
+import { users, search, roomInvitations } from '../../../api/http';
 
 class InviteUserModalContainer extends React.Component {
     state = {
@@ -29,7 +29,7 @@ class InviteUserModalContainer extends React.Component {
 
         let matchingUsers;
         try {
-            matchingUsers = await users.searchUsers(currentUsername)
+            matchingUsers = await search.searchUsers(currentUsername)
         } catch{
             matchingUsers = { data: { payload: [] } }
         } finally {
