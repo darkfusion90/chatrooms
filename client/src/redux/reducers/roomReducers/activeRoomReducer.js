@@ -1,15 +1,16 @@
 import {
     DELETE_ROOM,
     UPDATE_USER_ROOM_MEMBERSHIP,
-    UPDATE_ROOM
+    UPDATE_ROOM,
+    SET_ACTIVE_ROOM
 } from "../../action-constants";
 
 
 const INITIAL_STATE = {
-    room: {},
+    room: null,
     currentUserRoomMembership: {
         isRoomMember: false,
-        meta: {}
+        membership: {}
     }
 }
 
@@ -28,16 +29,19 @@ const handleUpdateRoom = (state, roomToUpdate) => {
     return state
 }
 
-const handleUpdateUserRole = (state, { roomId, membershipDetails }) => {
+const handleUpdateUserRole = (state, { roomId, ...currentUserRoomMembership }) => {
     if (roomId === state.room._id) {
-        return { ...state, currentUserRoomMembership: membershipDetails }
+        return { ...state, currentUserRoomMembership }
     }
+
     return state
 }
 
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
+        case SET_ACTIVE_ROOM:
+            return { ...state, room: action.payload }
         case DELETE_ROOM:
             return handleDeleteRoom(state, action.payload)
         case UPDATE_ROOM:
