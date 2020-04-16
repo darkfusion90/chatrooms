@@ -57,7 +57,7 @@ class InviteUserModalContainer extends React.Component {
             .then((response) => {
                 const user = response.data
                 const { room } = this.props.modalProps
-                roomInvitations.sendRoomInvitation(user._id, room.roomId)
+                roomInvitations.sendRoomInvitation(user._id, room._id)
                     .then(this.onInviteUserSuccess, this.onInviteUserFailure)
 
             }).catch(this.onInviteUserFailure)

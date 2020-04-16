@@ -14,7 +14,7 @@ class RoomNotJoinedContainer extends React.Component {
     onJoinRoomButtonClick = () => {
         this.onJoinRoomPending()
         const { room, joinRoom } = this.props
-        const roomId = room && room.roomId
+        const roomId = room && room._id
         joinRoom(roomId, this.onJoinRoomSuccess, this.onJoinRoomFail)
     }
 

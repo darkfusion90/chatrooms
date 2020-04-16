@@ -20,7 +20,7 @@ class RoomContainer extends React.Component {
     componentDidUpdate() {
         const { room } = this.props
         if (room) {
-            connectToRoom(room.roomId, () => { })
+            connectToRoom(room._id, () => { })
         }
     }
 
@@ -34,7 +34,7 @@ class RoomContainer extends React.Component {
             return null
         } else {
             const { room } = this.props
-            sendMessage(room.roomId, message, this.onSendMessageSuccess, this.onSendMessageFailure)
+            sendMessage(room._id, message, this.onSendMessageSuccess, this.onSendMessageFailure)
         }
     }
 

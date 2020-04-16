@@ -21,7 +21,7 @@ const ChatWindow = (props) => {
                 >
                     <Message
                         color={colorsAssignedToMessageAuthors[messageAuthor]}
-                        roomId={room.roomId}
+                        roomId={room._id}
                         message={message}
                     />
                 </ListGroup.Item>

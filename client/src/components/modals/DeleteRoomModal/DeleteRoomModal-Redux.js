@@ -17,7 +17,7 @@ class DeleteRoomModalRedux extends React.Component {
         } = this.props
 
         onDeleteRoomPending()
-        deleteRoom(room.roomId, onDeleteRoomSuccess, onDeleteRoomFail)
+        deleteRoom(room._id, onDeleteRoomSuccess, onDeleteRoomFail)
     }
 
     render() {
