@@ -1,3 +1,3 @@
-import RoomListControlsHeader from './RoomListControlsHeader-View'
+import RoomListControlsHeader from './RoomListControlsHeader-Redux'
 
 export default RoomListControlsHeader

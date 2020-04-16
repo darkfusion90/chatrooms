@@ -1,3 +1,3 @@
-import RoomListPagination from './RoomListPagination-View'
+import RoomListPagination from './RoomListPagination-Redux'
 
 export default RoomListPagination
