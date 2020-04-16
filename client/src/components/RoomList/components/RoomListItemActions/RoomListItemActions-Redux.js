@@ -1,50 +1,46 @@
-import React from 'react';
-import isEmpty from 'is-empty'
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux'
 
-import RoomListItemActions from './RoomListItemActions-View'
+import RoomListItemActionsContainer from './RoomListItemActions-Container'
+import {
+    joinRoom,
+    updateCurrentUserRoomMembership
+} from '../../../../redux/actions/room-actions/'
 
-class RoomListItemActionsRedux extends React.Component {
-    getMemberReferenceOfCurrentUser = () => {
-        const { room, currentUser } = this.props
-        if (!room || !currentUser) {
-            return null
-        }
 
-        const currentUserMatchesRoomMemberUser = (roomMember) => {
-            return roomMember && roomMember.user && roomMember.user._id === currentUser._id
-        }
+const RoomListItemActionsRedux = ({
+    room,
+    joinRoom,
+    currentUser,
+    currentUserRoomMembership,
+    updateCurrentUserRoomMembership
+}) => {
 
-        return room.members.find(currentUserMatchesRoomMemberUser)
-    }
+    useEffect(() => {
+        if (!currentUser.user._id) return
+        
+        updateCurrentUserRoomMembership(room._id, currentUser.user._id)
+    }, [currentUser, room, updateCurrentUserRoomMembership])
 
-    isCurrentUserRoomMember = (currentUserMemberReference) => {
-        return !isEmpty(currentUserMemberReference)
-    }
+    return (
+        <RoomListItemActionsContainer
+            room={room}
+            joinRoom={joinRoom}
+            currentUserRoomMembership={currentUserRoomMembership}
+        />
+    )
+}
 
-    isCurrentUserRoomAdmin = (currentUserMemberReference) => {
-        if (!this.isCurrentUserRoomMember(currentUserMemberReference)) {
-            return false
-        }
+const mapStateToProps = (state, ownProps) => {
+    const { user: currentUser, rooms: { currentUserRoomMemberships } } = state
 
-        const currentUserMemberType = currentUserMemberReference.memberType
-        return currentUserMemberType === 'admin'
-    }
-
-    render() {
-        const currentUserMemberReference = this.getMemberReferenceOfCurrentUser()
-        return (
-            <RoomListItemActions
-                isCurrentUserRoomMember={this.isCurrentUserRoomMember(currentUserMemberReference)}
-                isCurrentUserRoomAdmin={this.isCurrentUserRoomAdmin(currentUserMemberReference)}
-                {...this.props}
-            />
-        )
+    return {
+        currentUserRoomMembership: currentUserRoomMemberships[ownProps.room._id],
+        currentUser,
     }
 }
 
-const mapStateToProps = (state) => {
-    return { currentUser: state.user.user, isUserLoggedIn: state.user.isLoggedIn }
-}
-
-export default connect(mapStateToProps)(RoomListItemActionsRedux);
+export default connect(
+    mapStateToProps,
+    { updateCurrentUserRoomMembership, joinRoom }
+)(RoomListItemActionsRedux)
