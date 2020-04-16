@@ -3,13 +3,25 @@ import _ from 'lodash'
 import {
     DELETE_ROOM,
     FETCH_PUBLIC_ROOMS,
-    FETCH_ROOM,
     UPDATE_ROOM
 } from '../../action-constants';
 
 
 const handleUpdateRoom = (state, room) => {
-    return { ...state, [room.roomId]: room }
+    //This state (currentRooms) records the rooms displayed to user at a particular instance
+    //However, the user may be interacting with a different room 
+    //Example: maybe a room in page 2 is being operated but the list is in page 1.
+    //Hence, to avoid adding that 'page-2-room' here in page 1 (arbitrary)
+    //we update the room only if it already exists in the state
+    const isRoomPresentInState = () => {
+        return state[room._id]
+    }
+
+    if (isRoomPresentInState()) {
+        return { ...state, [room._id]: room }
+    }
+
+    return state
 }
 
 export default (state = {}, action) => {
