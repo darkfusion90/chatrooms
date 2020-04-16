@@ -10,14 +10,7 @@ import {
 } from './components/'
 
 
-const RoomList = ({
-    rooms,
-    isSearchResult,
-    onDisplayControlsFormSubmit,
-    onSearchFieldInputChange,
-    setCurrentPageNumber,
-    ...otherProps
-}) => {
+const RoomListView = ({ rooms, isSearchResult }) => {
 
     const renderRoomList = () => {
         if (isEmpty(rooms)) {
@@ -26,42 +19,24 @@ const RoomList = ({
 
         return (
             <ListGroup variant='flush' className='mx-0 mt-3'>
-                {
-                    rooms.map((room) => {
-                        return <RoomListItem room={room} key={room._id} />
-                    })
-                }
+                {rooms.map((room) => <RoomListItem room={room} key={room._id} />)}
             </ListGroup>
         )
     }
 
-    const updatePageNumber = (pageNumber) => {
-        setCurrentPageNumber(pageNumber)
-    }
-
     const renderRoomListPagination = () => {
-        if (!isEmpty(rooms)) {
-            return (
-                <RoomListPagination
-                    setCurrentPageNumber={updatePageNumber}
-                    {...otherProps}
-                />
-            )
-        }
+        return isEmpty(rooms) ? null : <RoomListPagination />
     }
 
     //TODO: Add custom sort style where users can drag a room up and down 
     //according to their convenience
     return (
         <Container fluid className='pb-5 mb-5' >
-            <RoomListControlsHeader
-                onDisplayControlsFormSubmit={onDisplayControlsFormSubmit}
-                onSearchFieldInputChange={onSearchFieldInputChange}
-            />
+            <RoomListControlsHeader />
             {renderRoomList()}
             {renderRoomListPagination()}
         </Container>
     )
 }
 
-export default RoomList;
+export default RoomListView;
