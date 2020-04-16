@@ -5,6 +5,7 @@ import { ButtonGroup } from 'react-bootstrap';
 import { DeleteRoomModalTrigger } from '../../../standalone/RoomModalTriggers'
 import { JoinRoomButton } from '../../../standalone/RoomActionButtons'
 
+
 const getJoinRoomAction = (joinRoomProgress, onClick) => {
     return <JoinRoomButton
         progress={joinRoomProgress}
@@ -27,14 +28,22 @@ const getOpenRoomAction = (room) => {
     )
 }
 
-const RoomListItemActions = (props) => {
-    const { room, isCurrentUserRoomMember, isCurrentUserRoomAdmin, ...restProps } = props
+const renderActions = ({ room, currentUserRoomMembership, ...restProps }) => {
+
+    const isCurrentUserRoomMember = () => {
+        return currentUserRoomMembership.isRoomMember
+    }
+
+    const isCurrentUserRoomAdmin = () => {
+        const { membership } = currentUserRoomMembership
+        return membership && membership.memberType === 'admin'
+    }
 
     const getActionsForRoomMember = () => {
         return (
             <ButtonGroup>
                 {getOpenRoomAction(room)}
-                {isCurrentUserRoomAdmin ? getDeleteRoomAction(room) : null}
+                {isCurrentUserRoomAdmin() ? getDeleteRoomAction(room) : null}
             </ButtonGroup>
         )
     }
@@ -45,7 +54,24 @@ const RoomListItemActions = (props) => {
         return getJoinRoomAction(joinRoomProgress, onClick)
     }
 
-    return isCurrentUserRoomMember ? getActionsForRoomMember() : getActionsForNonRoomMember()
+    return isCurrentUserRoomMember() ? getActionsForRoomMember() : getActionsForNonRoomMember()
+}
+
+const renderLoadingActions = () => {
+    return <p className='subtitle'>Loading actions...</p>
+}
+
+const RoomListItemActions = (props) => {
+    const hasCurrentUserMembershipDetailsLoaded = () => {
+        //Initially, currentUserRoomMembership is 'undefined', 
+        //meaning it has not yet been determined
+        //On determining it will be an object (empty {} -> not member or {...details} -> member)
+        //Hence, simply using truthy/falsy value to determine whether details has been loaded, 
+        //i.e., undefined is falsy and object (even if empty) is truthy
+        return props.currentUserRoomMembership
+    }
+
+    return hasCurrentUserMembershipDetailsLoaded() ? renderActions(props) : renderLoadingActions()
 }
 
 
