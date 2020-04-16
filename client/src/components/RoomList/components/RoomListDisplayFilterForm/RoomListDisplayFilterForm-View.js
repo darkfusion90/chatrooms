@@ -65,7 +65,7 @@ class RoomListControlsForm extends React.Component {
                     label='Rooms Displayed Per Page: '
                     type='number'
                     min={1}
-                    max={100}
+                    max={this.props.maxItemsPerPage || 100}
                 />
             </FormGroup>
         )
