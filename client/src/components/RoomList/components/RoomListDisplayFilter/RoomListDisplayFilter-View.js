@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons'
 
 import { Dropdown } from '../../../standalone'
-import RoomListDisplayControlsForm from '../RoomListDisplayControlsForm'
+import RoomListDisplayFilterForm from '../RoomListDisplayFilterForm'
 import IconButton, { ICON_POS_LEFT } from '../../../standalone/IconButton';
 
-const RoomListDisplayFilter = ({ onDisplayControlsFormSubmit }) => {
+
+const RoomListDisplayFilter = ({ onDisplayFilterFormSubmit, maxItemsPerPage }) => {
     const hideDropdown = () => {
         //Since rootClose is set to true in OverlayTrigger in Dropdown,
         //clicking anywhere on body dismisses the dropdown
@@ -27,17 +28,22 @@ const RoomListDisplayFilter = ({ onDisplayControlsFormSubmit }) => {
         )
     }
 
-    const getDisplayControlsForm = () => {
+    const getDisplayFilterForm = () => {
         const onFormSubmit = (formValues) => {
             hideDropdown()
-            onDisplayControlsFormSubmit(formValues)
+            onDisplayFilterFormSubmit(formValues)
         }
-        return <RoomListDisplayControlsForm onFormSubmit={onFormSubmit} />
+        return (
+            <RoomListDisplayFilterForm
+                maxItemsPerPage={maxItemsPerPage}
+                onFormSubmit={onFormSubmit}
+            />
+        )
     }
 
     return (
         <Dropdown
-            menu={getDisplayControlsForm()}
+            menu={getDisplayFilterForm()}
             triggerComponent={getFilterButton()}
             show={true}
         />

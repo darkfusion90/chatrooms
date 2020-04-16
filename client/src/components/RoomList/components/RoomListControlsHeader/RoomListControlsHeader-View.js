@@ -5,17 +5,18 @@ import RoomListDisplayFilter from '../RoomListDisplayFilter'
 import RoomListSearchField from '../RoomListSearchField'
 
 
-const RoomListControlsHeader = ({
-    paginationItemsPerPage,
-    onDisplayControlsFormSubmit,
-    onSearchFieldInputChange
+const RoomListControlsHeaderView = ({
+    onDisplayFilterFormSubmit,
+    onSearchFieldInputChange,
+    maxItemsPerPage
 }) => {
+
     return (
         <Container fluid className='room-page-sub-header d-flex align-items-center justify-content-between px-sm-0 mx-sm-0'>
             <Container fluid>
                 <RoomListDisplayFilter
-                    paginationItemsPerPage={paginationItemsPerPage}
-                    onDisplayControlsFormSubmit={onDisplayControlsFormSubmit}
+                    maxItemsPerPage={maxItemsPerPage}
+                    onDisplayFilterFormSubmit={onDisplayFilterFormSubmit}
                 />
             </Container>
             <Container fluid>
@@ -25,4 +26,4 @@ const RoomListControlsHeader = ({
     )
 }
 
-export default RoomListControlsHeader;
+export default RoomListControlsHeaderView;
