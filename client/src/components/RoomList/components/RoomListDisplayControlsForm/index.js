@@ -1,3 +1,0 @@
-import RoomListDisplayControlsForm from './RoomListDisplayControlsForm-View'
-
-export default RoomListDisplayControlsForm
