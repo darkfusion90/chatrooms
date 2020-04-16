@@ -6,7 +6,7 @@ import fetchPublicRooms from './fetchPublicRooms'
 import fetchRoom from './fetchRoom'
 import acceptRoomInvitation from './acceptRoomInvitation'
 import updateTotalPublicRoomsCount from './updateTotalPublicRoomsCount'
-import updateCurrentUserMemberRoles from './updateCurrentUserMemberRoles'
+import updateCurrentUserRoomMembership from './updateCurrentUserRoomMembership'
 
 export {
     createRoom,
@@ -17,5 +17,5 @@ export {
     fetchRoom,
     acceptRoomInvitation,
     updateTotalPublicRoomsCount,
-    updateCurrentUserMemberRoles
+    updateCurrentUserRoomMembership
 }
