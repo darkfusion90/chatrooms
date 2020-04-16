@@ -5,11 +5,8 @@ import { Container, ListGroupItem } from 'react-bootstrap';
 import RoomListItemActions from '../RoomListItemActions'
 import convertISODateToReadableString from '../../../../helpers/convertISODateToReadableString'
 
-const RoomListItem = ({
-    room,
-    onJoinRoomButtonClick,
-    joinRoomProgress
-}) => {
+
+const RoomListItem = ({ room }) => {
 
     if (!room) return null
 
@@ -37,11 +34,7 @@ const RoomListItem = ({
                     {getSubtitle()}
                 </div>
                 <div>
-                    <RoomListItemActions
-                        room={room}
-                        onJoinRoomButtonClick={onJoinRoomButtonClick}
-                        joinRoomProgress={joinRoomProgress}
-                    />
+                    <RoomListItemActions room={room} />
                 </div>
             </Container>
         </ListGroupItem>
