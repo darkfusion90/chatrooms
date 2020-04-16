@@ -1,35 +1,32 @@
-import { LEAVE_ROOM } from '../../action-constants'
-import { rooms } from '../../../api/http'
+import { UPDATE_USER_ROOM_MEMBERSHIP } from '../../action-constants'
+import { roomMembers, search } from '../../../api/http'
 
-const getMemberDocOfUser = (room, userId) => {
-    for (let i = 0; i < room.members.length; i++) {
-        let member = room.members[i]
-        if (member && member.user && member.user._id === userId) {
-            return member
-        }
+
+const getResponseData = ({ data }) => data
+
+
+const getUserRoomMemberData = async (roomId, userId) => {
+    const searchResult = await search.searchRoomMember(roomId, userId).then(getResponseData)
+
+    if (searchResult.length === 0) {
+        return null
     }
+
+    return searchResult.payload[0]
 }
 
-export default (room, onSuccess, onFailure) => (dispatch, getState) => {
-    if (!room) {
-        return onFailure(new Error({ response: 'Not a room member' }))
+
+export default (room, onSuccess, onFailure) => async (dispatch, getState) => {
+    const { user: { user } } = getState()
+
+    try {
+        const roomMemberData = await getUserRoomMemberData(room._id, user._id)
+        roomMembers.leaveRoom(room._id, roomMemberData._id)
+            .then(_ => {
+                onSuccess()
+                dispatch({ type: UPDATE_USER_ROOM_MEMBERSHIP, payload: room._id })
+            }).catch(onFailure)
+    } catch (err) {
+        onFailure(err)
     }
-
-    const userId = getState().user.user._id
-    let memberDocOfUser = getMemberDocOfUser(room, userId)
-
-    if (!memberDocOfUser) {
-        return onFailure(new Error({ response: 'Not a room member' }))
-    }
-
-    rooms.leaveRoom(room.roomId, memberDocOfUser._id).then(response => {
-        dispatch({
-            type: LEAVE_ROOM,
-            payload: {
-                roomId: room.roomId,
-                updatedMembers: response.data.members
-            }
-        })
-        onSuccess(response)
-    }).catch(onFailure)
 }
