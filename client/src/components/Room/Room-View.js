@@ -2,7 +2,6 @@ import React from 'react';
 import { Spinner } from 'react-bootstrap'
 
 import { ChatMessageForm, ChatWindow, RoomHeader, RoomNotJoined } from './components'
-import isRoomMember from './utils/isRoomMember'
 import './Room-Style.scss'
 
 const renderLoadingRoom = () => {
@@ -46,14 +45,12 @@ const renderRoom = (room, currentUser, onSendMessageButtonClick) => {
     );
 }
 
-const Room = (props) => {
-    const { error, room, currentUser, onSendMessageButtonClick } = props
-
+const Room = ({ error, room, isCurrentUserRoomMember, onSendMessageButtonClick }) => {
     if (error) {
         return renderErrorScreen(error)
     } else if (!room) {
         return renderLoadingRoom()
-    } else if (!isRoomMember(room, currentUser && currentUser._id)) {
+    } else if (!isCurrentUserRoomMember) {
         return <RoomNotJoined room={room} />
     } else {
         return renderRoom(room, onSendMessageButtonClick)
