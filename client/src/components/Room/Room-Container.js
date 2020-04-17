@@ -8,13 +8,10 @@ class RoomContainer extends React.Component {
     state = { error: null }
 
     componentDidMount() {
-        const { fetchRoom, roomId } = this.props;
-        console.log('roomId: ', roomId)
-        registerNewMessageListener(roomId, (data) => {
-            console.log("new message: ", data)
-            fetchRoom(roomId, this.onRoomFetchSuccess, this.onRoomFetchFail)
-        })
-        fetchRoom(roomId, () => { }, this.onRoomFetchFail)
+        const { setActiveRoom, roomId } = this.props;
+
+        registerNewMessageListener(roomId, () => setActiveRoom(roomId, this.onRoomFetchFail))
+        setActiveRoom(roomId, () => { }, this.onRoomFetchFail)
     }
 
     componentDidUpdate() {
@@ -28,8 +25,7 @@ class RoomContainer extends React.Component {
         this.setState({ error: response })
     }
 
-    onSendMessageButtonClick = (formValues) => {
-        const { message } = formValues
+    onSendMessageButtonClick = ({ message }) => {
         if (!message || message.trim().length === 0) {
             return null
         } else {
@@ -51,14 +47,14 @@ class RoomContainer extends React.Component {
     }
 
     render() {
-        const { currentUser, room } = this.props
+        const { isCurrentUserRoomMember, room } = this.props
 
         return <RoomView
-            currentUser={currentUser}
             room={room}
+            isCurrentUserRoomMember={isCurrentUserRoomMember}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
             {...this.state}
-        />;
+        />
     }
 }
 
