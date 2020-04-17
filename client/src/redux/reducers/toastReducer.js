@@ -1,11 +1,9 @@
 import _ from 'lodash'
 import { SHOW_TOAST, HIDE_TOAST } from '../action-constants'
+import initialStates from '../initial-states'
 
-const INITIAL_STATE = {
-    activeToasts: []
-}
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = initialStates.toast, action) => {
     switch (action.type) {
         case SHOW_TOAST:
             //Need only one instance of a particular toastName, hence, removing duplicates using _.uniq

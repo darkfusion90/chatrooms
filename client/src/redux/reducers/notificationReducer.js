@@ -3,10 +3,10 @@ import {
     FETCH_ALL_NOTIFICATIONS,
     UPDATE_NOTIFICATION
 } from '../action-constants';
+import initialStates from '../initial-states'
 
-const INITIAL_STATE = { length: 0, data: {} }
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = initialStates.notifications, action) => {
     switch (action.type) {
         case FETCH_ALL_NOTIFICATIONS:
             const data = action.payload

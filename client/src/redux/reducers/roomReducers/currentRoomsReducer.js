@@ -5,7 +5,7 @@ import {
     FETCH_PUBLIC_ROOMS,
     UPDATE_ROOM
 } from '../../action-constants';
-
+import initialStates from '../../initial-states'
 
 const handleUpdateRoom = (state, room) => {
     //This state (currentRooms) records the rooms displayed to user at a particular instance
@@ -24,7 +24,7 @@ const handleUpdateRoom = (state, room) => {
     return state
 }
 
-export default (state = {}, action) => {
+export default (state = initialStates.rooms.currentRooms, action) => {
     switch (action.type) {
         case FETCH_PUBLIC_ROOMS:
             return _.mapKeys(action.payload, '_id')

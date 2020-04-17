@@ -4,13 +4,8 @@ import {
     SET_ROOM_LIST_CURRENT_PAGE_NUMBER,
     SET_ROOM_LIST_SEARCH_QUERY
 } from '../action-constants'
+import initialStates from '../initial-states'
 
-const INITIAL_STATE = {
-    sortBy: 'name-asc',
-    itemsPerPage: 10,
-    currentPageNumber: 1,
-    searchQuery: null
-}
 
 const getOffset = (itemsPerPage, pageNumber) => {
     return itemsPerPage * (pageNumber - 1)
@@ -27,7 +22,7 @@ const adjustCurrentPageNumber = (state, newItemsPerPage) => {
 }
 
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = initialStates.roomListDisplaySettings, action) => {
     switch (action.type) {
         case SET_ROOM_LIST_SORT_TECHNIQUE:
             return { ...state, sortBy: action.payload }

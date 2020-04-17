@@ -1,16 +1,13 @@
 import { LOGIN, UPDATE_USER, LOGOUT, REGISTER } from '../action-constants';
+import initialStates from '../initial-states'
 
-const INITIAL_STATE = {
-    isLoggedIn: false,
-    user: {}
-}
 
-export default (state = INITIAL_STATE, action) => {
+export default (state = initialStates.user, action) => {
     switch (action.type) {
         case LOGIN:
             return { isLoggedIn: true, user: action.payload.user }
         case LOGOUT:
-            return INITIAL_STATE
+            return initialStates.user
         case REGISTER:
             return { isLoggedIn: false, user: action.payload }
         case UPDATE_USER:
