@@ -31,7 +31,7 @@ class RoomContainer extends React.Component {
             return this.props.currentUserId
         }
 
-        const didDependentDataChange = () =>{
+        const didDependentDataChange = () => {
             return (this.didRoomChange(prevProps) || this.didUserChange(prevProps))
         }
 
@@ -58,6 +58,10 @@ class RoomContainer extends React.Component {
     }
 
     onSendMessageButtonClick = ({ message }) => {
+        this.sendMessage(message)
+    }
+
+    sendMessage(message) {
         if (!message || message.trim().length === 0) {
             return null
         } else {
@@ -78,6 +82,16 @@ class RoomContainer extends React.Component {
         this.setState({ error: response })
     }
 
+    handleTextInputKeyDown = (event) => {
+        const ENTER_BUTTON_KEY_CODES = [10, 13]
+        const isEnterKeyDown = () => ENTER_BUTTON_KEY_CODES.includes(event.keyCode)
+
+        if ((event.ctrlKey || event.metaKey) && isEnterKeyDown()) {
+            this.sendMessage(this.props.currentMessage)
+            this.props.resetChatMessageForm()
+        }
+    }
+
     render() {
         const {
             isCurrentUserRoomMembershipUndetermined,
@@ -90,6 +104,7 @@ class RoomContainer extends React.Component {
             isCurrentUserRoomMembershipUndetermined={isCurrentUserRoomMembershipUndetermined}
             isCurrentUserRoomMember={isCurrentUserRoomMember}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
+            onTextInputKeyDown={this.handleTextInputKeyDown}
             {...this.state}
         />
     }
