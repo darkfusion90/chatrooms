@@ -21,10 +21,7 @@ const getSocketIdListOfUserId = async (userId) => {
 const addSocketIdOfUserId = (userId, socketId) => {
     const update = { $push: { socketIds: socketId } }
     const options = { new: true, upsert: true }
-    SocketIoSessions.findOneAndUpdate({ userId }, update, options, (err, doc) => {
-        console.log('error? ', err)
-        console.log('added new socket id of user ', userId, ': ', doc)
-    })
+    SocketIoSessions.findOneAndUpdate({ userId }, update, options).exec()
 }
 
 const removeSocketIdOfUserId = (userId, socketId) => {
@@ -32,10 +29,7 @@ const removeSocketIdOfUserId = (userId, socketId) => {
     const update = { $pull: { socketIds: socketId } }
     const options = { new: true }
 
-    SocketIoSessions.findOneAndUpdate({ userId }, update, options, (err, doc) => {
-        console.log('error? ', err)
-        console.log('removed new socket id of user ', userId, ': ', doc)
-    })
+    SocketIoSessions.findOneAndUpdate({ userId }, update, options).exec()
 }
 
 module.exports = { addSocketIdOfUserId, getSocketIdListOfUserId, removeSocketIdOfUserId }
