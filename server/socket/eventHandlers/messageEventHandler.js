@@ -4,7 +4,7 @@ const handleSendMessage = (io, client, ...args) => {
     console.log("new message args: ", args)
     const [roomId] = args
     console.log("new message to: ", roomId)
-    client.broadcast.to(roomId).emit(events.MESSAGE_EVENT, events.NEW_MESSAGE, {
+    io.in(roomId).emit(events.MESSAGE_EVENT, events.NEW_MESSAGE, {
         roomId: roomId,
         author: client.request.session.userId
     })
