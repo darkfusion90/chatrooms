@@ -16,10 +16,11 @@ export const onServerDisconnected = (callback) => {
     socket.on('disconnect', callback)
 }
 
-export const registerNewMessageListener = (roomId, callback) => {
+export const onNewMessage = (roomId, callback) => {
+    console.log('registered message listener: ', callback)
     socket.on(events.MESSAGE_EVENT, (...args) => {
-        console.log("Message Event: ", args)
         const subEvent = args[0]
+        console.log('MessageEvent -> SubEvent: ', subEvent)
         if (subEvent === events.NEW_MESSAGE) {
             const data = args[1]
             if (data.roomId === roomId) {
@@ -30,17 +31,12 @@ export const registerNewMessageListener = (roomId, callback) => {
 }
 
 export const onNewNotification = (callback) => {
-    console.log('registered')
     socket.on(events.NOTIFICATION_EVENT, (subEvent) => {
         console.log('on notif event: ', subEvent)
         if (subEvent === events.NEW_NOTIFICATION) {
             callback()
         }
     })
-}
-
-export const joinRoom = (roomId, callback) => {
-    return socket.emit(events.ROOM_EVENT, events.JOIN_ROOM, roomId, callback);
 }
 
 export const connectToRoom = (roomId, callback) => {
