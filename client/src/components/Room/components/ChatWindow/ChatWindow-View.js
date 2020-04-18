@@ -5,11 +5,11 @@ import Message from '../Message'
 import './ChatWindow-Style.scss'
 
 const ChatWindow = (props) => {
-    const { room, colorsAssignedToMessageAuthors } = props
+    const { messages, messageColors } = props
 
     const renderMessages = () => {
         let prevMessageAuthor;
-        return room.messages.map(message => {
+        return messages.map(message => {
             const messageAuthor = message.author && message.author._id
             const paddingTop = messageAuthor === prevMessageAuthor ? 'pt-0' : ''
             prevMessageAuthor = messageAuthor
@@ -20,8 +20,7 @@ const ChatWindow = (props) => {
                     className={`border-0 ${paddingTop} pb-1`}
                 >
                     <Message
-                        color={colorsAssignedToMessageAuthors[messageAuthor]}
-                        roomId={room._id}
+                        color={messageColors[messageAuthor]}
                         message={message}
                     />
                 </ListGroup.Item>
