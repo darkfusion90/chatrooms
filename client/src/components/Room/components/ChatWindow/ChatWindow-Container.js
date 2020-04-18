@@ -8,16 +8,27 @@ import { mapKeyToColor } from './utils'
 class ChatWindowContainer extends React.Component {
     state = { messageColors: {} }
 
+    constructor(props){
+        super(props)
+        this.messageListLastElementRef = React.createRef()
+    }
+
     componentDidMount() {
         onNewMessage(this.props.roomId, this.refreshMessages)
         this.refreshMessages()
     }
 
     componentDidUpdate(prevProps) {
+        this.scrollToBottomOfMessageList()
         if (_.isEqual(this.props.messages, prevProps.messages)) {
             return
         }
         this.setState({ messageColors: this.assignRandomColorsToMessageAuthors() })
+    }
+
+    scrollToBottomOfMessageList(){
+        const msgListCurrentRef = this.messageListLastElementRef.current
+        if(msgListCurrentRef) msgListCurrentRef.scrollIntoView()
     }
 
     refreshMessages = () => {
@@ -38,12 +49,18 @@ class ChatWindowContainer extends React.Component {
     render() {
         const { messages } = this.props
         const { messageColors } = this.state
-        console.log({ messageColors })
+
         if (!messages) {
             return null
         }
 
-        return <ChatWindowView messages={messages} messageColors={messageColors} />
+        return (
+            <ChatWindowView
+                messages={messages}
+                messageColors={messageColors}
+                messageListLastElementRef={this.messageListLastElementRef}
+            />
+        )
     }
 }
 

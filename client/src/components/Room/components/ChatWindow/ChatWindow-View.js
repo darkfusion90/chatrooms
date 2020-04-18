@@ -5,11 +5,16 @@ import Message from '../Message'
 import './ChatWindow-Style.scss'
 
 const ChatWindow = (props) => {
-    const { messages, messageColors } = props
+    const { messageListLastElementRef, messages, messageColors } = props
 
     const renderMessages = () => {
-        let prevMessageAuthor;
+        const isLastMessage = (currentIndex, messages) =>{
+            return currentIndex === messages.length - 1
+        }
+
+        let prevMessageAuthor, currentIndex = 0;
         return messages.map(message => {
+            currentIndex++
             const messageAuthor = message.author && message.author._id
             const paddingTop = messageAuthor === prevMessageAuthor ? 'pt-0' : ''
             prevMessageAuthor = messageAuthor
@@ -18,6 +23,7 @@ const ChatWindow = (props) => {
                 <ListGroup.Item
                     key={message && message._id}
                     className={`border-0 ${paddingTop} pb-1`}
+                    ref={isLastMessage(currentIndex, messages) ? messageListLastElementRef : null}
                 >
                     <Message
                         color={messageColors[messageAuthor]}
@@ -29,9 +35,11 @@ const ChatWindow = (props) => {
     }
 
     return (
-        <ListGroup className='chat-window pre-scrollable' variant="flush">
-            {renderMessages()}
-        </ListGroup>
+        <>
+            <ListGroup className='chat-window pre-scrollable' variant="flush">
+                {renderMessages()}
+            </ListGroup>
+        </>
     )
 }
 
