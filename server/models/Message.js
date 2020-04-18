@@ -10,7 +10,11 @@ const MessageSchema = new Schema({
         type: Schema.Types.String,
         required: true,
     },
-    data: String
+    data: String,
+    createdAt: {
+        type: Schema.Types.Date,
+        default: Date.now
+    }
 })
 
 const Message = mongoose.model('Message', MessageSchema)
