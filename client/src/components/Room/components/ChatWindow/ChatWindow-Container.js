@@ -9,8 +9,7 @@ class ChatWindowContainer extends React.Component {
     state = { messageColors: {} }
 
     componentDidMount() {
-        console.log('roomId: ', this.props.roomId)
-        onNewMessage(this.props.roomId, () => this.refreshMessages())
+        onNewMessage(this.props.roomId, this.refreshMessages)
         this.refreshMessages()
     }
 
