@@ -5,6 +5,7 @@ import { Container, Button, Form } from 'react-bootstrap';
 import { TextInputWordWrap } from '../../../standalone'
 import './ChatMessageForm-Style.scss'
 
+
 const renderMessageField = (formProps) => {
     return (
         <TextInputWordWrap {...formProps} />
@@ -12,7 +13,7 @@ const renderMessageField = (formProps) => {
 }
 
 const ChatMessageFormView = (props) => {
-    const { onFormSubmit, formId } = props
+    const { onFormSubmit, formId, onTextInputKeyDown } = props
 
     return (
         <Form onSubmit={onFormSubmit} id={formId} className='chat-message-form'>
@@ -23,6 +24,7 @@ const ChatMessageFormView = (props) => {
                             name='message'
                             placeholder='Type a message...'
                             type='text'
+                            onKeyDown={onTextInputKeyDown}
                             component={renderMessageField}
                         />
                     </Form.Group>

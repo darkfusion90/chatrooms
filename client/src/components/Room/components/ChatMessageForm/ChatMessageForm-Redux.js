@@ -6,8 +6,14 @@ import ChatMessageFormView from './ChatMessageForm-View'
 const FORM_ID = 'chat-message-form'
 
 const ChatMessageFormRedux = (props) => {
-    const { handleSubmit, onFormSubmit } = props
-    return <ChatMessageFormView onFormSubmit={handleSubmit(onFormSubmit)} formId={FORM_ID} />
+    const { handleSubmit, onFormSubmit, onTextInputKeyDown } = props
+    return (
+        <ChatMessageFormView
+            onFormSubmit={handleSubmit(onFormSubmit)}
+            formId={FORM_ID}
+            onTextInputKeyDown={onTextInputKeyDown}
+        />
+    )
 }
 
 const resetForm = (_/*result*/, dispatch) => {
