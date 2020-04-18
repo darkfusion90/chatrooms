@@ -1,5 +1,8 @@
 const createPromiseCallbackFunction = require('../../utils/promiseCallbackFunction')
 
+const populateQuery = (query) => {
+    return query.populate({ path: 'author', model: 'User', select: 'username' })
+}
 
 const applyProjections = (query) => {
     if (query) {
@@ -9,8 +12,9 @@ const applyProjections = (query) => {
 
 const executeQuery = (query, callback) => {
     if (query) {
+        const withProjections = applyProjections(query)
         return createPromiseCallbackFunction((resolve, reject) => {
-            applyProjections(query).then(resolve).catch(reject)
+            populateQuery(withProjections).then(resolve).catch(reject)
         }, callback)
     }
 }
