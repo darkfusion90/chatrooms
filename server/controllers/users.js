@@ -55,12 +55,12 @@ function createUser(username, password, isRegistered, expiresAt, callback) {
     const user = new User({ username, password, expiresAt, isRegistered })
     user.save((err) => {
         if (err) {
-            logger.debug('UsersController: Error creating user: ', user)
-            logger.debug(err);
+            //logger.debug('UsersController: Error creating user: ', user)
+            //logger.debug(err);
             callback(err, filterUsingProjections(user));
         }
         else {
-            logger.debug('UsersController: Successfully created user: ', user);
+            //logger.debug('UsersController: Successfully created user: ', user);
             callback(null, filterUsingProjections(user));
         }
     })
@@ -94,10 +94,10 @@ function registerUser(userId, username, password, callback) {
 function _getUser(id, callback, options = PROJECTIONS) {
     const promise = new Promise((resolve, reject) => {
         User.findById(id, options).then(user => {
-            logger.debug('User found. Promise resolve: ', user)
+            //logger.debug('User found. Promise resolve: ', user)
             resolve(user)
         }).catch(err => {
-            logger.debug('Error encountered. Promise reject: ', err)
+            //logger.debug('Error encountered. Promise reject: ', err)
             reject(err)
         })
     })
