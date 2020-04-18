@@ -7,6 +7,7 @@ export default {
         currentUserRoomMembership: {
             isRoomMember: false,
             membership: {}
-        }
+        },
+        messages: null
     }
 }
