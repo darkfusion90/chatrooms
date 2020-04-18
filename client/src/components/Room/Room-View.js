@@ -37,10 +37,10 @@ const renderRoomContent = (room, onSendMessageButtonClick) => {
     )
 }
 
-const renderRoom = (room, currentUser, onSendMessageButtonClick) => {
+const renderRoom = (room, onSendMessageButtonClick) => {
     return (
         <div className='d-flex flex-column room-content-container'>
-            {renderRoomContent(room, currentUser, onSendMessageButtonClick)}
+            {renderRoomContent(room, onSendMessageButtonClick)}
         </div>
     );
 }
