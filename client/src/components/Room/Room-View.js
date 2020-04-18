@@ -45,10 +45,16 @@ const renderRoom = (room, currentUser, onSendMessageButtonClick) => {
     );
 }
 
-const Room = ({ error, room, isCurrentUserRoomMember, onSendMessageButtonClick }) => {
+const Room = ({ 
+    error, 
+    room, 
+    isCurrentUserRoomMembershipUndetermined,
+    isCurrentUserRoomMember, 
+    onSendMessageButtonClick 
+}) => {
     if (error) {
         return renderErrorScreen(error)
-    } else if (!room) {
+    } else if (!room || isCurrentUserRoomMembershipUndetermined) {
         return renderLoadingRoom()
     } else if (!isCurrentUserRoomMember) {
         return <RoomNotJoined room={room} />
