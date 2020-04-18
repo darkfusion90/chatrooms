@@ -2,17 +2,18 @@ const { getRoom } = require('../../controllers/rooms')
 const UnauthorizedError = require('../../errors/Unauthorized')
 const { REASON } = require('../../constants/apiResponseConstants')
 const { ensureIsRoomMember, ensureIsRoomAdmin, isPrivateRoom } = require('./helper')
+const { getRoomMember } = require('../../controllers/roomMembers')
 
-const handleDeleteRoomMemberAuth = (room, memberId, userId, next) => {
-    const isUserAttemptingSelfDelete = () => {
-        let memberDocOfUser;
-        room.members.forEach(member => {
-            if (member && member.user && member.user._id.equals(userId)) {
-                memberDocOfUser = member
-            }
-        })
-
-        return memberDocOfUser && memberDocOfUser._id.equals(memberId)
+const handleDeleteRoomMemberAuth = async (room, memberId, userId, next) => {
+    const isUserAttemptingSelfDelete = async () => {
+        let memberRef;
+        try {
+            memberRef = await getRoomMember(memberId, room._id)
+        } catch (err) {
+            next(err)
+        } finally {
+            return memberRef && memberRef.user._id === userId
+        }
     }
 
     if (isUserAttemptingSelfDelete()) {
