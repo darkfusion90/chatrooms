@@ -23,7 +23,7 @@ const renderErrorScreen = (error) => {
     }
 }
 
-const renderRoomContent = (room, onSendMessageButtonClick) => {
+const renderRoomContent = (room, onSendMessageButtonClick, onTextInputKeyDown) => {
     return (
         <>
             <RoomHeader room={room} className='room-content-header' />
@@ -31,16 +31,19 @@ const renderRoomContent = (room, onSendMessageButtonClick) => {
                 <ChatWindow roomId={room._id} />
             </div>
             <div className='room-content-footer'>
-                <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
+                <ChatMessageForm 
+                onFormSubmit={onSendMessageButtonClick} 
+                onTextInputKeyDown={onTextInputKeyDown}
+                />
             </div>
         </>
     )
 }
 
-const renderRoom = (room, onSendMessageButtonClick) => {
+const renderRoom = (room, onSendMessageButtonClick, onTextInputKeyDown) => {
     return (
         <div className='d-flex flex-column room-content-container'>
-            {renderRoomContent(room, onSendMessageButtonClick)}
+            {renderRoomContent(room, onSendMessageButtonClick, onTextInputKeyDown)}
         </div>
     );
 }
@@ -50,7 +53,8 @@ const Room = ({
     room, 
     isCurrentUserRoomMembershipUndetermined,
     isCurrentUserRoomMember, 
-    onSendMessageButtonClick 
+    onSendMessageButtonClick,
+    onTextInputKeyDown
 }) => {
     if (error) {
         return renderErrorScreen(error)
@@ -59,7 +63,7 @@ const Room = ({
     } else if (!isCurrentUserRoomMember) {
         return <RoomNotJoined room={room} />
     } else {
-        return renderRoom(room, onSendMessageButtonClick)
+        return renderRoom(room, onSendMessageButtonClick, onTextInputKeyDown)
     }
 }
 
