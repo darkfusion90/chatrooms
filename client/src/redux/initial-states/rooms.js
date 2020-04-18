@@ -4,10 +4,7 @@ export default {
     currentUserRoomMemberships: {},
     activeRoom: {
         room: null,
-        currentUserRoomMembership: {
-            isRoomMember: false,
-            membership: {}
-        },
+        currentUserRoomMembership: null,
         messages: null
     }
 }
