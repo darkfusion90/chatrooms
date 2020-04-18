@@ -10,7 +10,7 @@ class ChatWindowContainer extends React.Component {
 
     componentDidMount() {
         console.log('roomId: ', this.props.roomId)
-        onNewMessage(this.props.roomId, this.refreshMessages)
+        onNewMessage(this.props.roomId, () => this.refreshMessages())
         this.refreshMessages()
     }
 
@@ -18,7 +18,7 @@ class ChatWindowContainer extends React.Component {
         if (_.isEqual(this.props.messages, prevProps.messages)) {
             return
         }
-        this.setState({messageColors: this.assignRandomColorsToMessageAuthors()})
+        this.setState({ messageColors: this.assignRandomColorsToMessageAuthors() })
     }
 
     refreshMessages = () => {
