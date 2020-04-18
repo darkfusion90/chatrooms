@@ -1,7 +1,7 @@
 import React from 'react';
 
 import RoomView from './Room-View';
-import { connectToRoom, registerNewMessageListener } from '../../api/socketIo'
+import { connectToRoom } from '../../api/socketIo'
 import sendMessage from '../../helpers/sendMessage'
 
 class RoomContainer extends React.Component {
@@ -10,7 +10,6 @@ class RoomContainer extends React.Component {
     componentDidMount() {
         const { setActiveRoom, roomId } = this.props;
 
-        registerNewMessageListener(roomId, () => setActiveRoom(roomId, this.onRoomFetchFail))
         setActiveRoom(roomId, () => { }, this.onRoomFetchFail)
     }
 
