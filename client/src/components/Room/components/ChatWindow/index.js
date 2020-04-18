@@ -1,3 +1,3 @@
-import ChatWindowContainer from './ChatWindow-Container'
+import ChatWindow from './ChatWindow-Redux'
 
-export default ChatWindowContainer
+export default ChatWindow
