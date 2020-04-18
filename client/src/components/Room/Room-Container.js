@@ -11,7 +11,7 @@ class RoomContainer extends React.Component {
     componentDidMount() {
         const { setActiveRoom, roomId } = this.props;
 
-        setActiveRoom(roomId, () => { }, this.onRoomFetchFail)
+        setActiveRoom(roomId, this.onRoomFetchFail)
     }
 
     didRoomChange = (prevProps) => {
@@ -23,6 +23,21 @@ class RoomContainer extends React.Component {
         return prevUserId !== this.props.currentUserId
     }
 
+    shouldUpdateCurrentUserRoomMembership = (prevProps) => {
+        const isUserKnown = () => {
+            //currentUserId is undefined for an unknown user 
+            //which usually happens when the redux store is not completely updated with user data
+            //hence, simply using the truthy/falsy value
+            return this.props.currentUserId
+        }
+
+        const didDependentDataChange = () =>{
+            return (this.didRoomChange(prevProps) || this.didUserChange(prevProps))
+        }
+
+        return isUserKnown() && didDependentDataChange()
+    }
+
     componentDidUpdate(prevProps) {
         const {
             room,
@@ -31,15 +46,11 @@ class RoomContainer extends React.Component {
         } = this.props
         const roomId = room && room._id
 
-        if (this.didRoomChange(prevProps)) {
-            connectToRoom(roomId, () => { })
+        connectToRoom(roomId, () => { })
+
+        if (this.shouldUpdateCurrentUserRoomMembership(prevProps)) {
             updateCurrentUserRoomMembership(roomId, currentUserId)
         }
-
-        if (this.didUserChange(prevProps)) {
-            updateCurrentUserRoomMembership(roomId, currentUserId)
-        }
-
     }
 
     onRoomFetchFail = ({ response }) => {
@@ -56,7 +67,7 @@ class RoomContainer extends React.Component {
     }
 
     onSendMessageSuccess = (response) => {
-        this.setState({ room: response.data })
+        console.log('message sent: ', response)
     }
 
     onSendMessageFailure = ({ response }) => {
