@@ -1,5 +1,4 @@
 const events = require('../../constants/socket_event_constants')
-const roomsController = require('../../controllers/rooms')
 
 function handleConnectToRoom(io, client, args) {
     const [roomId, clientCallback] = args
