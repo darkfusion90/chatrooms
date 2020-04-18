@@ -2,9 +2,16 @@ import axios from './config'
 
 
 export const getMessage = (roomId, messageId, onRequestFulfilled, onRequestRejected) => {
-    return axios.get(`/api/rooms/${roomId}/messages/${messageId}`).then(onRequestFulfilled, onRequestRejected)
+    return axios.get(`/api/rooms/${roomId}/messages/${messageId}`)
+        .then(onRequestFulfilled, onRequestRejected)
+}
+
+export const getAllMessagesInRoom = (roomId, onRequestFulfilled, onRequestRejected) => {
+    return axios.get(`/api/rooms/${roomId}/messages`)
+        .then(onRequestFulfilled, onRequestRejected)
 }
 
 export const createMessage = (roomId, message, onRequestFulfilled, onRequestRejected) => {
-    return axios.post(`/api/rooms/${roomId}/messages`, { message }).then(onRequestFulfilled, onRequestRejected)
+    return axios.post(`/api/rooms/${roomId}/messages`, { message })
+        .then(onRequestFulfilled, onRequestRejected)
 }
