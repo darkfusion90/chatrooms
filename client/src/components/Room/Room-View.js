@@ -28,7 +28,7 @@ const renderRoomContent = (room, onSendMessageButtonClick) => {
         <>
             <RoomHeader room={room} className='room-content-header' />
             <div className='room-content-body'>
-                <ChatWindow room={room} />
+                <ChatWindow roomId={room._id} />
             </div>
             <div className='room-content-footer'>
                 <ChatMessageForm onFormSubmit={onSendMessageButtonClick} />
