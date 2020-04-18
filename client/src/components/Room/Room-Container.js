@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash'
 
 import RoomView from './Room-View';
 import { connectToRoom } from '../../api/socketIo'
@@ -13,11 +14,32 @@ class RoomContainer extends React.Component {
         setActiveRoom(roomId, () => { }, this.onRoomFetchFail)
     }
 
-    componentDidUpdate() {
-        const { room } = this.props
-        if (room) {
-            connectToRoom(room._id, () => { })
+    didRoomChange = (prevProps) => {
+        return !_.isEqual(prevProps.room, this.props.room)
+    }
+
+    didUserChange = (prevProps) => {
+        const { currentUserId: prevUserId } = prevProps
+        return prevUserId !== this.props.currentUserId
+    }
+
+    componentDidUpdate(prevProps) {
+        const {
+            room,
+            updateCurrentUserRoomMembership,
+            currentUserId
+        } = this.props
+        const roomId = room && room._id
+
+        if (this.didRoomChange(prevProps)) {
+            connectToRoom(roomId, () => { })
+            updateCurrentUserRoomMembership(roomId, currentUserId)
         }
+
+        if (this.didUserChange(prevProps)) {
+            updateCurrentUserRoomMembership(roomId, currentUserId)
+        }
+
     }
 
     onRoomFetchFail = ({ response }) => {
@@ -46,10 +68,15 @@ class RoomContainer extends React.Component {
     }
 
     render() {
-        const { isCurrentUserRoomMember, room } = this.props
+        const {
+            isCurrentUserRoomMembershipUndetermined,
+            isCurrentUserRoomMember,
+            room
+        } = this.props
 
         return <RoomView
             room={room}
+            isCurrentUserRoomMembershipUndetermined={isCurrentUserRoomMembershipUndetermined}
             isCurrentUserRoomMember={isCurrentUserRoomMember}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
             {...this.state}
