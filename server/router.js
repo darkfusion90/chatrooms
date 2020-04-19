@@ -4,6 +4,7 @@ const {
     ensureAuthenticated
 } = require('./middlewares')
 
+
 /**
  * 
  * @param {Express} app The express application to bind all the routes to
@@ -23,6 +24,9 @@ const bindRoomRoutes = (app) => {
     app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, rooms.members.get)
     app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, rooms.members.post)
     app.delete('/api/rooms/:roomId/members/:memberId', roomAuth.roomMembersAuth, rooms.members._delete)
+
+    app.get('/api/rooms/:roomId/join_requests/:requestId?', rooms.joinRequests.get)
+    app.post('/api/rooms/:roomId/join_requests/', rooms.joinRequests.post)
 }
 
 /**
