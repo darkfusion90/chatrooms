@@ -1,24 +1,20 @@
-const { addMemberToRoomByRoomId } = require('../../controllers/rooms')
 const { getInvitation } = require('../../controllers/roomInvitations')
-const { MEMBER_TYPE_PARTICIPANT } = require('../../controllers/roomMembers')
+const { createRoomMember } = require('../../controllers/roomMembers')
 const { genericHandlerCallback } = require('../routeUtils')
+const { MEMBER_TYPE_PARTICIPANT } = require('../../constants/memberTypes')
 
 const post = async (req, res) => {
+    const callback = (err, resource) => genericHandlerCallback(err, resource, res)
+
     const { invitationId } = req.params
 
     getInvitation(invitationId, (err, invitation) => {
         if (err | !invitation) {
-            return genericHandlerCallback(err, invitation, res)
+            return callback(err, invitation)
         }
 
         const { room, invitee } = invitation
-        const memberData = {
-            userId: invitee._id,
-            memberType: MEMBER_TYPE_PARTICIPANT
-        }
-        addMemberToRoomByRoomId(room.roomId, memberData, (err, joinedRoom) => {
-            genericHandlerCallback(err, joinedRoom, res)
-        })
+        createRoomMember(room._id, invitee._id, MEMBER_TYPE_PARTICIPANT, callback)
     })
 }
 
