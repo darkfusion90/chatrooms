@@ -16,15 +16,10 @@ const getJoinRoomButton = (joinRoomProgress, onClick) => {
 }
 
 const RoomNotJoinedView = ({
-    room,
+    isPrivateRoom,
     joinRoomProgress,
     onJoinRoomButtonClick
 }) => {
-    console.log('room: ', room)
-    if (!room) return null
-
-    const isPrivateRoom = room.type === 'private'
-    const possibleActionText = isPrivateRoom ? 'send a join request' : 'join the room'
 
     //Using className for button (Link) because a 
     //Button component will cause page reload which isn't desired here
@@ -35,7 +30,10 @@ const RoomNotJoinedView = ({
             <div className='d-flex flex-column justify-content-between align-items-center mx-auto'>
                 <FontAwesomeIcon icon={faSadCry} size='5x' color='#b7b9ba' className='mb-4' />
                 <h4>You are not a member of this room</h4>
-                <p className=' h-100 subtitle'>To access, you must {possibleActionText}</p>
+                <p className=' h-100 subtitle'>
+                    To access, you must
+                    {isPrivateRoom ? ' send a join request' : ' join the room'}
+                </p>
                 <ButtonGroup>
                     {
                         isPrivateRoom ?
