@@ -23,3 +23,8 @@ exports.genericHandlerCallback = (err, resource, response) => {
     const { statusCode, data } = determineResponseMeta(err, resource)
     response.status(statusCode).json(data)
 }
+
+exports.defaultCallback = response => (err, resource) => {
+    const { statusCode, data } = determineResponseMeta(err, resource)
+    response.status(statusCode).json(data)
+}
