@@ -12,7 +12,7 @@ const {
     getAllInvitationsOfUser
 } = require('../../controllers/roomInvitations')
 const { createNotification } = require('../../controllers/notifications')
-const { getRoomByRoomId } = require('../../controllers/rooms')
+const { getRoom } = require('../../controllers/rooms')
 const { genericHandlerCallback } = require('../routeUtils')
 
 
@@ -36,7 +36,7 @@ exports.post = (req, res) => {
     const { invitee, roomId } = req.body
     const inviter = req.session.userId
 
-    getRoomByRoomId(roomId, (err, room) => {
+    getRoom(roomId, (err, room) => {
         if (err) {
             return genericHandlerCallback(err, room, res)
         }
