@@ -5,11 +5,12 @@ import LeaveRoomModalView from './LeaveRoomModal-View'
 import { hideModal as hideModalAction } from '../../../redux/actions/modal-actions';
 import { leaveRoom as leaveRoomAction } from '../../../redux/actions/room-actions';
 
-const LeaveRoomModalRedux = ({ modalProps: { room }, ...otherProps }) => {
+const LeaveRoomModalRedux = ({ modalProps: { room, currentUserMemberId }, ...otherProps }) => {
     const onLeaveRoomButtonClick = () => {
+
         const { leaveRoom, onLeaveRoomPending, onLeaveRoomSuccess, onLeaveRoomFail } = otherProps
         onLeaveRoomPending()
-        leaveRoom(room, onLeaveRoomSuccess, onLeaveRoomFail)
+        leaveRoom(room._id, currentUserMemberId, onLeaveRoomSuccess, onLeaveRoomFail)
     }
 
     const {
