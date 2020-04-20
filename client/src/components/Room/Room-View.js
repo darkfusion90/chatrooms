@@ -13,11 +13,20 @@ const renderLoadingRoom = () => {
     );
 }
 
-const renderErrorScreen = (error) => {
+const renderErrorScreen = (error, roomId) => {
+    const renderForbiddenError = () => {
+        if (error.data.reason === 'NOT_A_ROOM_MEMBER') {
+            return <RoomNotJoined roomId={roomId} isPrivateRoom />
+        } else {
+            return <div>You are not allowed to access this room</div>
+        }
+    }
     //TODO:
     //Make components like <RoomNotFound room-{room} />
     //Use <PageNotFound />, etc inside those components providing appropriate messages
     switch (error.status) {
+        case 403:
+            return renderForbiddenError()
         default:
             return <div>Unexpected Error</div>
     }
@@ -31,9 +40,9 @@ const renderRoomContent = (room, onSendMessageButtonClick, onTextInputKeyDown) =
                 <ChatWindow roomId={room._id} />
             </div>
             <div className='room-content-footer'>
-                <ChatMessageForm 
-                onFormSubmit={onSendMessageButtonClick} 
-                onTextInputKeyDown={onTextInputKeyDown}
+                <ChatMessageForm
+                    onFormSubmit={onSendMessageButtonClick}
+                    onTextInputKeyDown={onTextInputKeyDown}
                 />
             </div>
         </>
@@ -48,20 +57,21 @@ const renderRoom = (room, onSendMessageButtonClick, onTextInputKeyDown) => {
     );
 }
 
-const Room = ({ 
-    error, 
-    room, 
+const Room = ({
+    error,
+    room,
+    roomId,
     isCurrentUserRoomMembershipUndetermined,
-    isCurrentUserRoomMember, 
+    isCurrentUserRoomMember,
     onSendMessageButtonClick,
     onTextInputKeyDown
 }) => {
     if (error) {
-        return renderErrorScreen(error)
+        return renderErrorScreen(error, roomId)
     } else if (!room || isCurrentUserRoomMembershipUndetermined) {
         return renderLoadingRoom()
     } else if (!isCurrentUserRoomMember) {
-        return <RoomNotJoined room={room} />
+        return <RoomNotJoined roomId={room._id} />
     } else {
         return renderRoom(room, onSendMessageButtonClick, onTextInputKeyDown)
     }
