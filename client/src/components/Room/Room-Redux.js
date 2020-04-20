@@ -1,5 +1,4 @@
 import React from 'react';
-import isEmpty from 'is-empty'
 import { connect } from 'react-redux'
 import { reset } from 'redux-form'
 
@@ -9,10 +8,7 @@ import {
     updateCurrentUserRoomMembership
 } from '../../redux/actions/room-actions'
 
-const RoomRedux = ({ currentUserRoomMembership, chatMessageForm, ...props }) => {
-    const isCurrentUserRoomMember = () => {
-        return currentUserRoomMembership && currentUserRoomMembership.isRoomMember
-    }
+const RoomRedux = ({ chatMessageForm, ...props }) => {
 
     const getCurrentMessage = () => {
         const formValues = chatMessageForm && chatMessageForm.values
@@ -21,8 +17,6 @@ const RoomRedux = ({ currentUserRoomMembership, chatMessageForm, ...props }) => 
 
     return (
         <RoomContainer
-            isCurrentUserRoomMembershipUndetermined={isEmpty(currentUserRoomMembership)}
-            isCurrentUserRoomMember={isCurrentUserRoomMember()}
             currentMessage={getCurrentMessage()}
             {...props}
         />
