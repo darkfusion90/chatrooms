@@ -11,18 +11,13 @@ const RoomActionButton = ({
     defaultProps,
     ...rest
 }) => {
-
     const constructProps = () => {
-        const propsInit = propsProgressInitial && { ...propsProgressInitial }
-        const propsPending = propsProgressPending && { ...propsProgressPending }
-        const propsSuccess = propsProgressSuccess && { ...propsProgressSuccess }
-        const propsFailure = propsProgressFailure && { ...propsProgressFailure }
         return (
             {
-                propsProgressInitial: { ...defaultProps.initial, ...propsInit },
-                propsProgressPending: { ...defaultProps.pending, ...propsPending },
-                propsProgressSuccess: { ...defaultProps.success, ...propsSuccess },
-                propsProgressFailure: { ...defaultProps.fail, ...propsFailure }
+                propsProgressInitial: { ...defaultProps.initial, ...propsProgressInitial },
+                propsProgressPending: { ...defaultProps.pending, ...propsProgressPending },
+                propsProgressSuccess: { ...defaultProps.success, ...propsProgressSuccess },
+                propsProgressFailure: { ...defaultProps.fail, ...propsProgressFailure }
             }
         )
     }
