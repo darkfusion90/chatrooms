@@ -2,10 +2,12 @@
     position: relative;
     color: white;
     background-color: green;
+    min-width: 30%;
     width: auto;
     max-width: 60%;
     border-radius: 4px;
     padding-top: 1vw;
+    padding-right: 10px;
     padding-bottom: 1vw;
     overflow-wrap: break-word;
 }
@@ -59,4 +61,10 @@
 
 .msg-menu-icon.msg-left{
     right: 5px;
+}
+
+.message-timestamp{
+    margin: 0 0 0 5px;
+    color: #ccc;
+    font-size: 12px;
 }
