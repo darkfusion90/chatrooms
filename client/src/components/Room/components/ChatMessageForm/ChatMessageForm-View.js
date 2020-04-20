@@ -22,7 +22,7 @@ const ChatMessageFormView = (props) => {
                     <Form.Group controlId='message' className='textarea-wrapper'>
                         <Field
                             name='message'
-                            placeholder='Type a message...'
+                            placeholder='Type a message... (Hit Ctrl + Enter to send)'
                             type='text'
                             onKeyDown={onTextInputKeyDown}
                             component={renderMessageField}
