@@ -4,22 +4,39 @@ import { ButtonGroup, Container } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSadCry } from '@fortawesome/free-solid-svg-icons'
 
-import { JoinRoomButton } from '../../../standalone/RoomActionButtons'
+import {
+    JoinRoomButton,
+    SendRoomJoinRequestButton
+} from '../../../standalone/RoomActionButtons'
 
-const getJoinRoomButton = (joinRoomProgress, onClick) => {
-    return (
-        <JoinRoomButton
-            progress={joinRoomProgress}
-            propsProgressInitial={{ onClick }}
-        />
-    )
-}
 
 const RoomNotJoinedView = ({
     isPrivateRoom,
-    joinRoomProgress,
-    onJoinRoomButtonClick
+    roomActionProgress,
+    onJoinRoomButtonClick,
+    onSendJoinRequestButtonClick
 }) => {
+
+    const renderRoomActionButton = () => {
+        if (isPrivateRoom) {
+            return (
+                <SendRoomJoinRequestButton
+                    progress={roomActionProgress}
+                    propsProgressInitial={{
+                        onClick: onSendJoinRequestButtonClick
+                    }}
+                />
+            )
+        }
+        return (
+            <JoinRoomButton
+                progress={roomActionProgress}
+                propsProgressInitial={{
+                    onClick: onJoinRoomButtonClick
+                }}
+            />
+        )
+    }
 
     //Using className for button (Link) because a 
     //Button component will cause page reload which isn't desired here
@@ -35,11 +52,7 @@ const RoomNotJoinedView = ({
                     {isPrivateRoom ? ' send a join request' : ' join the room'}
                 </p>
                 <ButtonGroup>
-                    {
-                        isPrivateRoom ?
-                            <div>Send a request</div> :
-                            getJoinRoomButton(joinRoomProgress, onJoinRoomButtonClick)
-                    }
+                    {renderRoomActionButton()}
                     <Link to='/rooms' className='btn btn-outline-secondary'>
                         Back to Rooms
                     </Link>
