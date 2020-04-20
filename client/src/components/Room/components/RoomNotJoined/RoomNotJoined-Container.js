@@ -1,44 +1,46 @@
 import React from 'react'
 
-import {
-    PROGRESS_INITIAL,
-    PROGRESS_PENDING,
-    PROGRESS_SUCCESS,
-    PROGRESS_FAIL
-} from '../../../standalone/ProgressButton'
 import RoomNotJoinedView from './RoomNotJoined-View'
+import { useProgress } from '../../../hooks'
 
-class RoomNotJoinedContainer extends React.Component {
-    state = { joinRoomProgress: PROGRESS_INITIAL }
 
-    onJoinRoomButtonClick = () => {
-        this.onJoinRoomPending()
-        const { roomId, joinRoom } = this.props
-        
-        joinRoom(roomId, this.onJoinRoomSuccess, this.onJoinRoomFail)
+const RoomNotJoinedContainer = ({
+    roomId,
+    joinRoom,
+    sendRoomJoinRequest,
+    isPrivateRoom
+}) => {
+    const [
+        roomActionProgress,
+        setRoomActionProgressPending,
+        setRoomActionProgressSuccess,
+        setRoomActionProgressFailure
+    ] = useProgress()
+
+    const onJoinRoomButtonClick = () => {
+        setRoomActionProgressPending()
+
+        joinRoom(roomId, setRoomActionProgressSuccess, setRoomActionProgressFailure)
     }
 
-    onJoinRoomPending = () => {
-        this.setState({ joinRoomProgress: PROGRESS_PENDING })
-    }
+    const onSendJoinRequestButtonClick = () => {
+        setRoomActionProgressPending()
 
-    onJoinRoomSuccess = () => {
-        this.setState({ joinRoomProgress: PROGRESS_SUCCESS })
-    }
-
-    onJoinRoomFail = () => {
-        this.setState({ joinRoomProgress: PROGRESS_FAIL })
-    }
-
-    render() {
-        return (
-            <RoomNotJoinedView
-                onJoinRoomButtonClick={this.onJoinRoomButtonClick}
-                {...this.props}
-                {...this.state}
-            />
+        sendRoomJoinRequest(
+            roomId,
+            setRoomActionProgressSuccess,
+            setRoomActionProgressFailure
         )
     }
+
+    return (
+        <RoomNotJoinedView
+            isPrivateRoom={isPrivateRoom}
+            roomActionProgress={roomActionProgress}
+            onJoinRoomButtonClick={onJoinRoomButtonClick}
+            onSendJoinRequestButtonClick={onSendJoinRequestButtonClick}
+        />
+    )
 }
 
 export default RoomNotJoinedContainer
