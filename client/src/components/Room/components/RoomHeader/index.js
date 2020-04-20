@@ -1,3 +1,3 @@
-import RoomHeaderView from './RoomHeader-View'
+import RoomHeader from './RoomHeader-Redux'
 
-export default RoomHeaderView
+export default RoomHeader
