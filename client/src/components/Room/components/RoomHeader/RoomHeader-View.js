@@ -7,7 +7,7 @@ import { WithLink, WithModalTrigger } from '../../../hoc'
 import { TooltipWrapper } from '../../../standalone'
 import './RoomHeader-Style.scss'
 
-const RoomHeader = ({ room, className }) => {
+const RoomHeader = ({ room, currentUserMemberId, className }) => {
     const renderRoomActionIcons = () => {
         const ActionLeaveRoom = (
             <WithModalTrigger
@@ -15,7 +15,7 @@ const RoomHeader = ({ room, className }) => {
                 icon={faSignOutAlt}
                 className='cursor-pointer'
                 modalName='LeaveRoom'
-                modalProps={{ room }}
+                modalProps={{ room, currentUserMemberId, cow: 123 }}
             />
         )
 
