@@ -14,30 +14,6 @@ class RoomContainer extends React.Component {
         setActiveRoom(roomId, this.onRoomFetchFail)
     }
 
-    didRoomChange = (prevProps) => {
-        return !_.isEqual(prevProps.room, this.props.room)
-    }
-
-    didUserChange = (prevProps) => {
-        const { currentUserId: prevUserId } = prevProps
-        return prevUserId !== this.props.currentUserId
-    }
-
-    shouldUpdateCurrentUserRoomMembership = (prevProps) => {
-        const isUserKnown = () => {
-            //currentUserId is undefined for an unknown user 
-            //which usually happens when the redux store is not completely updated with user data
-            //hence, simply using the truthy/falsy value
-            return this.props.currentUserId
-        }
-
-        const didDependentDataChange = () => {
-            return (this.didRoomChange(prevProps) || this.didUserChange(prevProps))
-        }
-
-        return isUserKnown() && didDependentDataChange()
-    }
-
     componentDidUpdate(prevProps) {
         const {
             room,
@@ -51,6 +27,39 @@ class RoomContainer extends React.Component {
         if (this.shouldUpdateCurrentUserRoomMembership(prevProps)) {
             updateCurrentUserRoomMembership(roomId, currentUserId)
         }
+    }
+
+    didRoomChange = (prevProps) => {
+        return !_.isEqual(prevProps.room, this.props.room)
+    }
+
+    didUserChange = (prevProps) => {
+        const { currentUserId: prevUserId } = prevProps
+        return prevUserId !== this.props.currentUserId
+    }
+
+    didUserRoomMembershipChange = (prevProps) => {
+        const { currentUserRoomMembership: prevMembership } = prevProps
+        return !_.isEqual(prevMembership, this.props.currentUserRoomMembership)
+    }
+
+    shouldUpdateCurrentUserRoomMembership = (prevProps) => {
+        const isUserKnown = () => {
+            //currentUserId is undefined for an unknown user 
+            //which usually happens when the redux store is not completely updated with user data
+            //hence, simply using the truthy/falsy value
+            return this.props.currentUserId
+        }
+
+        const didDependentDataChange = () => {
+            return (
+                this.didRoomChange(prevProps) ||
+                this.didUserChange(prevProps) ||
+                this.didUserRoomMembershipChange(prevProps)
+            )
+        }
+
+        return isUserKnown() && didDependentDataChange()
     }
 
     onRoomFetchFail = ({ response }) => {
@@ -94,15 +103,20 @@ class RoomContainer extends React.Component {
 
     render() {
         const {
-            isCurrentUserRoomMembershipUndetermined,
-            isCurrentUserRoomMember,
-            room
+            currentUserRoomMembership,
+            room,
+            roomId
         } = this.props
 
+        const isCurrentUserRoomMember = () => {
+            return currentUserRoomMembership && currentUserRoomMembership.isRoomMember
+        }
+
         return <RoomView
+            roomId={roomId}
             room={room}
-            isCurrentUserRoomMembershipUndetermined={isCurrentUserRoomMembershipUndetermined}
-            isCurrentUserRoomMember={isCurrentUserRoomMember}
+            isCurrentUserRoomMembershipUndetermined={_.isEmpty(currentUserRoomMembership)}
+            isCurrentUserRoomMember={isCurrentUserRoomMember()}
             onSendMessageButtonClick={this.onSendMessageButtonClick}
             onTextInputKeyDown={this.handleTextInputKeyDown}
             {...this.state}
