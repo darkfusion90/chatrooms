@@ -8,6 +8,8 @@ import userReducer from './userReducer';
 import modalReducer from './modalReducer';
 import roomListDisplaySettingsReducer from './roomListDisplaySettingsReducer'
 import toastReducer from './toastReducer'
+import helmetReducer from './helmetReducer'
+
 
 export default combineReducers({
     user: userReducer,
@@ -17,5 +19,6 @@ export default combineReducers({
     notifications: notificationReducer,
     form: formReducer,
     modal: modalReducer,
-    toast: toastReducer
+    toast: toastReducer,
+    helmet: helmetReducer
 })
