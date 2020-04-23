@@ -24,10 +24,8 @@ const bindRoomRoutes = (app) => {
     app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, rooms.members.get)
     app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, rooms.members.post)
     app.delete('/api/rooms/:roomId/members/:memberId', roomAuth.roomMembersAuth, rooms.members._delete)
-
-    app.get('/api/rooms/:roomId/join_requests/:requestId?', rooms.joinRequests.get)
-    app.post('/api/rooms/:roomId/join_requests/', rooms.joinRequests.post)
 }
+
 
 /**
  * 
@@ -43,6 +41,7 @@ const bindUserRoutes = (app) => {
     app.get('/api/user/status/login', user.loginStatus)
 }
 
+
 /**
  * 
  * @param {Express} app The express application to bind all the routes to
@@ -56,6 +55,19 @@ const bindRoomInvitationRoutes = (app) => {
 
     app.post('/api/room_invitations/:invitationId/accept', roomInvitations.accept.post)
 }
+
+
+/**
+ * 
+ * @param {Express} app The express application to bind all the routes to
+ */
+const bindRoomJoinRequestRoutes = (app) => {
+    const { roomJoinRequests } = routes
+    app.get('/api/rooms/:roomId/join_requests/:requestId?', roomJoinRequests.get.byRoom)
+    app.get('/api/join_requests/:requestId?', roomJoinRequests.get.byUser)
+    app.post('/api/rooms/:roomId/join_requests/', roomJoinRequests.post)
+}
+
 
 /**
  * 
@@ -78,6 +90,7 @@ const router = (app) => {
     bindRoomRoutes(app)
     bindUserRoutes(app)
     bindRoomInvitationRoutes(app)
+    bindRoomJoinRequestRoutes(app)
     bindNotificationRoutes(app)
 
     app.post('/api/login/', routes.login)

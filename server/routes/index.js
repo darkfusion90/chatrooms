@@ -5,6 +5,7 @@ const logout = require('./logout')
 const register = require('./register')
 const rooms = require('./rooms')
 const roomInvitations = require('./roomInvitations')
+const roomJoinRequests = require('./roomJoinRequests')
 const user = require('./user')
 const notifications = require('./notifications')
 const search = require('./search')
@@ -30,6 +31,7 @@ module.exports = {
     rooms,
     user,
     roomInvitations,
+    roomJoinRequests,
     notifications,
     search,
     count
