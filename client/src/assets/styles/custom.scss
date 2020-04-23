@@ -22,10 +22,12 @@ $primary-color: #007bff;
 
 .title {
     color: #333;
+    font-size: 1.3em;
 }
 
 .subtitle {
     color: #586069;
+    font-size: 0.9em;
 }
 
 .cursor-pointer:hover {
@@ -82,4 +84,8 @@ $primary-color: #007bff;
 
 .border-radius-none{
     border-radius: 0px;
+}
+
+.width-fit-content{
+    width: max-content;
 }
