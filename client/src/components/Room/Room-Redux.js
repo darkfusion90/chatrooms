@@ -7,6 +7,8 @@ import {
     setActiveRoom,
     updateCurrentUserRoomMembership
 } from '../../redux/actions/room-actions'
+import { setDocumentTitle } from '../../redux/actions/helmet-actions'
+
 
 const RoomRedux = ({ chatMessageForm, ...props }) => {
 
@@ -39,6 +41,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     setActiveRoom,
     updateCurrentUserRoomMembership,
+    setDocumentTitle,
     resetChatMessageForm: () => reset('chat-message-form')
 }
 
