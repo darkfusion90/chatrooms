@@ -6,9 +6,10 @@ import RouteLogin from './login'
 import RouteRegister from './register'
 import RouteRooms from './rooms'
 
-const AppRouter = () => {
+const AppRouter = (props) => {
     return (
         <BrowserRouter>
+            {props.children}
             <Switch>
                 <Route exact path="/" component={RouteRoot} />
                 <Route exact path="/rooms/:id?" component={RouteRooms} />
