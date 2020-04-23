@@ -19,8 +19,11 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => {
-    const { user } = state
-    return { user: user && user.user }
+    const { user, helmet } = state
+    return {
+        user: user && user.user,
+        title: helmet.title
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppRedux);
