@@ -25,7 +25,7 @@ const RoomJoinRequestListView = ({ joinRequestList }) => {
                 <Card.Header>
                     <Card.Title>Room Join Requests</Card.Title>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className='pre-scrollable'>
                     <ListGroup className='mx-0' variant='flush'>
                         {renderList()}
                     </ListGroup>
