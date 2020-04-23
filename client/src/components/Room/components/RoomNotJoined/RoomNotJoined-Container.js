@@ -2,12 +2,12 @@ import React from 'react'
 
 import RoomNotJoinedView from './RoomNotJoined-View'
 import { useProgress } from '../../../hooks'
+import { roomJoinRequests } from '../../../../api/http'
 
 
 const RoomNotJoinedContainer = ({
     roomId,
     joinRoom,
-    sendRoomJoinRequest,
     isPrivateRoom
 }) => {
     const [
@@ -26,7 +26,7 @@ const RoomNotJoinedContainer = ({
     const onSendJoinRequestButtonClick = () => {
         setRoomActionProgressPending()
 
-        sendRoomJoinRequest(
+        roomJoinRequests.sendJoinRequest(
             roomId,
             setRoomActionProgressSuccess,
             setRoomActionProgressFailure
