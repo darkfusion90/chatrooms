@@ -5,6 +5,7 @@ import rooms from './rooms'
 import serverConnection from './serverConnection'
 import toast from './toast'
 import user from './user'
+import helmet from './helmet'
 
 export default {
     modal,
@@ -13,5 +14,6 @@ export default {
     rooms,
     serverConnection,
     toast,
-    user
+    user,
+    helmet
 }
