@@ -24,6 +24,10 @@ class RoomContainer extends React.Component {
 
         connectToRoom(roomId, () => { })
 
+        if (room && room !== prevProps.room) {
+            this.props.setDocumentTitle(`ChatRooms - ${room.name}`)
+        }
+
         if (this.shouldUpdateCurrentUserRoomMembership(prevProps)) {
             updateCurrentUserRoomMembership(roomId, currentUserId)
         }
