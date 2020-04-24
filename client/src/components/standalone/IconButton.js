@@ -4,7 +4,7 @@ import { Button, Row, Col } from 'react-bootstrap';
 const ICON_POS_LEFT = 0;
 const ICON_POS_RIGHT = 1;
 
-const IconButton = ({ icon, iconPos, children, childrenProps, ...rest }) => {
+const IconButton = ({ icon, iconPos, children, ...rest }) => {
     const isIconLeft = iconPos === ICON_POS_LEFT
     return (
         <Button {...rest}>
