@@ -6,6 +6,7 @@ import ToggleablePasswordField from './ToggleablePasswordField'
 import ProgressButton from './ProgressButton'
 import withoutNavigateProp from './WithoutNavigateProp'
 import DotSeparatedTexts from './DotSeparatedTexts'
+import IconText from './IconText'
 
 
 export {
@@ -16,5 +17,6 @@ export {
     ToggleablePasswordField,
     TooltipWrapper,
     ProgressButton,
-    withoutNavigateProp
+    withoutNavigateProp,
+    IconText
 }
