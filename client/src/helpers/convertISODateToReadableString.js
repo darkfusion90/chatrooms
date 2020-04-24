@@ -47,7 +47,7 @@ const getAppropriateTimeDifferenceText = (oneDate, otherDate) => {
         return 'just now'
     }
 
-    return `${timeDiffData.difference}${timeDiffData.unit} ago`
+    return `${timeDiffData.difference} ${timeDiffData.unit} ago`
 }
 
 export default (isoDate) => {
