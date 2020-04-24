@@ -1,71 +1,42 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-    faSignOutAlt,
-    faPlus,
-    faWindowClose
-} from '@fortawesome/free-solid-svg-icons'
 
-import { WithLink, WithModalTrigger } from '../../../hoc'
+import ActionLeaveRoom from './ActionLeaveRoom'
+import ActionInviteUser from './ActionInviteUser'
+import ActionRoomMenu from './ActionRoomMenu'
 import { TooltipWrapper } from '../../../standalone'
 
 
+const TooltipAction = ({ tooltipId, tooltipLabel, Component }) => {
+    return (
+        <TooltipWrapper
+            triggerComponent={<span className='cursor-pointer'>{Component}</span>}
+            label={tooltipLabel}
+            id={tooltipId}
+            key={tooltipId}
+        />)
+}
+
 const RoomHeaderActionsView = ({ room, currentUserMemberId }) => {
-    const ActionLeaveRoom = (
-        <WithModalTrigger
-            component={FontAwesomeIcon}
-            icon={faSignOutAlt}
-            className='cursor-pointer'
-            modalName='LeaveRoom'
-            modalProps={{ room, currentUserMemberId }}
-        />
-    )
-
-    const ActionInviteUser = (
-        <WithModalTrigger
-            component={FontAwesomeIcon}
-            icon={faPlus}
-            className='cursor-pointer'
-            modalName='InviteUser'
-            modalProps={{ room }}
-        />
-    )
-
-    const ActionCloseRoomWindow = (
-        <WithLink
-            component={FontAwesomeIcon}
-            icon={faWindowClose}
-            className='cursor-pointer'
-            to='/rooms'
-        />
-    )
-
     const actionsWithTooltip = [
         {
             tooltipLabel: 'Leave Room',
             tooltipId: 'tooltip-leave-room',
-            Component: ActionLeaveRoom
+            Component: <ActionLeaveRoom room={room} currentUserMemberId={currentUserMemberId} />
         },
         {
             tooltipLabel: 'Invite User',
             tooltipId: 'tooltip-invite-user',
-            Component: ActionInviteUser
-        },
-        {
-            tooltipLabel: 'Close Room Window',
-            tooltipId: 'tooltip-close-room',
-            Component: ActionCloseRoomWindow
+            Component: <ActionInviteUser room={room} />
         }
     ]
+    const tooltipActions = actionsWithTooltip.map(props => <TooltipAction {...props} />)
 
-    return actionsWithTooltip.map(({ tooltipId, tooltipLabel, Component }) => {
-        return <TooltipWrapper
-            triggerComponent={Component}
-            label={tooltipLabel}
-            id={tooltipId}
-            key={tooltipId}
-        />
-    })
+    return [
+        ...tooltipActions,
+        <span className='cursor-pointer'>
+            <ActionRoomMenu />
+        </span>
+    ]
 }
 
 

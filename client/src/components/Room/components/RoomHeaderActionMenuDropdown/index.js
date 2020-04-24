@@ -1,0 +1,3 @@
+import RoomHeaderActionMenuDropdown from './RoomHeaderActionMenuDropdown-View'
+
+export default RoomHeaderActionMenuDropdown
