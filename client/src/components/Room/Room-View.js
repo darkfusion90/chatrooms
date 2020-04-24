@@ -6,8 +6,8 @@ import './Room-Style.scss'
 
 const renderLoadingRoom = () => {
     return (
-        <div className='centered-content'>
-            <h2>Please wait while the Room is loading...</h2>
+        <div className='centered-content title'>
+            <p>Please wait while the Room is loading...</p>
             <Spinner size='lg' animation='border' />
         </div>
     );
