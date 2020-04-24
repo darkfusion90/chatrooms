@@ -1,12 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle } from '@fortawesome/free-solid-svg-icons'
-
-
 import RoomJoinRequestStatus from '../RoomJoinRequestStatus'
 import convertISODateToReadableString from '../../../../helpers/convertISODateToReadableString'
+import { DotSeparatedTexts } from '../../../standalone'
 
 
 const RoomJoinRequestMeta = ({ joinRequest }) => {
@@ -21,11 +18,10 @@ const RoomJoinRequestMeta = ({ joinRequest }) => {
             >
                 {room.name}
             </Link>
-            <div className='d-flex subtitle'>
+            <DotSeparatedTexts className='subtitle'>
                 <RoomJoinRequestStatus joinRequest={joinRequest} />
-                <FontAwesomeIcon icon={faCircle} size='xs' className='mx-1 my-auto' />
                 <span className='mx-1'>Requested {requestDateTime}</span>
-            </div>
+            </DotSeparatedTexts>
         </div>
     )
 }
