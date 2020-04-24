@@ -16,6 +16,11 @@ const RoomJoinRequestSchema = new mongoose.Schema({
         type: String,
         enum: ['initial', 'accepted', 'rejected'],
         default: 'initial'
+    },
+    requestedAt: {
+        type: mongoose.Schema.Types.Date,
+        required: true,
+        default: Date.now
     }
 })
 
