@@ -24,5 +24,21 @@ const sortRequestList = (a, b) => {
     return sortWithPriority(a.status, b.status, priority)
 }
 
+const countRequestsInitial = (list) => {
+    return list.filter(item => item.status === 'initial').length
+}
 
-export { sortRequestList }
+const countRequestsAccepted = (list) => {
+    return list.filter(item => item.status === 'accepted').length
+}
+
+const countRequestsRejected = (list) => {
+    return list.filter(item => item.status === 'rejected').length
+}
+
+export {
+    sortRequestList,
+    countRequestsInitial,
+    countRequestsAccepted,
+    countRequestsRejected
+}
