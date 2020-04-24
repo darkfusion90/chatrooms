@@ -4,7 +4,15 @@ import { Button } from 'react-bootstrap'
 
 const RoomJoinRequestActions = ({ joinRequest, className }) => {
     const getActionText = () => {
-        return joinRequest.status === 'initial' ? 'Unsend' : 'Remove'
+        switch (joinRequest.status) {
+            case 'initial':
+                return 'Unsend'
+            case 'rejected':
+                return 'Resend'
+            case 'accepted':
+            default:
+                return 'Remove'
+        }
     }
 
     return (
