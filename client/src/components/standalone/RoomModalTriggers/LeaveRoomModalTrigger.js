@@ -3,11 +3,11 @@ import { Button } from 'react-bootstrap'
 
 import { WithModalTrigger } from '../../hoc'
 
-export default ({ component, children, room, ...rest }) => {
+export default ({ component, children, room, currentUserMemberId, ...rest }) => {
     return (
         <WithModalTrigger
             modalName='LeaveRoom'
-            modalProps={room}
+            modalProps={{ room, currentUserMemberId }}
             component={component || Button}
             variant='danger'
             {...rest}
