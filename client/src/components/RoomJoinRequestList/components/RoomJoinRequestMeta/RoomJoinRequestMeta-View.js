@@ -6,9 +6,11 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 import RoomJoinRequestStatus from '../RoomJoinRequestStatus'
+import convertISODateToReadableString from '../../../../helpers/convertISODateToReadableString'
 
 
 const RoomJoinRequestMeta = ({ joinRequest }) => {
+    const requestDateTime = convertISODateToReadableString(joinRequest.requestedAt)
     const { room } = joinRequest
     return (
         <div>
@@ -22,7 +24,7 @@ const RoomJoinRequestMeta = ({ joinRequest }) => {
             <div className='d-flex subtitle'>
                 <RoomJoinRequestStatus joinRequest={joinRequest} />
                 <FontAwesomeIcon icon={faCircle} size='xs' className='mx-1 my-auto' />
-                <span className='mx-1'>Requested yesterday</span>
+                <span className='mx-1'>Requested {requestDateTime}</span>
             </div>
         </div>
     )
