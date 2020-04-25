@@ -31,15 +31,15 @@ const renderMessages = (messages, messageColors, lastChildRef) => {
     })
 }
 
-const MessageListView = React.forwardRef((props, ref) => {
+const MessageListView = (props) => {
     const { lastChildRef, messages, messageColors } = props
 
     return (
-        <ListGroup variant="flush" ref={ref}>
+        <ListGroup variant='flush'>
             {renderMessages(messages, messageColors, lastChildRef)}
         </ListGroup>
     )
-})
+}
 
 
 export default MessageListView
