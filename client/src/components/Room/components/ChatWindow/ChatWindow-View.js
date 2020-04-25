@@ -6,8 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faArrowCircleDown } from '@fortawesome/free-solid-svg-icons'
 
 
-const ChatWindow = (props) => {
-    const { lastChildRef, messages, messageColors } = props
+const ChatWindow = React.forwardRef((props, ref) => {
+    const {
+        lastChildRef,
+        messages,
+        messageColors,
+        shouldShowScrollToBottom,
+        onScroll,
+        onScrollToBottomIconClick
+    } = props
 
     const renderScrollToBottomAction = () => {
         return (
@@ -23,23 +30,23 @@ const ChatWindow = (props) => {
                     color='orange'
                     id='stb-icon'
                     className='cursor-pointer'
-                    onClick={props.onScrollToBottomIconClick}
+                    onClick={onScrollToBottomIconClick}
                 />
             </div>
         )
     }
 
     return (
-        <div className='chat-window pre-scrollable'>
+        <div className='chat-window pre-scrollable' onScroll={onScroll} ref={ref}>
             <MessageList
                 messages={messages}
                 messageColors={messageColors}
                 lastChildRef={lastChildRef}
             />
-            {renderScrollToBottomAction()}
+            {shouldShowScrollToBottom && renderScrollToBottomAction()}
         </div>
     )
-}
+})
 
 
 export default ChatWindow;

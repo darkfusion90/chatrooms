@@ -5,12 +5,17 @@ import ChatWindowView from './ChatWindow-View'
 import { onNewMessage } from '../../../../api/socketIo'
 import { mapKeyToColor } from './utils'
 
+
 class ChatWindowContainer extends React.Component {
-    state = { messageColors: {} }
+    state = {
+        messageColors: {},
+        shouldShowScrollToBottom: false
+    }
 
     constructor(props) {
         super(props)
         this.lastChildRef = React.createRef()
+        this.selfViewRef = React.createRef()
     }
 
     componentDidMount() {
@@ -19,11 +24,10 @@ class ChatWindowContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        this.scrollToBottomOfMessageList()
-        if (_.isEqual(this.props.messages, prevProps.messages)) {
-            return
+        if (!_.isEqual(this.props.messages, prevProps.messages)) {
+            this.scrollToBottomOfMessageList()
+            this.setState({ messageColors: this.assignRandomColorsToMessageAuthors() })
         }
-        this.setState({ messageColors: this.assignRandomColorsToMessageAuthors() })
     }
 
     scrollToBottomOfMessageList = () => {
@@ -46,9 +50,32 @@ class ChatWindowContainer extends React.Component {
         return colors
     }
 
+    shouldShowScrollToBottom = () => {
+
+    }
+
+    shouldShowScrollToBottom=()=>{
+        const hasScrolledToBottom = () =>{
+            if (!this.selfViewRef.current) {
+                return false
+            }
+            
+            const selfView = this.selfViewRef.current
+            return selfView.scrollTop === selfView.scrollTopMax
+        }
+
+        return !hasScrolledToBottom()
+    }
+
+    handleScroll = () => {
+        this.setState({ 
+            shouldShowScrollToBottom: this.shouldShowScrollToBottom()
+        })
+    }
+
     render() {
         const { messages } = this.props
-        const { messageColors } = this.state
+        const { messageColors, shouldShowScrollToBottom } = this.state
 
         if (!messages) {
             return null
@@ -56,13 +83,17 @@ class ChatWindowContainer extends React.Component {
 
         return (
             <ChatWindowView
+                ref={this.selfViewRef}
+                onScroll={this.handleScroll}
                 messages={messages}
                 messageColors={messageColors}
+                shouldShowScrollToBottom={shouldShowScrollToBottom}
                 lastChildRef={this.lastChildRef}
                 onScrollToBottomIconClick={this.scrollToBottomOfMessageList}
             />
         )
     }
 }
+
 
 export default ChatWindowContainer;
