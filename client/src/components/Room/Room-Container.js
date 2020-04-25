@@ -33,6 +33,10 @@ class RoomContainer extends React.Component {
         }
     }
 
+    componentWillUnmount(){
+        this.props.resetActiveRoom()
+    }
+
     didRoomChange = (prevProps) => {
         return !_.isEqual(prevProps.room, this.props.room)
     }
