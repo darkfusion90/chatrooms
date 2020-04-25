@@ -4,6 +4,7 @@ import joinRoom from './joinRoom'
 import leaveRoom from './leaveRoom'
 import fetchPublicRooms from './fetchPublicRooms'
 import setActiveRoom from './setActiveRoom'
+import resetActiveRoom from './resetActiveRoom'
 import acceptRoomInvitation from './acceptRoomInvitation'
 import updateTotalPublicRoomsCount from './updateTotalPublicRoomsCount'
 import updateCurrentUserRoomMembership from './updateCurrentUserRoomMembership'
@@ -16,6 +17,7 @@ export {
     leaveRoom,
     fetchPublicRooms,
     setActiveRoom,
+    resetActiveRoom,
     acceptRoomInvitation,
     updateTotalPublicRoomsCount,
     updateCurrentUserRoomMembership,

@@ -3,7 +3,8 @@ import {
     UPDATE_USER_ROOM_MEMBERSHIP,
     UPDATE_ROOM,
     SET_ACTIVE_ROOM,
-    FETCH_ROOM_MESSAGES
+    FETCH_ROOM_MESSAGES,
+    RESET_ACTIVE_ROOM
 } from "../../action-constants";
 import initialStates from '../../initial-states'
 
@@ -46,6 +47,8 @@ export default (state = initialStates.rooms.activeRoom, action) => {
     switch (action.type) {
         case SET_ACTIVE_ROOM:
             return { ...state, room: action.payload }
+        case RESET_ACTIVE_ROOM:
+            return initialStates.rooms.activeRoom
         case DELETE_ROOM:
             return handleDeleteRoom(state, action.payload)
         case UPDATE_ROOM:
