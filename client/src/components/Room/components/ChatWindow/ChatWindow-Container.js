@@ -10,7 +10,7 @@ class ChatWindowContainer extends React.Component {
 
     constructor(props) {
         super(props)
-        this.messageListLastElementRef = React.createRef()
+        this.lastChildRef = React.createRef()
     }
 
     componentDidMount() {
@@ -27,7 +27,7 @@ class ChatWindowContainer extends React.Component {
     }
 
     scrollToBottomOfMessageList = () => {
-        const msgListCurrentRef = this.messageListLastElementRef.current
+        const msgListCurrentRef = this.lastChildRef.current
         if (msgListCurrentRef) msgListCurrentRef.scrollIntoView()
     }
 
@@ -58,7 +58,7 @@ class ChatWindowContainer extends React.Component {
             <ChatWindowView
                 messages={messages}
                 messageColors={messageColors}
-                messageListLastElementRef={this.messageListLastElementRef}
+                lastChildRef={this.lastChildRef}
                 onScrollToBottomIconClick={this.scrollToBottomOfMessageList}
             />
         )
