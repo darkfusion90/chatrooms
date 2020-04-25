@@ -5,6 +5,7 @@ import { reset } from 'redux-form'
 import RoomContainer from './Room-Container'
 import {
     setActiveRoom,
+    resetActiveRoom,
     updateCurrentUserRoomMembership
 } from '../../redux/actions/room-actions'
 import { setDocumentTitle } from '../../redux/actions/helmet-actions'
@@ -42,6 +43,7 @@ const mapDispatchToProps = {
     setActiveRoom,
     updateCurrentUserRoomMembership,
     setDocumentTitle,
+    resetActiveRoom,
     resetChatMessageForm: () => reset('chat-message-form')
 }
 
