@@ -5,8 +5,6 @@ import ChatWindowContainer from './ChatWindow-Container'
 import { fetchRoomMessages } from '../../../../redux/actions/room-actions'
 
 const ChatWindowRedux = ({ messages, fetchRoomMessages, roomId }) => {
-    console.log({ messages })
-
     return <ChatWindowContainer
         roomId={roomId}
         messages={messages}

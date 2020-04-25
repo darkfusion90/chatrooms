@@ -8,7 +8,7 @@ import { mapKeyToColor } from './utils'
 class ChatWindowContainer extends React.Component {
     state = { messageColors: {} }
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.messageListLastElementRef = React.createRef()
     }
@@ -26,9 +26,9 @@ class ChatWindowContainer extends React.Component {
         this.setState({ messageColors: this.assignRandomColorsToMessageAuthors() })
     }
 
-    scrollToBottomOfMessageList(){
+    scrollToBottomOfMessageList = () => {
         const msgListCurrentRef = this.messageListLastElementRef.current
-        if(msgListCurrentRef) msgListCurrentRef.scrollIntoView()
+        if (msgListCurrentRef) msgListCurrentRef.scrollIntoView()
     }
 
     refreshMessages = () => {
@@ -59,6 +59,7 @@ class ChatWindowContainer extends React.Component {
                 messages={messages}
                 messageColors={messageColors}
                 messageListLastElementRef={this.messageListLastElementRef}
+                onScrollToBottomIconClick={this.scrollToBottomOfMessageList}
             />
         )
     }

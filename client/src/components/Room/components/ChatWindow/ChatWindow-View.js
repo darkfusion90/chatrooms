@@ -3,12 +3,15 @@ import ListGroup from 'react-bootstrap/ListGroup'
 
 import Message from '../Message'
 import './ChatWindow-Style.scss'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircle, faArrowCircleDown } from '@fortawesome/free-solid-svg-icons'
+
 
 const ChatWindow = (props) => {
     const { messageListLastElementRef, messages, messageColors } = props
 
     const renderMessages = () => {
-        const isLastMessage = (currentIndex, messages) =>{
+        const isLastMessage = (currentIndex, messages) => {
             return currentIndex === messages.length - 1
         }
 
@@ -34,12 +37,33 @@ const ChatWindow = (props) => {
         })
     }
 
+    const renderScrollToBottomAction = () => {
+        return (
+            <div id='scroll-to-bottom-icon-container'>
+                <FontAwesomeIcon
+                    icon={faCircle}
+                    size='2x'
+                    id='stb-icon-bg-helper'
+                />
+                <FontAwesomeIcon
+                    icon={faArrowCircleDown}
+                    size='2x'
+                    color='orange'
+                    id='stb-icon'
+                    className='cursor-pointer'
+                    onClick={props.onScrollToBottomIconClick}
+                />
+            </div>
+        )
+    }
+
     return (
-        <>
-            <ListGroup className='chat-window pre-scrollable' variant="flush">
+        <div className='chat-window pre-scrollable'>
+            <ListGroup variant="flush">
                 {renderMessages()}
             </ListGroup>
-        </>
+            {renderScrollToBottomAction()}
+        </div>
     )
 }
 
