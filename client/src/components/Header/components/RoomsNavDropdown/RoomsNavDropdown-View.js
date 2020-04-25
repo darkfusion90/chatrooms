@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { ListGroup } from 'react-bootstrap'
 
+import { 
+    CreateRoomModalTrigger,
+    JoinRoomModalTrigger
+} from '../../../standalone/RoomModalTriggers'
+
 
 const DropdownLink = ({ to, children, ...props }) => {
     return (
@@ -34,10 +39,17 @@ const LinkToRoomJoinRequests = () => {
 const RoomsNavDropdownView = () => {
     return (
         <ListGroup variant='flush'>
+            <CreateRoomModalTrigger component={ListGroup.Item} className='cursor-pointer'>
+                Create Room
+            </CreateRoomModalTrigger>
+            <JoinRoomModalTrigger component={ListGroup.Item} className='cursor-pointer'>
+                Join Room
+            </JoinRoomModalTrigger>
+
             <LinkToPublicRooms />
             <ListGroup.Item>Your Rooms</ListGroup.Item>
             <LinkToRoomJoinRequests />
-            <ListGroup.Item>Room Invitations Received</ListGroup.Item>            
+            <ListGroup.Item>Room Invitations Received</ListGroup.Item>
         </ListGroup>
     )
 }
