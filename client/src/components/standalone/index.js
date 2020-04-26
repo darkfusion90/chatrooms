@@ -7,6 +7,9 @@ import ProgressButton from './ProgressButton'
 import withoutNavigateProp from './WithoutNavigateProp'
 import DotSeparatedTexts from './DotSeparatedTexts'
 import IconText from './IconText'
+import HelpIcon from './HelpIcon'
+import WithHelp from './WithHelp'
+import FocusableListItem from './FocusableListItem'
 
 
 export {
@@ -18,5 +21,8 @@ export {
     TooltipWrapper,
     ProgressButton,
     withoutNavigateProp,
-    IconText
+    IconText,
+    HelpIcon,
+    WithHelp,
+    FocusableListItem
 }
