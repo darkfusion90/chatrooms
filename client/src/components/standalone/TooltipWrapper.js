@@ -2,9 +2,8 @@ import React from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
-export default (props) => {
-    const { triggerComponent, label, id, ...rest } = props
-
+export default ({ triggerComponent, label, id, ...rest }) => {
+    
     const renderTooltip = () => {
         return (
             <Tooltip id={id}>
