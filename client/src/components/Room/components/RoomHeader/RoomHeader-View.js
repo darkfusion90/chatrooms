@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 
-import RoomHeaderActions from '../RoomHeaderActions'
+import RoomHeaderActionsWrapper from '../RoomHeaderActionsWrapper'
 import './RoomHeader-Style.scss'
 
 
@@ -14,10 +14,9 @@ const RoomHeader = ({ room, currentUserMemberId, className }) => {
                 </div>
                 <div className='room-actions-container'>
                     <div className='d-flex justify-content-around'>
-                        <RoomHeaderActions
+                        <RoomHeaderActionsWrapper
                             room={room}
                             currentUserMemberId={currentUserMemberId}
-
                         />
                     </div>
                 </div>

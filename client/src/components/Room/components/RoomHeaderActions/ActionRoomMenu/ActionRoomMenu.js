@@ -2,15 +2,15 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons'
 
-import RoomHeaderActionMenuDropdown from '../RoomHeaderActionMenuDropdown'
-import { Dropdown } from '../../../standalone'
+import RoomMenuDropdown from './RoomMenuDropdown'
+import { Dropdown } from '../../../../standalone'
 
 
 const RoomHeaderActionsMenuIconView = () => {
     return (
         <Dropdown
             triggerComponent={<FontAwesomeIcon icon={faEllipsisV} />}
-            menu={<RoomHeaderActionMenuDropdown />}
+            menu={<RoomMenuDropdown />}
             menuParentProps={{ className: 'px-0' }}
         />
     )
