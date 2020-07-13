@@ -12,7 +12,7 @@ class SocketIoHandler {
     setupSocketIo = (server, sessionMiddleware) => {
         this.io = socketio.listen(server)
         this.io.use((socket, next) => {
-            sessionMiddleware(socket.request, socket.request.res, next)
+            sessionMiddleware(socket.request, socket.request.res || {}, next)
         })
 
         this.io.on('connection', this.onConnectionHandler)
@@ -20,16 +20,38 @@ class SocketIoHandler {
 
     onConnectionHandler = async (client) => {
         const { userId } = client.request.session
-        addSocketIdOfUserId(userId, client.id)
+        if (userId != null) addSocketIdOfUserId(userId, client.id)
 
-        client.on(events.ROOM_EVENT, (...args) => roomEventHandler(this.io, client, ...args))
-        client.on(events.MESSAGE_EVENT, (...args) => messageEventHandler(this.io, client, ...args))
+        client.on(events.CLIENT_EVENT_FLUTTER, (userId, event, ...args) => {
+            client.request.session.userId = userId
+            client.request.session.save()
+            this.handlerMapping(event)(client)(...args)
+        })
+
+        client.on(events.ROOM_EVENT, this.onRoomEventHandler(client))
+        client.on(events.MESSAGE_EVENT, this.onMessageEventHandler(client))
+
         client.on('disconnect', () => this.onDisconnectHandler(client))
     }
 
     onDisconnectHandler = (client) => {
         removeSocketIdOfUserId(client.request.session.userId, client.id)
     }
+
+    handlerMapping = (event) => {
+        switch (event) {
+            case events.ROOM_EVENT:
+                return this.onRoomEventHandler
+            case events.MESSAGE_EVENT:
+                return this.onMessageEventHandler
+            default:
+                return () => console.log('Manual event handler. Event unidentified: ', event)
+        }
+    }
+
+    onRoomEventHandler = (client) => (...args) => roomEventHandler(this.io, client, ...args)
+
+    onMessageEventHandler = (client) => (...args) => messageEventHandler(this.io, client, ...args)
 
     notifyUser = async (userId) => {
         const socketList = await getSocketIdListOfUserId(userId)
@@ -41,3 +63,4 @@ class SocketIoHandler {
 }
 
 module.exports = new SocketIoHandler()
+
