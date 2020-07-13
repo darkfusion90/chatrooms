@@ -10,5 +10,7 @@ module.exports = {
     NEW_MESSAGE: 'send_message',
 
     NOTIFICATION_EVENT: 'event:notification',
-    NEW_NOTIFICATION: 'new_notification'
+    NEW_NOTIFICATION: 'new_notification',
+
+    CLIENT_EVENT_FLUTTER: 'event:client:flutter'
 }
