@@ -24,6 +24,8 @@ const bindRoomRoutes = (app) => {
     app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, rooms.members.get)
     app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, rooms.members.post)
     app.delete('/api/rooms/:roomId/members/:memberId', roomAuth.roomMembersAuth, rooms.members._delete)
+
+    app.get('/api/rooms/:roomId/members/byuid/:userId', rooms.members.byUserId)
 }
 
 
@@ -34,6 +36,7 @@ const bindRoomRoutes = (app) => {
 const bindUserRoutes = (app) => {
     const { user } = routes
 
+    app.get('/api/user/:userId?/rooms', user.joinedRooms)
     app.get('/api/user/:userId?', user.get)
     app.post('/api/user', user.post)
     app.patch('/api/user/:userId', ensureAuthenticated, user.patch)
