@@ -1,14 +1,31 @@
 const { getUserWithExpiresAtField, updateUserDocumentExpirationDate } = require('../controllers/users')
+const addUserToSession = require('../utils/addUserToSession')
 const logger = require('../utils/logger')('[GuestUserExpiryRolling]')
 const config = require('../config/config')
 
+const isRegisterPath = (path) => {
+    return /^\/api\/register(\/){0,1}$/.test(path)
+}
+
 module.exports = (req, res, next) => {
     const { userId } = req.session
-
-    if (!userId) {
+    if (isRegisterPath(req.path) || req.session.redirectedFromRegister) {
+        next()
+    }
+    else if (!userId) {
         next(new Error('Session userId missing in user expiry rolling middleware'))
     } else {
         getUserWithExpiresAtField(userId).then((user) => {
+            if (!user) {
+                addUserToSession(req).then((user) => {
+                    logger.debug('User successfully added to session. Session: ', req.session, '\nUser: ', user)
+                    next()
+                }).catch(err => {
+                    logger.debug('Error adding user to session. Session: ', req.session, '\nErr: ', err)
+                    res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({})
+                })
+            }
+
             if (user.isRegistered) {
                 //logger.debug('Skipping rolling of registered user')
                 return next()
@@ -23,7 +40,7 @@ module.exports = (req, res, next) => {
 
             updateUserDocumentExpirationDate(userId, userDocumentExpiresAt, (err, user) => {
                 if (user) {
-              //      logger.debug('User expiresAt updated: ', user)
+                    //      logger.debug('User expiresAt updated: ', user)
                     next()
                 } else if (!user) {
                     next(new Error('Empty user document received on rolling attempt'))
