@@ -2,7 +2,8 @@ const {
     createRoomMember,
     getRoomMember,
     getAllMembersOfRoom,
-    deleteRoomMember
+    deleteRoomMember,
+    getRoomMemberHavingUserId,
 } = require('../../controllers/roomMembers')
 const { MEMBER_TYPE_PARTICIPANT } = require('../../constants/memberTypes')
 const { genericHandlerCallback } = require('../routeUtils')
@@ -41,4 +42,10 @@ const _delete = (req, res) => {
     deleteRoomMember(memberId, roomId, (err, data) => genericHandlerCallback(err, data, res))
 }
 
-module.exports = { get, post, _delete }
+const byUserId = (req, res) => {
+    const { roomId, userId } = req.params
+    const callback = (err, data) => genericHandlerCallback(err, data, res)
+    getRoomMemberHavingUserId(roomId, userId, callback)
+}
+
+module.exports = { get, post, _delete, byUserId }
