@@ -1,3 +1,5 @@
+const createPromiseCallbackFunction = require('../utils/promiseCallbackFunction')
+
 const getUpdatableFieldsFromData = (data, updatableFields = []) => {
     const refinedData = {}
 
@@ -10,4 +12,14 @@ const getUpdatableFieldsFromData = (data, updatableFields = []) => {
     return refinedData
 }
 
-module.exports = { getUpdatableFieldsFromData }
+const saveDocument = (doc, callback) => {
+    if(!doc){
+        return
+    }
+
+    return createPromiseCallbackFunction((resolve, reject) => {
+        doc.save().then(resolve, reject)
+    }, callback)
+}
+
+module.exports = { getUpdatableFieldsFromData, saveDocument }
