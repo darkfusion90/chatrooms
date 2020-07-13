@@ -1,13 +1,16 @@
 const createPromiseCallbackFunction = require('../../utils/promiseCallbackFunction')
 
+const POPULATE_CONFIG = {
+    createdBy: {
+        path: 'createdBy',
+        model: 'User',
+        select: 'username isRegistered'
+    }
+}
 
 const populateFields = (query) => {
     if (query) {
-        return query.populate({
-            path: 'createdBy',
-            model: 'User',
-            select: 'username isRegistered'
-        })
+        return query.populate(POPULATE_CONFIG['createdBy'])
     }
 }
 

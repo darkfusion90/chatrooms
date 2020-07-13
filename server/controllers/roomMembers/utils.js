@@ -1,15 +1,23 @@
 const createPromiseCallbackFunction = require('../../utils/promiseCallbackFunction')
 
+const userPopulate = {
+    model: 'User',
+    select: 'username isRegistered'
+}
+
 const POPULATE_CONFIG = {
     user: {
         path: 'user',
-        model: 'User',
-        select: 'username isRegistered'
+        ...userPopulate
     },
     room: {
         path: 'room',
         model: 'Room',
-        select: '-__v'
+        select: '-__v',
+        populate: {
+            path: 'createdBy',
+            ...userPopulate
+        }
     }
 }
 
@@ -35,4 +43,4 @@ const executeQuery = (query, callback) => {
     }
 }
 
-module.exports = { applyProjections, executeQuery }
+module.exports = { applyProjections, executeQuery, POPULATE_CONFIG }
