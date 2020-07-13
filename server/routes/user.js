@@ -12,6 +12,7 @@ const {
     updateUser,
     deleteUser
 } = require('../controllers/users')
+const { getAllRoomsHavingUser } = require('../controllers/roomMembers/retrieve')
 const registerUserFormValidator = require('../utils/registerUserFormValidator')
 const updateSessionExpiryRegisteredUser = require('../utils/updateSessionExpiryRegisteredUser')
 
@@ -47,16 +48,6 @@ const _delete = (req, res) => {
 }
 
 const post = (req, res) => {
-    if (req.session.redirectedFromRegister && !req.session.isRegistered) {
-        handleRegisterUser(req, res)
-        req.session.redirectedFromRegister = false
-        req.session.save()
-    } else {
-        res.json({})
-    }
-}
-
-const handleRegisterUser = (req, res) => {
     const { errors, hasErrors } = registerUserFormValidator(req.body)
 
     if (hasErrors) {
@@ -89,4 +80,17 @@ const loginStatus = (req, res) => {
     res.json({ isLoggedIn: req.isAuthenticated() })
 }
 
-module.exports = { get, post, patch, _delete, loginStatus }
+const joinedRooms = (req, res) => {
+    let { userId } = req.params
+    if (!userId) userId = req.session.userId
+
+    getAllRoomsHavingUser(userId, (err, rooms) => {
+        const _rooms = rooms ? rooms : []
+        if (!err) {
+            return res.json({ rooms: _rooms, length: _rooms.length })
+        }
+        genericHandlerCallback(err, rooms, res)
+    })
+}
+
+module.exports = { get, post, patch, _delete, loginStatus, joinedRooms }
