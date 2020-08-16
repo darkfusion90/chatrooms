@@ -1,8 +1,9 @@
+const { createMainBranch } = require('../controllers/branches')
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Types = mongoose.Schema.Types;
 
-const RoomSchema = Schema({
-    _id: Schema.Types.String,
+const RoomSchema = new mongoose.Schema({
+    _id: Types.String,
     name: {
         type: String,
         required: true,
@@ -14,7 +15,7 @@ const RoomSchema = Schema({
         required: true
     },
     createdBy: {
-        type: Schema.Types.ObjectId,
+        type: Types.ObjectId,
         ref: 'User',
         immutable: true,
         required: true,
@@ -22,4 +23,12 @@ const RoomSchema = Schema({
     createdAt: { type: Date, default: Date.now }
 })
 
-module.exports = { RoomSchema, Room: mongoose.model("Room", RoomSchema) };
+RoomSchema.pre('save', function (next, _) {
+    if (this.isNew) {
+        createMainBranch(this._id).then(mainBranch => console.log({ mainBranch }))
+    }
+
+    next()
+})
+
+module.exports = { RoomSchema, Room: mongoose.model('Room', RoomSchema) }

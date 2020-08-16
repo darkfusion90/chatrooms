@@ -28,3 +28,21 @@ exports.defaultCallback = response => (err, resource) => {
     const { statusCode, data } = determineResponseMeta(err, resource)
     response.status(statusCode).json(data)
 }
+
+exports.createLengthBasedResponse = (resource, resourceName) => {
+    const _createResponse = (data) => {
+        return { length: data.length, [resourceName]: data }
+    }
+
+    if (resource) {
+        return Array.isArray(resource) ?
+            _createResponse(resource) :
+            _createResponse([resource])
+    }
+
+    return _createResponse([])
+}
+
+exports.handleArrayResponse = (res, resourceName) => (err, data) => {
+    exports.defaultCallback(res)(err, exports.createLengthBasedResponse(data, resourceName))
+}

@@ -18,7 +18,7 @@ module.exports = (req, res, next) => {
         getUserWithExpiresAtField(userId).then((user) => {
             if (!user) {
                 addUserToSession(req).then((user) => {
-                    logger.debug('User successfully added to session. Session: ', req.session, '\nUser: ', user)
+                    logger.debug('User successfully added to session. UserId: ', req.session.userId)
                     next()
                 }).catch(err => {
                     logger.debug('Error adding user to session. Session: ', req.session, '\nErr: ', err)

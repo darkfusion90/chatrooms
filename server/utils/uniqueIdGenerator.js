@@ -5,8 +5,12 @@ function generateIdUsingRandomWords() {
     return randomWords({ exactly: 4, maxLength: 8, join: '-' })
 }
 
-function generateIdUsingCrypto() {
-    return crypto.randomBytes(8).toString('hex')
+function generateHexId(length) {
+    if (!length) throw Error('Parameter `length` is required')
+crypto.createHash
+    return crypto.randomBytes(length).toString('hex')
 }
 
-module.exports = { generateIdUsingRandomWords, generateIdUsingCrypto }
+const generateUsername = () => generateHexId(8)
+
+module.exports = { generateIdUsingRandomWords, generateHexId, generateUsername }

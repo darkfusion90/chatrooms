@@ -1,8 +1,8 @@
 const Message = require('../../models/Message')
 const { executeQuery } = require('./utils')
 
-const deleteMessage = (messageId, roomId, callback) => {
-    const query = Message.findOneAndDelete({ _id: messageId, atRoom: roomId })
+const deleteMessage = (messageId, callback) => {
+    const query = Message.findByIdAndDelete(messageId)
 
     return executeQuery(query, callback)
 }

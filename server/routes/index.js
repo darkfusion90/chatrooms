@@ -4,6 +4,7 @@ const login = require('./login')
 const logout = require('./logout')
 const register = require('./register')
 const rooms = require('./rooms')
+const branches = require('./branch')
 const roomInvitations = require('./roomInvitations')
 const roomJoinRequests = require('./roomJoinRequests')
 const user = require('./user')
@@ -29,6 +30,7 @@ module.exports = {
     logout,
     register,
     rooms,
+    branches,
     user,
     roomInvitations,
     roomJoinRequests,

@@ -10,16 +10,22 @@ const {
  * @param {Express} app The express application to bind all the routes to
  */
 const bindRoomRoutes = (app) => {
-    const { rooms } = routes
+    const { rooms, branches } = routes
 
     app.get('/api/rooms/:roomId?', roomAuth.room, rooms.get)
     app.post('/api/rooms', rooms.post)
     app.patch('/api/rooms/:roomId', roomAuth.room, rooms.patch)
     app.delete('/api/rooms/:roomId', roomAuth.room, rooms._delete)
 
+    app.get('/api/rooms/:roomId/branch/main', branches.getMain)
+    app.get('/api/rooms/:roomId/branch/:branchId?', branches.get)
+    app.post('/api/rooms/:roomId/branch/', branches.post)
+
     app.get('/api/rooms/:roomId/messages/:messageId?', rooms.messages.get)
+    app.get('/api/rooms/:roomId/branch/:branchId/messages/:messageId?', rooms.messages.get)
     app.post('/api/rooms/:roomId/messages', rooms.messages.post)
-    app.delete('/api/rooms/:roomId/messages/:messageId', rooms.messages._delete)
+    app.post('/api/rooms/:roomId/branch/:branchId/messages/', rooms.messages.post)
+    app.delete('/api/messages/:messageId', rooms.messages._delete)
 
     app.get('/api/rooms/:roomId/members/:memberId?', roomAuth.roomMembersAuth, rooms.members.get)
     app.post('/api/rooms/:roomId/members/', roomAuth.roomMembersAuth, rooms.members.post)

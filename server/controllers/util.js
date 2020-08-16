@@ -13,12 +13,14 @@ const getUpdatableFieldsFromData = (data, updatableFields = []) => {
 }
 
 const saveDocument = (doc, callback) => {
-    if(!doc){
+    if (!doc) {
         return
     }
 
     return createPromiseCallbackFunction((resolve, reject) => {
-        doc.save().then(resolve, reject)
+        doc.save().then((err, s)=>{
+            s
+        }, reject)
     }, callback)
 }
 

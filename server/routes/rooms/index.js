@@ -1,5 +1,5 @@
 const { get, post, patch, _delete } = require('./rooms')
-const roomMessages = require('./roomMessages')
+const messages = require('./messages')
 const roomMembers = require('./roomMembers')
 
 
@@ -8,6 +8,6 @@ module.exports = {
     post,
     patch,
     _delete,
-    messages: roomMessages,
+    messages,
     members: roomMembers
 }

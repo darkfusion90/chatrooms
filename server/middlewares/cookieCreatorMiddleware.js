@@ -13,7 +13,7 @@ const middleware = (req, res, next) => {
     } else if (!req.session.userId) {
         logger.debug('Session doesn\'t contain user. Creating one. Session: ', req.session)
         addUserToSession(req).then((user) => {
-            logger.debug('User successfully added to session. Session: ', req.session, '\nUser: ', user)
+            logger.debug('User successfully added to session: UserId', req.session.userId)
             next()
         }).catch(err => {
             logger.debug('Error adding user to session. Session: ', req.session, '\nErr: ', err)
@@ -21,7 +21,7 @@ const middleware = (req, res, next) => {
         })
     }
     else {
-        logger.debug('Session already contains user. Session: ', req.session)
+        logger.debug('Session already contains user. UserId: ', req.session.userId)
         next()
     }
 }

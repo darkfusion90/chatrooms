@@ -15,4 +15,6 @@ const createPromiseCallbackFunction = (executor, callback) => {
     return promise
 }
 
+
+
 module.exports = createPromiseCallbackFunction

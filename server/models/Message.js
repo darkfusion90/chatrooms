@@ -8,9 +8,15 @@ const MessageSchema = new Schema({
     },
     atRoom: {
         type: Schema.Types.String,
+        ref: 'Room',
         required: true,
     },
-    data: String,
+    branch: {
+        type: Schema.Types.ObjectId,
+        ref: 'Branch',
+        required: true
+    },
+    data: Schema.Types.String,
     createdAt: {
         type: Schema.Types.Date,
         default: Date.now

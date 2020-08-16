@@ -28,9 +28,7 @@ function filterUsingProjections(user) {
  *
  * @returns A random and unique username
  */
-function generateRandomUsername() {
-    return uniqueIdGenerator.generateIdUsingCrypto();
-}
+const generateRandomUsername = () => uniqueIdGenerator.generateUsername()
 
 /**
  * Creates a user in the database with the given credentials
