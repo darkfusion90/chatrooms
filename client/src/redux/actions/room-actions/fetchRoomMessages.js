@@ -11,9 +11,10 @@ const getAction = (roomId, roomMessages) => {
 
 export default (roomId, onFailure) => async dispatch => {
     try {
-        const roomMessages = await messages.getAllMessagesInRoom(roomId)
-        dispatch(getAction(roomId, roomMessages.data))
+        const resp = await messages.getAllMessagesInRoom(roomId)
+        dispatch(getAction(roomId, resp.data.messages))
     } catch (err) {
-        onFailure(err)
+        console.log('Error: ', err)
+        onFailure && onFailure(err)
     }
 }
