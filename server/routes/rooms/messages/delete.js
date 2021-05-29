@@ -1,3 +1,4 @@
+const { genericHandlerCallback } = require('../../routeUtils')
 const { deleteMessage } = require('../../../controllers/messages')
 
 const _delete = (req, res) => {

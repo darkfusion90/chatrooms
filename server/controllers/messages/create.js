@@ -1,5 +1,5 @@
 const Message = require('../../models/Message')
-const { getMainBranch } = require('../branches')
+const { getMainBranch } = require('../branches/retrieve')
 const { resolveNoData } = require('../../utils/promiseResults')
 const promiseCallbackFunction = require('../../utils/promiseCallbackFunction')
 
