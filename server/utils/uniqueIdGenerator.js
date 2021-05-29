@@ -7,7 +7,7 @@ function generateIdUsingRandomWords() {
 
 function generateHexId(length) {
     if (!length) throw Error('Parameter `length` is required')
-crypto.createHash
+    
     return crypto.randomBytes(length).toString('hex')
 }
 
